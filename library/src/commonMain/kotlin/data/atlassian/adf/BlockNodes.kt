@@ -1,7 +1,23 @@
 package data.atlassian.adf
 
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.descriptors.element
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
 
 /**
  * Root document node.
@@ -117,4 +133,66 @@ data class CodeBlockAttrs(
     val uniqueId: String? = null,
     val localId: String? = null
 )
+
+/**
+ * Unknown block node.
+ * Captures unrecognized block nodes with their type, optional attributes, and optional content.
+ * Used as a fallback when deserializing ADF documents containing node types
+ * not yet defined in the codebase.
+ */
+@Serializable(with = UnknownBlockNodeSerializer::class)
+data class UnknownBlockNode(
+    val type: String,
+    val attrs: JsonObject? = null,
+    val content: List<ADFNode>? = null
+) : ADFBlockNode
+
+/**
+ * Custom serializer for UnknownBlockNode that handles type, attrs, and content.
+ */
+object UnknownBlockNodeSerializer : KSerializer<UnknownBlockNode> {
+    // Use JsonArray in descriptor to avoid circular dependency with ADFNode.serializer()
+    // Use "nodeType" in descriptor to avoid conflict with JSON class discriminator "type"
+    // The actual serialization/deserialization handles the proper ADFNode types and writes "type" to JSON
+    override val descriptor: SerialDescriptor by lazy {
+        buildClassSerialDescriptor("UnknownBlockNode") {
+            element<String>("nodeType")
+            element<JsonObject>("attrs", isOptional = true)
+            element<JsonArray>("content", isOptional = true)
+        }
+    }
+
+    override fun serialize(encoder: Encoder, value: UnknownBlockNode) {
+        require(encoder is JsonEncoder)
+        val json = encoder.json
+        val jsonObject = buildJsonObject {
+            put("type", value.type)
+            value.attrs?.let { put("attrs", it) }
+            value.content?.let { content ->
+                put("content", json.encodeToJsonElement(
+                    ListSerializer(ADFNode.serializer()),
+                    content
+                ))
+            }
+        }
+        encoder.encodeJsonElement(jsonObject)
+    }
+
+    override fun deserialize(decoder: Decoder): UnknownBlockNode {
+        require(decoder is JsonDecoder)
+        val json = decoder.json
+        val jsonObject = decoder.decodeJsonElement().jsonObject
+
+        val type = jsonObject["type"]?.jsonPrimitive?.content ?: "__unknown_block__"
+        val attrs = jsonObject["attrs"]?.jsonObject
+        val content = jsonObject["content"]?.jsonArray?.let { contentArray ->
+            json.decodeFromJsonElement(
+                ListSerializer(ADFNode.serializer()),
+                contentArray
+            )
+        }
+
+        return UnknownBlockNode(type, attrs, content)
+    }
+}
 
