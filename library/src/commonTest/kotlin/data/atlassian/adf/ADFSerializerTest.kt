@@ -8,7 +8,7 @@ class ADFSerializerTest {
     @Test
     fun testRoundTripPreservesElementCount() {
         // Parse JSON to DocNode
-        val docNode = ADFSerializer.fromJson(ADFFixture.sampleDocument)
+        val docNode = ADFSerializer.fromJson(ADFFixture.SAMPLE_DOCUMENT)
         val initialCount = docNode.content.size
 
         // Serialize back to JSON and parse again
@@ -21,9 +21,8 @@ class ADFSerializerTest {
 
     @Test
     fun testParsingMatchesExpectedNodes() {
-        val parsedDoc = ADFSerializer.fromJson(ADFFixture.simpleDocument)
+        val parsedDoc = ADFSerializer.fromJson(ADFFixture.SIMPLE_DOCUMENT)
         val expected = ADFFixture.expectedSimpleDocNode
         assertEquals(expected, parsedDoc)
     }
 }
-

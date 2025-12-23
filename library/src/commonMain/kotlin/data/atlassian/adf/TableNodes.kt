@@ -1,7 +1,7 @@
 package data.atlassian.adf
 
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Table block node.
@@ -12,7 +12,7 @@ import kotlinx.serialization.SerialName
 data class TableNode(
     val content: List<TableRowNode>,
     val attrs: TableAttrs? = null,
-    val marks: List<ADFMark>? = null
+    val marks: List<ADFMark>? = null,
 ) : ADFBlockNode
 
 @Serializable
@@ -21,37 +21,38 @@ data class TableAttrs(
     val width: Double? = null,
     val isNumberColumnEnabled: Boolean? = null,
     val displayMode: TableDisplayMode? = null,
-    val localId: String? = null // minLength: 1
+    // minLength: 1
+    val localId: String? = null,
 )
 
 @Serializable
 enum class TableLayout {
     @SerialName("wide")
     WIDE,
-    
+
     @SerialName("full-width")
     FULL_WIDTH,
-    
+
     @SerialName("center")
     CENTER,
-    
+
     @SerialName("align-end")
     ALIGN_END,
-    
+
     @SerialName("align-start")
     ALIGN_START,
-    
+
     @SerialName("default")
-    DEFAULT
+    DEFAULT,
 }
 
 @Serializable
 enum class TableDisplayMode {
     @SerialName("default")
     DEFAULT,
-    
+
     @SerialName("fixed")
-    FIXED
+    FIXED,
 }
 
 /**
@@ -61,13 +62,14 @@ enum class TableDisplayMode {
 @Serializable
 @SerialName("tableRow")
 data class TableRowNode(
-    val content: List<ADFBlockNode>, // Can be TableCellNode or TableHeaderNode
-    val attrs: TableRowAttrs? = null
+    // Can be TableCellNode or TableHeaderNode
+    val content: List<ADFBlockNode>,
+    val attrs: TableRowAttrs? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class TableRowAttrs(
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -78,7 +80,7 @@ data class TableRowAttrs(
 @SerialName("tableCell")
 data class TableCellNode(
     val content: List<ADFBlockNode>,
-    val attrs: TableCellAttrs? = null
+    val attrs: TableCellAttrs? = null,
 ) : ADFBlockNode
 
 /**
@@ -89,7 +91,7 @@ data class TableCellNode(
 @SerialName("tableHeader")
 data class TableHeaderNode(
     val content: List<ADFBlockNode>,
-    val attrs: TableCellAttrs? = null
+    val attrs: TableCellAttrs? = null,
 ) : ADFBlockNode
 
 @Serializable
@@ -98,5 +100,5 @@ data class TableCellAttrs(
     val rowspan: Int? = null,
     val colwidth: List<Double>? = null,
     val background: String? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )

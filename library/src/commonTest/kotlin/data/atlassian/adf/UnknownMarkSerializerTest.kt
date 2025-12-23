@@ -13,8 +13,10 @@ class UnknownMarkSerializerTest {
             "type": "highlight"
         }
         """
-        
-        val doc = ADFSerializer.fromJson("""
+
+        val doc =
+            ADFSerializer.fromJson(
+                """
         {
             "type": "doc",
             "version": 1,
@@ -31,17 +33,19 @@ class UnknownMarkSerializerTest {
                 }
             ]
         }
-        """)
-        
+        """,
+            )
+
         val paragraph = doc.content.first() as ParagraphNode
         val textNode = paragraph.content?.first() as TextNode
         val actual = textNode.marks?.first()
-        
-        val expected = UnknownMark(
-            type = "highlight",
-            attrs = null
-        )
-        
+
+        val expected =
+            UnknownMark(
+                type = "highlight",
+                attrs = null,
+            )
+
         assertEquals(expected, actual)
     }
 
@@ -57,8 +61,10 @@ class UnknownMarkSerializerTest {
             }
         }
         """
-        
-        val doc = ADFSerializer.fromJson("""
+
+        val doc =
+            ADFSerializer.fromJson(
+                """
         {
             "type": "doc",
             "version": 1,
@@ -75,22 +81,24 @@ class UnknownMarkSerializerTest {
                 }
             ]
         }
-        """)
-        
+        """,
+            )
+
         val paragraph = doc.content.first() as ParagraphNode
         val textNode = paragraph.content?.first() as TextNode
         val actual = textNode.marks?.first()
-        
-        val expected = UnknownMark(
-            type = "customMark",
-            attrs = buildJsonObject {
-                put("color", "#FF5733")
-                put("weight", "bold")
-                put("style", "dashed")
-            }
-        )
-        
+
+        val expected =
+            UnknownMark(
+                type = "customMark",
+                attrs =
+                    buildJsonObject {
+                        put("color", "#FF5733")
+                        put("weight", "bold")
+                        put("style", "dashed")
+                    },
+            )
+
         assertEquals(expected, actual)
     }
 }
-

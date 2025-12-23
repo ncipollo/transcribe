@@ -1,7 +1,7 @@
 package data.atlassian.adf
 
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
 /**
@@ -12,29 +12,32 @@ import kotlinx.serialization.json.JsonObject
 @SerialName("extension")
 data class ExtensionNode(
     val attrs: ExtensionAttrs,
-    val marks: List<ADFMark>? = null
+    val marks: List<ADFMark>? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class ExtensionAttrs(
-    val extensionKey: String, // minLength: 1
-    val extensionType: String, // minLength: 1
+    // minLength: 1
+    val extensionKey: String,
+    // minLength: 1
+    val extensionType: String,
     val parameters: JsonObject? = null,
     val text: String? = null,
     val layout: ExtensionLayout? = null,
-    val localId: String? = null // minLength: 1
+    // minLength: 1
+    val localId: String? = null,
 )
 
 @Serializable
 enum class ExtensionLayout {
     @SerialName("wide")
     WIDE,
-    
+
     @SerialName("full-width")
     FULL_WIDTH,
-    
+
     @SerialName("default")
-    DEFAULT
+    DEFAULT,
 }
 
 /**
@@ -46,7 +49,7 @@ enum class ExtensionLayout {
 data class BodiedExtensionNode(
     val attrs: ExtensionAttrs,
     val content: List<ADFBlockNode>,
-    val marks: List<ADFMark>? = null
+    val marks: List<ADFMark>? = null,
 ) : ADFBlockNode
 
 /**
@@ -58,12 +61,12 @@ data class BodiedExtensionNode(
 data class LayoutSectionNode(
     val content: List<LayoutColumnNode>,
     val attrs: LayoutSectionAttrs? = null,
-    val marks: List<ADFMark>? = null
+    val marks: List<ADFMark>? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class LayoutSectionAttrs(
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -74,12 +77,12 @@ data class LayoutSectionAttrs(
 @SerialName("layoutColumn")
 data class LayoutColumnNode(
     val attrs: LayoutColumnAttrs,
-    val content: List<ADFBlockNode>
+    val content: List<ADFBlockNode>,
 ) : ADFBlockNode
 
 @Serializable
 data class LayoutColumnAttrs(
-    val width: Double, // 0-100
-    val localId: String? = null
+    // 0-100
+    val width: Double,
+    val localId: String? = null,
 )
-

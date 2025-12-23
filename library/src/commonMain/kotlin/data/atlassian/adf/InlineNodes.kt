@@ -1,8 +1,8 @@
 package data.atlassian.adf
 
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
@@ -24,7 +24,7 @@ import kotlinx.serialization.json.put
 @SerialName("text")
 data class TextNode(
     val text: String,
-    val marks: List<ADFMark>? = null
+    val marks: List<ADFMark>? = null,
 ) : ADFInlineNode
 
 /**
@@ -34,13 +34,14 @@ data class TextNode(
 @Serializable
 @SerialName("hardBreak")
 data class HardBreakNode(
-    val attrs: HardBreakAttrs? = null
+    val attrs: HardBreakAttrs? = null,
 ) : ADFInlineNode
 
 @Serializable
 data class HardBreakAttrs(
-    val text: String? = null, // Should be "\n" if present
-    val localId: String? = null
+    // Should be "\n" if present
+    val text: String? = null,
+    val localId: String? = null,
 )
 
 /**
@@ -50,7 +51,7 @@ data class HardBreakAttrs(
 @Serializable
 @SerialName("mention")
 data class MentionNode(
-    val attrs: MentionAttrs
+    val attrs: MentionAttrs,
 ) : ADFInlineNode
 
 @Serializable
@@ -59,19 +60,19 @@ data class MentionAttrs(
     val text: String? = null,
     val accessLevel: String? = null,
     val userType: MentionUserType? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 @Serializable
 enum class MentionUserType {
     @SerialName("DEFAULT")
     DEFAULT,
-    
+
     @SerialName("SPECIAL")
     SPECIAL,
-    
+
     @SerialName("APP")
-    APP
+    APP,
 }
 
 /**
@@ -81,7 +82,7 @@ enum class MentionUserType {
 @Serializable
 @SerialName("emoji")
 data class EmojiNode(
-    val attrs: EmojiAttrs
+    val attrs: EmojiAttrs,
 ) : ADFInlineNode
 
 @Serializable
@@ -89,7 +90,7 @@ data class EmojiAttrs(
     val shortName: String,
     val id: String? = null,
     val text: String? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -99,13 +100,14 @@ data class EmojiAttrs(
 @Serializable
 @SerialName("date")
 data class DateNode(
-    val attrs: DateAttrs
+    val attrs: DateAttrs,
 ) : ADFInlineNode
 
 @Serializable
 data class DateAttrs(
-    val timestamp: String, // minLength: 1
-    val localId: String? = null
+    // minLength: 1
+    val timestamp: String,
+    val localId: String? = null,
 )
 
 /**
@@ -115,36 +117,37 @@ data class DateAttrs(
 @Serializable
 @SerialName("status")
 data class StatusNode(
-    val attrs: StatusAttrs
+    val attrs: StatusAttrs,
 ) : ADFInlineNode
 
 @Serializable
 data class StatusAttrs(
-    val text: String, // minLength: 1
+    // minLength: 1
+    val text: String,
     val color: StatusColor,
     val localId: String? = null,
-    val style: String? = null
+    val style: String? = null,
 )
 
 @Serializable
 enum class StatusColor {
     @SerialName("neutral")
     NEUTRAL,
-    
+
     @SerialName("purple")
     PURPLE,
-    
+
     @SerialName("blue")
     BLUE,
-    
+
     @SerialName("red")
     RED,
-    
+
     @SerialName("yellow")
     YELLOW,
-    
+
     @SerialName("green")
-    GREEN
+    GREEN,
 }
 
 /**
@@ -155,14 +158,14 @@ enum class StatusColor {
 @Serializable
 @SerialName("inlineCard")
 data class InlineCardNode(
-    val attrs: InlineCardAttrs
+    val attrs: InlineCardAttrs,
 ) : ADFInlineNode
 
 @Serializable
 data class InlineCardAttrs(
     val url: String? = null,
     val data: JsonObject? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -172,13 +175,13 @@ data class InlineCardAttrs(
 @Serializable
 @SerialName("placeholder")
 data class PlaceholderNode(
-    val attrs: PlaceholderAttrs
+    val attrs: PlaceholderAttrs,
 ) : ADFInlineNode
 
 @Serializable
 data class PlaceholderAttrs(
     val text: String,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -189,32 +192,34 @@ data class PlaceholderAttrs(
 @SerialName("mediaInline")
 data class MediaInlineNode(
     val attrs: MediaInlineAttrs,
-    val marks: List<ADFMark>? = null
+    val marks: List<ADFMark>? = null,
 ) : ADFInlineNode
 
 @Serializable
 data class MediaInlineAttrs(
-    val id: String, // minLength: 1
+    // minLength: 1
+    val id: String,
     val collection: String,
     val type: MediaInlineType,
     val localId: String? = null,
     val alt: String? = null,
     val width: Double? = null,
     val height: Double? = null,
-    val occurrenceKey: String? = null, // minLength: 1
-    val data: JsonObject? = null
+    // minLength: 1
+    val occurrenceKey: String? = null,
+    val data: JsonObject? = null,
 )
 
 @Serializable
 enum class MediaInlineType {
     @SerialName("link")
     LINK,
-    
+
     @SerialName("file")
     FILE,
-    
+
     @SerialName("image")
-    IMAGE
+    IMAGE,
 }
 
 /**
@@ -225,16 +230,19 @@ enum class MediaInlineType {
 @SerialName("inlineExtension")
 data class InlineExtensionNode(
     val attrs: InlineExtensionAttrs,
-    val marks: List<ADFMark>? = null
+    val marks: List<ADFMark>? = null,
 ) : ADFInlineNode
 
 @Serializable
 data class InlineExtensionAttrs(
-    val extensionKey: String, // minLength: 1
-    val extensionType: String, // minLength: 1
+    // minLength: 1
+    val extensionKey: String,
+    // minLength: 1
+    val extensionType: String,
     val parameters: JsonObject? = null,
     val text: String? = null,
-    val localId: String? = null // minLength: 1
+    // minLength: 1
+    val localId: String? = null,
 )
 
 /**
@@ -246,7 +254,7 @@ data class InlineExtensionAttrs(
 @Serializable(with = UnknownInlineNodeSerializer::class)
 data class UnknownInlineNode(
     val type: String,
-    val attrs: JsonObject? = null
+    val attrs: JsonObject? = null,
 ) : ADFInlineNode
 
 /**
@@ -262,12 +270,16 @@ object UnknownInlineNodeSerializer : KSerializer<UnknownInlineNode> {
         }
     }
 
-    override fun serialize(encoder: Encoder, value: UnknownInlineNode) {
+    override fun serialize(
+        encoder: Encoder,
+        value: UnknownInlineNode,
+    ) {
         require(encoder is JsonEncoder)
-        val jsonObject = buildJsonObject {
-            put("type", value.type)
-            value.attrs?.let { put("attrs", it) }
-        }
+        val jsonObject =
+            buildJsonObject {
+                put("type", value.type)
+                value.attrs?.let { put("attrs", it) }
+            }
         encoder.encodeJsonElement(jsonObject)
     }
 
@@ -281,4 +293,3 @@ object UnknownInlineNodeSerializer : KSerializer<UnknownInlineNode> {
         return UnknownInlineNode(type, attrs)
     }
 }
-

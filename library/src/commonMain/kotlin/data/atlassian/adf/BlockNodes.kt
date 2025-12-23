@@ -1,8 +1,8 @@
 package data.atlassian.adf
 
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
@@ -27,7 +27,7 @@ import kotlinx.serialization.json.put
 @SerialName("doc")
 data class DocNode(
     val version: Int = 1,
-    val content: List<ADFBlockNode>
+    val content: List<ADFBlockNode>,
 ) : ADFBlockNode
 
 /**
@@ -39,12 +39,12 @@ data class DocNode(
 data class ParagraphNode(
     val content: List<ADFInlineNode>? = null,
     val marks: List<ADFMark>? = null,
-    val attrs: ParagraphAttrs? = null
+    val attrs: ParagraphAttrs? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class ParagraphAttrs(
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -56,13 +56,14 @@ data class ParagraphAttrs(
 data class HeadingNode(
     val attrs: HeadingAttrs,
     val content: List<ADFInlineNode>? = null,
-    val marks: List<ADFMark>? = null
+    val marks: List<ADFMark>? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class HeadingAttrs(
-    val level: Int, // 1-6
-    val localId: String? = null
+    // 1-6
+    val level: Int,
+    val localId: String? = null,
 )
 
 /**
@@ -73,12 +74,12 @@ data class HeadingAttrs(
 @SerialName("bulletList")
 data class BulletListNode(
     val content: List<ListItemNode>,
-    val attrs: BulletListAttrs? = null
+    val attrs: BulletListAttrs? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class BulletListAttrs(
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -89,13 +90,14 @@ data class BulletListAttrs(
 @SerialName("orderedList")
 data class OrderedListNode(
     val content: List<ListItemNode>,
-    val attrs: OrderedListAttrs? = null
+    val attrs: OrderedListAttrs? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class OrderedListAttrs(
-    val order: Int? = null, // minimum: 0
-    val localId: String? = null
+    // minimum: 0
+    val order: Int? = null,
+    val localId: String? = null,
 )
 
 /**
@@ -106,12 +108,12 @@ data class OrderedListAttrs(
 @SerialName("listItem")
 data class ListItemNode(
     val content: List<ADFNode>,
-    val attrs: ListItemAttrs? = null
+    val attrs: ListItemAttrs? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class ListItemAttrs(
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -124,14 +126,15 @@ data class ListItemAttrs(
 data class CodeBlockNode(
     val attrs: CodeBlockAttrs? = null,
     val content: List<TextNode>? = null,
-    val marks: List<ADFMark> = emptyList() // Must be empty per schema
+    // Must be empty per schema
+    val marks: List<ADFMark> = emptyList(),
 ) : ADFBlockNode
 
 @Serializable
 data class CodeBlockAttrs(
     val language: String? = null,
     val uniqueId: String? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -142,12 +145,12 @@ data class CodeBlockAttrs(
 @SerialName("blockquote")
 data class BlockquoteNode(
     val content: List<ADFBlockNode>,
-    val attrs: BlockquoteAttrs? = null
+    val attrs: BlockquoteAttrs? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class BlockquoteAttrs(
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -157,12 +160,12 @@ data class BlockquoteAttrs(
 @Serializable
 @SerialName("rule")
 data class RuleNode(
-    val attrs: RuleAttrs? = null
+    val attrs: RuleAttrs? = null,
 ) : ADFBlockNode
 
 @Serializable
 data class RuleAttrs(
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -173,7 +176,7 @@ data class RuleAttrs(
 @SerialName("panel")
 data class PanelNode(
     val attrs: PanelAttrs,
-    val content: List<ADFBlockNode>
+    val content: List<ADFBlockNode>,
 ) : ADFBlockNode
 
 @Serializable
@@ -183,31 +186,31 @@ data class PanelAttrs(
     val panelIconId: String? = null,
     val panelIconText: String? = null,
     val panelColor: String? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 @Serializable
 enum class PanelType {
     @SerialName("info")
     INFO,
-    
+
     @SerialName("note")
     NOTE,
-    
+
     @SerialName("tip")
     TIP,
-    
+
     @SerialName("warning")
     WARNING,
-    
+
     @SerialName("error")
     ERROR,
-    
+
     @SerialName("success")
     SUCCESS,
-    
+
     @SerialName("custom")
-    CUSTOM
+    CUSTOM,
 }
 
 /**
@@ -220,13 +223,14 @@ enum class PanelType {
 data class ExpandNode(
     val content: List<ADFBlockNode>,
     val attrs: ExpandAttrs? = null,
-    val marks: List<ADFMark> = emptyList() // Must be empty per schema
+    // Must be empty per schema
+    val marks: List<ADFMark> = emptyList(),
 ) : ADFBlockNode
 
 @Serializable
 data class ExpandAttrs(
     val title: String? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -237,13 +241,13 @@ data class ExpandAttrs(
 @SerialName("nestedExpand")
 data class NestedExpandNode(
     val attrs: NestedExpandAttrs,
-    val content: List<ADFBlockNode>
+    val content: List<ADFBlockNode>,
 ) : ADFBlockNode
 
 @Serializable
 data class NestedExpandAttrs(
     val title: String? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -254,7 +258,7 @@ data class NestedExpandAttrs(
 @Serializable
 @SerialName("blockCard")
 data class BlockCardNode(
-    val attrs: BlockCardAttrs
+    val attrs: BlockCardAttrs,
 ) : ADFBlockNode
 
 @Serializable
@@ -264,44 +268,45 @@ data class BlockCardAttrs(
     val datasource: BlockCardDatasource? = null,
     val width: Double? = null,
     val layout: CardLayout? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 @Serializable
 data class BlockCardDatasource(
     val id: String,
     val parameters: JsonObject,
-    val views: List<BlockCardView> // minItems: 1
+    // minItems: 1
+    val views: List<BlockCardView>,
 )
 
 @Serializable
 data class BlockCardView(
     val type: String,
-    val properties: JsonObject? = null
+    val properties: JsonObject? = null,
 )
 
 @Serializable
 enum class CardLayout {
     @SerialName("wide")
     WIDE,
-    
+
     @SerialName("full-width")
     FULL_WIDTH,
-    
+
     @SerialName("center")
     CENTER,
-    
+
     @SerialName("wrap-right")
     WRAP_RIGHT,
-    
+
     @SerialName("wrap-left")
     WRAP_LEFT,
-    
+
     @SerialName("align-end")
     ALIGN_END,
-    
+
     @SerialName("align-start")
-    ALIGN_START
+    ALIGN_START,
 }
 
 /**
@@ -311,17 +316,18 @@ enum class CardLayout {
 @Serializable
 @SerialName("embedCard")
 data class EmbedCardNode(
-    val attrs: EmbedCardAttrs
+    val attrs: EmbedCardAttrs,
 ) : ADFBlockNode
 
 @Serializable
 data class EmbedCardAttrs(
     val url: String,
     val layout: CardLayout,
-    val width: Double? = null, // 0-100
+    // 0-100
+    val width: Double? = null,
     val originalHeight: Double? = null,
     val originalWidth: Double? = null,
-    val localId: String? = null
+    val localId: String? = null,
 )
 
 /**
@@ -332,12 +338,13 @@ data class EmbedCardAttrs(
 @SerialName("taskList")
 data class TaskListNode(
     val attrs: TaskListAttrs,
-    val content: List<ADFNode> // Can be TaskItemNode, BlockTaskItemNode, or nested TaskListNode
+    // Can be TaskItemNode, BlockTaskItemNode, or nested TaskListNode
+    val content: List<ADFNode>,
 ) : ADFBlockNode
 
 @Serializable
 data class TaskListAttrs(
-    val localId: String
+    val localId: String,
 )
 
 /**
@@ -348,13 +355,13 @@ data class TaskListAttrs(
 @SerialName("taskItem")
 data class TaskItemNode(
     val attrs: TaskItemAttrs,
-    val content: List<ADFInlineNode>? = null
+    val content: List<ADFInlineNode>? = null,
 ) : ADFInlineNode
 
 @Serializable
 data class TaskItemAttrs(
     val localId: String,
-    val state: TaskState
+    val state: TaskState,
 )
 
 /**
@@ -365,16 +372,17 @@ data class TaskItemAttrs(
 @SerialName("blockTaskItem")
 data class BlockTaskItemNode(
     val attrs: TaskItemAttrs,
-    val content: List<ADFBlockNode> // Can contain paragraphs or extensions
+    // Can contain paragraphs or extensions
+    val content: List<ADFBlockNode>,
 ) : ADFBlockNode
 
 @Serializable
 enum class TaskState {
     @SerialName("TODO")
     TODO,
-    
+
     @SerialName("DONE")
-    DONE
+    DONE,
 }
 
 /**
@@ -385,12 +393,12 @@ enum class TaskState {
 @SerialName("decisionList")
 data class DecisionListNode(
     val attrs: DecisionListAttrs,
-    val content: List<DecisionItemNode>
+    val content: List<DecisionItemNode>,
 ) : ADFBlockNode
 
 @Serializable
 data class DecisionListAttrs(
-    val localId: String
+    val localId: String,
 )
 
 /**
@@ -401,13 +409,13 @@ data class DecisionListAttrs(
 @SerialName("decisionItem")
 data class DecisionItemNode(
     val attrs: DecisionItemAttrs,
-    val content: List<ADFInlineNode>? = null
+    val content: List<ADFInlineNode>? = null,
 ) : ADFInlineNode
 
 @Serializable
 data class DecisionItemAttrs(
     val localId: String,
-    val state: String
+    val state: String,
 )
 
 /**
@@ -420,7 +428,7 @@ data class DecisionItemAttrs(
 data class UnknownBlockNode(
     val type: String,
     val attrs: JsonObject? = null,
-    val content: List<ADFNode>? = null
+    val content: List<ADFNode>? = null,
 ) : ADFBlockNode
 
 /**
@@ -438,19 +446,26 @@ object UnknownBlockNodeSerializer : KSerializer<UnknownBlockNode> {
         }
     }
 
-    override fun serialize(encoder: Encoder, value: UnknownBlockNode) {
+    override fun serialize(
+        encoder: Encoder,
+        value: UnknownBlockNode,
+    ) {
         require(encoder is JsonEncoder)
         val json = encoder.json
-        val jsonObject = buildJsonObject {
-            put("type", value.type)
-            value.attrs?.let { put("attrs", it) }
-            value.content?.let { content ->
-                put("content", json.encodeToJsonElement(
-                    ListSerializer(ADFNode.serializer()),
-                    content
-                ))
+        val jsonObject =
+            buildJsonObject {
+                put("type", value.type)
+                value.attrs?.let { put("attrs", it) }
+                value.content?.let { content ->
+                    put(
+                        "content",
+                        json.encodeToJsonElement(
+                            ListSerializer(ADFNode.serializer()),
+                            content,
+                        ),
+                    )
+                }
             }
-        }
         encoder.encodeJsonElement(jsonObject)
     }
 
@@ -461,14 +476,14 @@ object UnknownBlockNodeSerializer : KSerializer<UnknownBlockNode> {
 
         val type = jsonObject["type"]?.jsonPrimitive?.content ?: "__unknown_block__"
         val attrs = jsonObject["attrs"]?.jsonObject
-        val content = jsonObject["content"]?.jsonArray?.let { contentArray ->
-            json.decodeFromJsonElement(
-                ListSerializer(ADFNode.serializer()),
-                contentArray
-            )
-        }
+        val content =
+            jsonObject["content"]?.jsonArray?.let { contentArray ->
+                json.decodeFromJsonElement(
+                    ListSerializer(ADFNode.serializer()),
+                    contentArray,
+                )
+            }
 
         return UnknownBlockNode(type, attrs, content)
     }
 }
-

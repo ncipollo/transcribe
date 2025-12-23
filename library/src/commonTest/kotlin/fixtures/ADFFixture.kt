@@ -1,14 +1,13 @@
 package fixtures
 
 import data.atlassian.adf.DocNode
-import data.atlassian.adf.ParagraphNode
-import data.atlassian.adf.HeadingNode
-import data.atlassian.adf.TextNode
-import data.atlassian.adf.ParagraphAttrs
 import data.atlassian.adf.HeadingAttrs
+import data.atlassian.adf.HeadingNode
+import data.atlassian.adf.ParagraphNode
+import data.atlassian.adf.TextNode
 
 object ADFFixture {
-    const val sampleDocument = """
+    const val SAMPLE_DOCUMENT = """
 {
     "type": "doc",
     "content": [
@@ -837,7 +836,7 @@ object ADFFixture {
 }
 """
 
-    const val simpleDocument = """
+    const val SIMPLE_DOCUMENT = """
 {
     "type": "doc",
     "version": 1,
@@ -868,21 +867,24 @@ object ADFFixture {
 """
 
     val expectedSimpleDocNode: DocNode
-        get() = DocNode(
-            version = 1,
-            content = listOf(
-                ParagraphNode(
-                    content = listOf(
-                        TextNode(text = "Hello, world!")
-                    )
-                ),
-                HeadingNode(
-                    attrs = HeadingAttrs(level = 1),
-                    content = listOf(
-                        TextNode(text = "Test Heading")
-                    )
-                )
+        get() =
+            DocNode(
+                version = 1,
+                content =
+                    listOf(
+                        ParagraphNode(
+                            content =
+                                listOf(
+                                    TextNode(text = "Hello, world!"),
+                                ),
+                        ),
+                        HeadingNode(
+                            attrs = HeadingAttrs(level = 1),
+                            content =
+                                listOf(
+                                    TextNode(text = "Test Heading"),
+                                ),
+                        ),
+                    ),
             )
-        )
 }
-

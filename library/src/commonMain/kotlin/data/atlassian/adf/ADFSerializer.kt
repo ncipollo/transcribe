@@ -12,27 +12,29 @@ import kotlinx.serialization.modules.polymorphic
  * UnknownInlineNode, or UnknownMark.
  */
 object ADFSerializer {
-    private val serializersModule = SerializersModule {
-        // Only needed for defaultDeserializer - sealed classes auto-register their subclasses
-        polymorphic(ADFBlockNode::class) {
-            defaultDeserializer { UnknownBlockNodeSerializer }
+    private val serializersModule =
+        SerializersModule {
+            // Only needed for defaultDeserializer - sealed classes auto-register their subclasses
+            polymorphic(ADFBlockNode::class) {
+                defaultDeserializer { UnknownBlockNodeSerializer }
+            }
+            polymorphic(ADFInlineNode::class) {
+                defaultDeserializer { UnknownInlineNodeSerializer }
+            }
+            polymorphic(ADFNode::class) {
+                defaultDeserializer { UnknownBlockNodeSerializer }
+            }
+            polymorphic(ADFMark::class) {
+                defaultDeserializer { UnknownMarkSerializer }
+            }
         }
-        polymorphic(ADFInlineNode::class) {
-            defaultDeserializer { UnknownInlineNodeSerializer }
-        }
-        polymorphic(ADFNode::class) {
-            defaultDeserializer { UnknownBlockNodeSerializer }
-        }
-        polymorphic(ADFMark::class) {
-            defaultDeserializer { UnknownMarkSerializer }
-        }
-    }
 
-    private val json = Json {
-        ignoreUnknownKeys = true
-        encodeDefaults = false
-        serializersModule = this@ADFSerializer.serializersModule
-    }
+    private val json =
+        Json {
+            ignoreUnknownKeys = true
+            encodeDefaults = false
+            serializersModule = this@ADFSerializer.serializersModule
+        }
 
     /**
      * Deserializes a JSON string into a DocNode.

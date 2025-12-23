@@ -13,16 +13,17 @@ class UnknownBlockNodeSerializerTest {
             "type": "futureBlock"
         }
         """
-        
+
         val doc = ADFSerializer.fromJson("""{"type": "doc", "version": 1, "content": [$json]}""")
         val actual = doc.content.first()
-        
-        val expected = UnknownBlockNode(
-            type = "futureBlock",
-            attrs = null,
-            content = null
-        )
-        
+
+        val expected =
+            UnknownBlockNode(
+                type = "futureBlock",
+                attrs = null,
+                content = null,
+            )
+
         assertEquals(expected, actual)
     }
 
@@ -37,19 +38,21 @@ class UnknownBlockNodeSerializerTest {
             }
         }
         """
-        
+
         val doc = ADFSerializer.fromJson("""{"type": "doc", "version": 1, "content": [$json]}""")
         val actual = doc.content.first()
-        
-        val expected = UnknownBlockNode(
-            type = "customBlock",
-            attrs = buildJsonObject {
-                put("customId", "123")
-                put("enabled", true)
-            },
-            content = null
-        )
-        
+
+        val expected =
+            UnknownBlockNode(
+                type = "customBlock",
+                attrs =
+                    buildJsonObject {
+                        put("customId", "123")
+                        put("enabled", true)
+                    },
+                content = null,
+            )
+
         assertEquals(expected, actual)
     }
 
@@ -71,22 +74,25 @@ class UnknownBlockNodeSerializerTest {
             ]
         }
         """
-        
+
         val doc = ADFSerializer.fromJson("""{"type": "doc", "version": 1, "content": [$json]}""")
         val actual = doc.content.first()
-        
-        val expected = UnknownBlockNode(
-            type = "nestedBlock",
-            attrs = null,
-            content = listOf(
-                ParagraphNode(
-                    content = listOf(
-                        TextNode(text = "Nested content")
-                    )
-                )
+
+        val expected =
+            UnknownBlockNode(
+                type = "nestedBlock",
+                attrs = null,
+                content =
+                    listOf(
+                        ParagraphNode(
+                            content =
+                                listOf(
+                                    TextNode(text = "Nested content"),
+                                ),
+                        ),
+                    ),
             )
-        )
-        
+
         assertEquals(expected, actual)
     }
 
@@ -124,32 +130,36 @@ class UnknownBlockNodeSerializerTest {
             ]
         }
         """
-        
+
         val doc = ADFSerializer.fromJson("""{"type": "doc", "version": 1, "content": [$json]}""")
         val actual = doc.content.first()
-        
-        val expected = UnknownBlockNode(
-            type = "fullBlock",
-            attrs = buildJsonObject {
-                put("id", "block-1")
-                put("metadata", "test")
-            },
-            content = listOf(
-                ParagraphNode(
-                    content = listOf(
-                        TextNode(text = "Content here")
-                    )
-                ),
-                HeadingNode(
-                    attrs = HeadingAttrs(level = 2),
-                    content = listOf(
-                        TextNode(text = "Subheading")
-                    )
-                )
+
+        val expected =
+            UnknownBlockNode(
+                type = "fullBlock",
+                attrs =
+                    buildJsonObject {
+                        put("id", "block-1")
+                        put("metadata", "test")
+                    },
+                content =
+                    listOf(
+                        ParagraphNode(
+                            content =
+                                listOf(
+                                    TextNode(text = "Content here"),
+                                ),
+                        ),
+                        HeadingNode(
+                            attrs = HeadingAttrs(level = 2),
+                            content =
+                                listOf(
+                                    TextNode(text = "Subheading"),
+                                ),
+                        ),
+                    ),
             )
-        )
-        
+
         assertEquals(expected, actual)
     }
 }
-

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 /**
  * Base sealed interface for all Atlassian Document Format nodes.
- * 
+ *
  * ADF documents are composed of a hierarchy of nodes. There are two categories:
  * - Block nodes: structural elements (headings, paragraphs, lists, etc.)
  * - Inline nodes: content elements (text, images, etc.)
@@ -26,4 +26,3 @@ sealed interface ADFBlockNode : ADFNode
  */
 @Serializable
 sealed interface ADFInlineNode : ADFNode
-

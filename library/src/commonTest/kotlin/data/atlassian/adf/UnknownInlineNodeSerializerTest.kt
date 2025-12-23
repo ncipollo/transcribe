@@ -13,8 +13,10 @@ class UnknownInlineNodeSerializerTest {
             "type": "customInline"
         }
         """
-        
-        val doc = ADFSerializer.fromJson("""
+
+        val doc =
+            ADFSerializer.fromJson(
+                """
         {
             "type": "doc",
             "version": 1,
@@ -25,16 +27,18 @@ class UnknownInlineNodeSerializerTest {
                 }
             ]
         }
-        """)
-        
+        """,
+            )
+
         val paragraph = doc.content.first() as ParagraphNode
         val actual = paragraph.content?.first()
-        
-        val expected = UnknownInlineNode(
-            type = "customInline",
-            attrs = null
-        )
-        
+
+        val expected =
+            UnknownInlineNode(
+                type = "customInline",
+                attrs = null,
+            )
+
         assertEquals(expected, actual)
     }
 
@@ -50,8 +54,10 @@ class UnknownInlineNodeSerializerTest {
             }
         }
         """
-        
-        val doc = ADFSerializer.fromJson("""
+
+        val doc =
+            ADFSerializer.fromJson(
+                """
         {
             "type": "doc",
             "version": 1,
@@ -62,21 +68,23 @@ class UnknownInlineNodeSerializerTest {
                 }
             ]
         }
-        """)
-        
+        """,
+            )
+
         val paragraph = doc.content.first() as ParagraphNode
         val actual = paragraph.content?.first()
-        
-        val expected = UnknownInlineNode(
-            type = "fake_mention",
-            attrs = buildJsonObject {
-                put("id", "user-123")
-                put("displayName", "John Doe")
-                put("accessLevel", "CONTAINER")
-            }
-        )
-        
+
+        val expected =
+            UnknownInlineNode(
+                type = "fake_mention",
+                attrs =
+                    buildJsonObject {
+                        put("id", "user-123")
+                        put("displayName", "John Doe")
+                        put("accessLevel", "CONTAINER")
+                    },
+            )
+
         assertEquals(expected, actual)
     }
 }
-

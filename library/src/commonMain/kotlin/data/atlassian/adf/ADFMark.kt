@@ -1,8 +1,8 @@
 package data.atlassian.adf
 
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
@@ -64,7 +64,7 @@ data object UnderlineMark : ADFMark
 @Serializable
 @SerialName("link")
 data class LinkMark(
-    val attrs: LinkAttrs
+    val attrs: LinkAttrs,
 ) : ADFMark
 
 @Serializable
@@ -73,7 +73,7 @@ data class LinkAttrs(
     val title: String? = null,
     val id: String? = null,
     val collection: String? = null,
-    val occurrenceKey: String? = null
+    val occurrenceKey: String? = null,
 )
 
 /**
@@ -83,12 +83,12 @@ data class LinkAttrs(
 @Serializable
 @SerialName("textColor")
 data class TextColorMark(
-    val attrs: TextColorAttrs
+    val attrs: TextColorAttrs,
 ) : ADFMark
 
 @Serializable
 data class TextColorAttrs(
-    val color: String // Pattern: ^#[0-9a-fA-F]{6}$
+    val color: String,
 )
 
 /**
@@ -97,21 +97,21 @@ data class TextColorAttrs(
 @Serializable
 @SerialName("subsup")
 data class SubSupMark(
-    val attrs: SubSupAttrs
+    val attrs: SubSupAttrs,
 ) : ADFMark
 
 @Serializable
 data class SubSupAttrs(
-    val type: SubSupType
+    val type: SubSupType,
 )
 
 @Serializable
 enum class SubSupType {
     @SerialName("sub")
     SUB,
-    
+
     @SerialName("sup")
-    SUP
+    SUP,
 }
 
 /**
@@ -121,12 +121,12 @@ enum class SubSupType {
 @Serializable
 @SerialName("backgroundColor")
 data class BackgroundColorMark(
-    val attrs: BackgroundColorAttrs
+    val attrs: BackgroundColorAttrs,
 ) : ADFMark
 
 @Serializable
 data class BackgroundColorAttrs(
-    val color: String // Pattern: ^#[0-9a-fA-F]{6}$
+    val color: String,
 )
 
 /**
@@ -135,21 +135,21 @@ data class BackgroundColorAttrs(
 @Serializable
 @SerialName("alignment")
 data class AlignmentMark(
-    val attrs: AlignmentAttrs
+    val attrs: AlignmentAttrs,
 ) : ADFMark
 
 @Serializable
 data class AlignmentAttrs(
-    val align: AlignmentType
+    val align: AlignmentType,
 )
 
 @Serializable
 enum class AlignmentType {
     @SerialName("center")
     CENTER,
-    
+
     @SerialName("end")
-    END
+    END,
 }
 
 /**
@@ -158,12 +158,12 @@ enum class AlignmentType {
 @Serializable
 @SerialName("indentation")
 data class IndentationMark(
-    val attrs: IndentationAttrs
+    val attrs: IndentationAttrs,
 ) : ADFMark
 
 @Serializable
 data class IndentationAttrs(
-    val level: Int // 1-6
+    val level: Int,
 )
 
 /**
@@ -172,19 +172,19 @@ data class IndentationAttrs(
 @Serializable
 @SerialName("annotation")
 data class AnnotationMark(
-    val attrs: AnnotationAttrs
+    val attrs: AnnotationAttrs,
 ) : ADFMark
 
 @Serializable
 data class AnnotationAttrs(
     val id: String,
-    val annotationType: AnnotationType
+    val annotationType: AnnotationType,
 )
 
 @Serializable
 enum class AnnotationType {
     @SerialName("inlineComment")
-    INLINE_COMMENT
+    INLINE_COMMENT,
 }
 
 /**
@@ -193,13 +193,13 @@ enum class AnnotationType {
 @Serializable
 @SerialName("border")
 data class BorderMark(
-    val attrs: BorderAttrs
+    val attrs: BorderAttrs,
 ) : ADFMark
 
 @Serializable
 data class BorderAttrs(
-    val size: Int, // 1-3
-    val color: String // Pattern: ^#[0-9a-fA-F]{8}$|^#[0-9a-fA-F]{6}$
+    val size: Int,
+    val color: String,
 )
 
 /**
@@ -208,22 +208,22 @@ data class BorderAttrs(
 @Serializable
 @SerialName("breakout")
 data class BreakoutMark(
-    val attrs: BreakoutAttrs
+    val attrs: BreakoutAttrs,
 ) : ADFMark
 
 @Serializable
 data class BreakoutAttrs(
     val mode: BreakoutMode,
-    val width: Double? = null
+    val width: Double? = null,
 )
 
 @Serializable
 enum class BreakoutMode {
     @SerialName("wide")
     WIDE,
-    
+
     @SerialName("full-width")
-    FULL_WIDTH
+    FULL_WIDTH,
 }
 
 /**
@@ -232,12 +232,12 @@ enum class BreakoutMode {
 @Serializable
 @SerialName("dataConsumer")
 data class DataConsumerMark(
-    val attrs: DataConsumerAttrs
+    val attrs: DataConsumerAttrs,
 ) : ADFMark
 
 @Serializable
 data class DataConsumerAttrs(
-    val sources: List<String> // minItems: 1
+    val sources: List<String>,
 )
 
 /**
@@ -246,13 +246,14 @@ data class DataConsumerAttrs(
 @Serializable
 @SerialName("fragment")
 data class FragmentMark(
-    val attrs: FragmentAttrs
+    val attrs: FragmentAttrs,
 ) : ADFMark
 
 @Serializable
 data class FragmentAttrs(
-    val localId: String, // minLength: 1
-    val name: String? = null
+    // minLength: 1
+    val localId: String,
+    val name: String? = null,
 )
 
 /**
@@ -264,7 +265,7 @@ data class FragmentAttrs(
 @Serializable(with = UnknownMarkSerializer::class)
 data class UnknownMark(
     val type: String,
-    val attrs: JsonObject? = null
+    val attrs: JsonObject? = null,
 ) : ADFMark
 
 /**
@@ -280,12 +281,16 @@ object UnknownMarkSerializer : KSerializer<UnknownMark> {
         }
     }
 
-    override fun serialize(encoder: Encoder, value: UnknownMark) {
+    override fun serialize(
+        encoder: Encoder,
+        value: UnknownMark,
+    ) {
         require(encoder is JsonEncoder)
-        val jsonObject = buildJsonObject {
-            put("type", value.type)
-            value.attrs?.let { put("attrs", it) }
-        }
+        val jsonObject =
+            buildJsonObject {
+                put("type", value.type)
+                value.attrs?.let { put("attrs", it) }
+            }
         encoder.encodeJsonElement(jsonObject)
     }
 
