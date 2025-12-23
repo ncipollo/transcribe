@@ -18,17 +18,6 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
-        // Configure Java compilation to also use JVM 11
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_11)
-                }
-            }
-            compileJavaTaskProvider?.configure {
-                options.release.set(11)
-            }
-        }
     }
     androidLibrary {
         namespace = "org.jetbrains.kotlinx.multiplatform.library.template"
