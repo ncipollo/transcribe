@@ -42,7 +42,7 @@ class UnknownInlineNodeSerializerTest {
     fun deserializeWithAttrs() {
         val json = """
         {
-            "type": "mention",
+            "type": "fake_mention",
             "attrs": {
                 "id": "user-123",
                 "displayName": "John Doe",
@@ -68,7 +68,7 @@ class UnknownInlineNodeSerializerTest {
         val actual = paragraph.content?.first()
         
         val expected = UnknownInlineNode(
-            type = "mention",
+            type = "fake_mention",
             attrs = buildJsonObject {
                 put("id", "user-123")
                 put("displayName", "John Doe")

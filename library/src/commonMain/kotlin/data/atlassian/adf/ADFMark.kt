@@ -115,6 +115,147 @@ enum class SubSupType {
 }
 
 /**
+ * Background color mark with hex color code.
+ * Color must match pattern: ^#[0-9a-fA-F]{6}$
+ */
+@Serializable
+@SerialName("backgroundColor")
+data class BackgroundColorMark(
+    val attrs: BackgroundColorAttrs
+) : ADFMark
+
+@Serializable
+data class BackgroundColorAttrs(
+    val color: String // Pattern: ^#[0-9a-fA-F]{6}$
+)
+
+/**
+ * Alignment mark for text alignment.
+ */
+@Serializable
+@SerialName("alignment")
+data class AlignmentMark(
+    val attrs: AlignmentAttrs
+) : ADFMark
+
+@Serializable
+data class AlignmentAttrs(
+    val align: AlignmentType
+)
+
+@Serializable
+enum class AlignmentType {
+    @SerialName("center")
+    CENTER,
+    
+    @SerialName("end")
+    END
+}
+
+/**
+ * Indentation mark for text indentation levels.
+ */
+@Serializable
+@SerialName("indentation")
+data class IndentationMark(
+    val attrs: IndentationAttrs
+) : ADFMark
+
+@Serializable
+data class IndentationAttrs(
+    val level: Int // 1-6
+)
+
+/**
+ * Annotation mark for inline comments.
+ */
+@Serializable
+@SerialName("annotation")
+data class AnnotationMark(
+    val attrs: AnnotationAttrs
+) : ADFMark
+
+@Serializable
+data class AnnotationAttrs(
+    val id: String,
+    val annotationType: AnnotationType
+)
+
+@Serializable
+enum class AnnotationType {
+    @SerialName("inlineComment")
+    INLINE_COMMENT
+}
+
+/**
+ * Border mark with size and color.
+ */
+@Serializable
+@SerialName("border")
+data class BorderMark(
+    val attrs: BorderAttrs
+) : ADFMark
+
+@Serializable
+data class BorderAttrs(
+    val size: Int, // 1-3
+    val color: String // Pattern: ^#[0-9a-fA-F]{8}$|^#[0-9a-fA-F]{6}$
+)
+
+/**
+ * Breakout mark for wide/full-width layouts.
+ */
+@Serializable
+@SerialName("breakout")
+data class BreakoutMark(
+    val attrs: BreakoutAttrs
+) : ADFMark
+
+@Serializable
+data class BreakoutAttrs(
+    val mode: BreakoutMode,
+    val width: Double? = null
+)
+
+@Serializable
+enum class BreakoutMode {
+    @SerialName("wide")
+    WIDE,
+    
+    @SerialName("full-width")
+    FULL_WIDTH
+}
+
+/**
+ * Data consumer mark with sources array.
+ */
+@Serializable
+@SerialName("dataConsumer")
+data class DataConsumerMark(
+    val attrs: DataConsumerAttrs
+) : ADFMark
+
+@Serializable
+data class DataConsumerAttrs(
+    val sources: List<String> // minItems: 1
+)
+
+/**
+ * Fragment mark with localId and optional name.
+ */
+@Serializable
+@SerialName("fragment")
+data class FragmentMark(
+    val attrs: FragmentAttrs
+) : ADFMark
+
+@Serializable
+data class FragmentAttrs(
+    val localId: String, // minLength: 1
+    val name: String? = null
+)
+
+/**
  * Unknown mark.
  * Captures unrecognized marks with their type and optional attributes.
  * Used as a fallback when deserializing ADF documents containing mark types

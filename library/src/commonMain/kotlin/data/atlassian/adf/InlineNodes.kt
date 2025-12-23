@@ -28,6 +28,216 @@ data class TextNode(
 ) : ADFInlineNode
 
 /**
+ * Hard break inline node.
+ * Represents a line break.
+ */
+@Serializable
+@SerialName("hardBreak")
+data class HardBreakNode(
+    val attrs: HardBreakAttrs? = null
+) : ADFInlineNode
+
+@Serializable
+data class HardBreakAttrs(
+    val text: String? = null, // Should be "\n" if present
+    val localId: String? = null
+)
+
+/**
+ * Mention inline node.
+ * Represents a user mention.
+ */
+@Serializable
+@SerialName("mention")
+data class MentionNode(
+    val attrs: MentionAttrs
+) : ADFInlineNode
+
+@Serializable
+data class MentionAttrs(
+    val id: String,
+    val text: String? = null,
+    val accessLevel: String? = null,
+    val userType: MentionUserType? = null,
+    val localId: String? = null
+)
+
+@Serializable
+enum class MentionUserType {
+    @SerialName("DEFAULT")
+    DEFAULT,
+    
+    @SerialName("SPECIAL")
+    SPECIAL,
+    
+    @SerialName("APP")
+    APP
+}
+
+/**
+ * Emoji inline node.
+ * Represents an emoji.
+ */
+@Serializable
+@SerialName("emoji")
+data class EmojiNode(
+    val attrs: EmojiAttrs
+) : ADFInlineNode
+
+@Serializable
+data class EmojiAttrs(
+    val shortName: String,
+    val id: String? = null,
+    val text: String? = null,
+    val localId: String? = null
+)
+
+/**
+ * Date inline node.
+ * Represents a date.
+ */
+@Serializable
+@SerialName("date")
+data class DateNode(
+    val attrs: DateAttrs
+) : ADFInlineNode
+
+@Serializable
+data class DateAttrs(
+    val timestamp: String, // minLength: 1
+    val localId: String? = null
+)
+
+/**
+ * Status inline node.
+ * Represents a status badge.
+ */
+@Serializable
+@SerialName("status")
+data class StatusNode(
+    val attrs: StatusAttrs
+) : ADFInlineNode
+
+@Serializable
+data class StatusAttrs(
+    val text: String, // minLength: 1
+    val color: StatusColor,
+    val localId: String? = null,
+    val style: String? = null
+)
+
+@Serializable
+enum class StatusColor {
+    @SerialName("neutral")
+    NEUTRAL,
+    
+    @SerialName("purple")
+    PURPLE,
+    
+    @SerialName("blue")
+    BLUE,
+    
+    @SerialName("red")
+    RED,
+    
+    @SerialName("yellow")
+    YELLOW,
+    
+    @SerialName("green")
+    GREEN
+}
+
+/**
+ * Inline card node.
+ * Represents an inline card with url or data.
+ * Schema uses anyOf: either url is required, or data is required.
+ */
+@Serializable
+@SerialName("inlineCard")
+data class InlineCardNode(
+    val attrs: InlineCardAttrs
+) : ADFInlineNode
+
+@Serializable
+data class InlineCardAttrs(
+    val url: String? = null,
+    val data: JsonObject? = null,
+    val localId: String? = null
+)
+
+/**
+ * Placeholder inline node.
+ * Represents a placeholder.
+ */
+@Serializable
+@SerialName("placeholder")
+data class PlaceholderNode(
+    val attrs: PlaceholderAttrs
+) : ADFInlineNode
+
+@Serializable
+data class PlaceholderAttrs(
+    val text: String,
+    val localId: String? = null
+)
+
+/**
+ * Media inline node.
+ * Represents inline media.
+ */
+@Serializable
+@SerialName("mediaInline")
+data class MediaInlineNode(
+    val attrs: MediaInlineAttrs,
+    val marks: List<ADFMark>? = null
+) : ADFInlineNode
+
+@Serializable
+data class MediaInlineAttrs(
+    val id: String, // minLength: 1
+    val collection: String,
+    val type: MediaInlineType,
+    val localId: String? = null,
+    val alt: String? = null,
+    val width: Double? = null,
+    val height: Double? = null,
+    val occurrenceKey: String? = null, // minLength: 1
+    val data: JsonObject? = null
+)
+
+@Serializable
+enum class MediaInlineType {
+    @SerialName("link")
+    LINK,
+    
+    @SerialName("file")
+    FILE,
+    
+    @SerialName("image")
+    IMAGE
+}
+
+/**
+ * Inline extension node.
+ * Represents an inline extension.
+ */
+@Serializable
+@SerialName("inlineExtension")
+data class InlineExtensionNode(
+    val attrs: InlineExtensionAttrs,
+    val marks: List<ADFMark>? = null
+) : ADFInlineNode
+
+@Serializable
+data class InlineExtensionAttrs(
+    val extensionKey: String, // minLength: 1
+    val extensionType: String, // minLength: 1
+    val parameters: JsonObject? = null,
+    val text: String? = null,
+    val localId: String? = null // minLength: 1
+)
+
+/**
  * Unknown inline node.
  * Captures unrecognized inline nodes with their type and optional attributes.
  * Used as a fallback when deserializing ADF documents containing node types

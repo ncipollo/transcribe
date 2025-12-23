@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 
 /**
  * Table block node.
- * Contains table rows and optional table attributes.
+ * Represents a table with rows, cells, and headers.
  */
 @Serializable
 @SerialName("table")
@@ -19,9 +19,9 @@ data class TableNode(
 data class TableAttrs(
     val layout: TableLayout? = null,
     val width: Double? = null,
-    val displayMode: TableDisplayMode? = null,
     val isNumberColumnEnabled: Boolean? = null,
-    val localId: String? = null
+    val displayMode: TableDisplayMode? = null,
+    val localId: String? = null // minLength: 1
 )
 
 @Serializable
@@ -56,12 +56,12 @@ enum class TableDisplayMode {
 
 /**
  * Table row node.
- * Contains table cells or table headers.
+ * Contains table cells or headers.
  */
 @Serializable
 @SerialName("tableRow")
 data class TableRowNode(
-    val content: List<TableCellContent>,
+    val content: List<ADFBlockNode>, // Can be TableCellNode or TableHeaderNode
     val attrs: TableRowAttrs? = null
 ) : ADFBlockNode
 
@@ -71,39 +71,32 @@ data class TableRowAttrs(
 )
 
 /**
- * Sealed interface for table cell content (tableCell or tableHeader).
- */
-@Serializable
-sealed interface TableCellContent
-
-/**
  * Table cell node.
- * Contains block content and optional cell attributes.
+ * Represents a regular table cell.
  */
 @Serializable
 @SerialName("tableCell")
 data class TableCellNode(
     val content: List<ADFBlockNode>,
     val attrs: TableCellAttrs? = null
-) : TableCellContent, ADFBlockNode
+) : ADFBlockNode
 
 /**
  * Table header node.
- * Same structure as table cell but semantically represents a header.
+ * Represents a table header cell.
  */
 @Serializable
 @SerialName("tableHeader")
 data class TableHeaderNode(
     val content: List<ADFBlockNode>,
     val attrs: TableCellAttrs? = null
-) : TableCellContent, ADFBlockNode
+) : ADFBlockNode
 
 @Serializable
 data class TableCellAttrs(
     val colspan: Int? = null,
     val rowspan: Int? = null,
-    val colwidth: List<Int>? = null,
+    val colwidth: List<Double>? = null,
     val background: String? = null,
     val localId: String? = null
 )
-
