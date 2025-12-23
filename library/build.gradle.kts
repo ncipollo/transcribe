@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.androidLibrary
+import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -13,9 +14,20 @@ version = "0.1.0"
 
 kotlin {
     jvm {
-        // Set JVM target to Java 11
+        // Set JVM target to Java 11 for main compilation
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+        }
+        // Configure Java compilation to also use JVM 11
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_11)
+                }
+            }
+            compileJavaTaskProvider?.configure {
+                options.release.set(11)
+            }
         }
     }
     androidLibrary {
@@ -57,6 +69,10 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+
+        jvmTest.dependencies {
+            implementation(libs.serialization.json)
         }
     }
 }
