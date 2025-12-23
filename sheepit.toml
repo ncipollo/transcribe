@@ -1,0 +1,7 @@
+[repository]
+enable_commit = true
+
+[[transforms]]
+path = 'library/build.gradle.kts'
+replace = 'version = "{version}"'
+
