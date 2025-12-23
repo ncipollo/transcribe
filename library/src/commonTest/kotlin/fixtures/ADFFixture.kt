@@ -1,5 +1,11 @@
 package fixtures
 
+import data.atlassian.adf.DocNode
+import data.atlassian.adf.ParagraphNode
+import data.atlassian.adf.HeadingNode
+import data.atlassian.adf.TextNode
+import data.atlassian.adf.ParagraphAttrs
+import data.atlassian.adf.HeadingAttrs
 
 object ADFFixture {
     const val sampleDocument = """
@@ -830,5 +836,53 @@ object ADFFixture {
     "version": 1
 }
 """
+
+    const val simpleDocument = """
+{
+    "type": "doc",
+    "version": 1,
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Hello, world!"
+                }
+            ]
+        },
+        {
+            "type": "heading",
+            "attrs": {
+                "level": 1
+            },
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Test Heading"
+                }
+            ]
+        }
+    ]
+}
+"""
+
+    val expectedSimpleDocNode: DocNode
+        get() = DocNode(
+            version = 1,
+            content = listOf(
+                ParagraphNode(
+                    content = listOf(
+                        TextNode(text = "Hello, world!")
+                    )
+                ),
+                HeadingNode(
+                    attrs = HeadingAttrs(level = 1),
+                    content = listOf(
+                        TextNode(text = "Test Heading")
+                    )
+                )
+            )
+        )
 }
 
