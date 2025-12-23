@@ -28,13 +28,13 @@ kotlin {
         withDeviceTestBuilder {
             sourceSetTreeName = "test"
         }
-        
+
         // Android needs to target JVM 17 to compile with Kotlin 2.2.20
         compilations.configureEach {
             compileTaskProvider.configure {
                 compilerOptions {
                     jvmTarget.set(
-                        JvmTarget.JVM_17
+                        JvmTarget.JVM_17,
                     )
                 }
             }
