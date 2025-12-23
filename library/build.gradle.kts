@@ -44,7 +44,8 @@ kotlin {
     linuxX64()
 
     // Configure Java toolchain for all JVM targets
-    jvmToolchain(11)
+    // Using JDK 17 allows compiling both Android (JVM 17) and pure JVM (JVM 11)
+    jvmToolchain(17)
 
     sourceSets {
         commonMain.dependencies {
