@@ -8,8 +8,8 @@ import kotlinx.serialization.modules.polymorphic
  * Serializer helper object for Atlassian Document Format (ADF) documents.
  *
  * Provides methods to convert between JSON strings and ADF node trees.
- * Handles unknown node types gracefully by wrapping them in UnknownBlockNode
- * or UnknownInlineNode.
+ * Handles unknown node types gracefully by wrapping them in UnknownBlockNode,
+ * UnknownInlineNode, or UnknownMark.
  */
 object ADFSerializer {
     private val serializersModule = SerializersModule {
@@ -22,6 +22,9 @@ object ADFSerializer {
         }
         polymorphic(ADFNode::class) {
             defaultDeserializer { UnknownBlockNodeSerializer }
+        }
+        polymorphic(ADFMark::class) {
+            defaultDeserializer { UnknownMarkSerializer }
         }
     }
 
