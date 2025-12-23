@@ -7,11 +7,16 @@ plugins {
     alias(libs.plugins.vanniktech.mavenPublish)
 }
 
-group = "io.github.kotlin"
-version = "1.0.0"
+group = "io.github.ncipollo"
+version = "0.1.0"
 
 kotlin {
-    jvm()
+    jvm {
+        // Set JVM target to Java 11
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
     androidLibrary {
         namespace = "org.jetbrains.kotlinx.multiplatform.library.template"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -24,10 +29,12 @@ kotlin {
         }
 
         compilations.configureEach {
-            compilerOptions.configure {
-                jvmTarget.set(
-                    JvmTarget.JVM_11
-                )
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(
+                        JvmTarget.JVM_11
+                    )
+                }
             }
         }
     }
@@ -35,6 +42,9 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     linuxX64()
+
+    // Configure Java toolchain for all JVM targets
+    jvmToolchain(11)
 
     sourceSets {
         commonMain.dependencies {
