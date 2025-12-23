@@ -826,9 +826,97 @@ object ADFFixture {
             ]
         },
         {
-            "type": "paragraph",
+            "type": "heading",
             "attrs": {
-                "localId": "96bbdca9-31d0-470e-bdd4-7a3ef4df68b6"
+                "level": 1,
+                "localId": "d40d800e-fcc1-412e-b3af-5dd41365325f"
+            },
+            "content": [
+                {
+                    "text": "Section 7",
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "type": "extension",
+            "attrs": {
+                "layout": "default",
+                "extensionType": "com.atlassian.confluence.macro.core",
+                "extensionKey": "drawio",
+                "parameters": {
+                    "macroParams": {
+                        "mVer": {
+                            "value": "2"
+                        },
+                        "simple": {
+                            "value": "0"
+                        },
+                        "zoom": {
+                            "value": "1"
+                        },
+                        "inComment": {
+                            "value": "0"
+                        },
+                        "pageId": {
+                            "value": "1234567890"
+                        },
+                        "custContentId": {
+                            "value": "0987654321"
+                        },
+                        "diagramDisplayName": {
+                            "value": "example-diagram.drawio"
+                        },
+                        "lbox": {
+                            "value": "1"
+                        },
+                        "contentVer": {
+                            "value": "1"
+                        },
+                        "revision": {
+                            "value": "1"
+                        },
+                        "baseUrl": {
+                            "value": "https://some.atlassian.net/wiki"
+                        },
+                        "diagramName": {
+                            "value": "example-diagram.drawio"
+                        },
+                        "pCenter": {
+                            "value": "0"
+                        },
+                        "width": {
+                            "value": "281"
+                        },
+                        "links": {
+                            "value": ""
+                        },
+                        "tbstyle": {
+                            "value": ""
+                        },
+                        "height": {
+                            "value": "391"
+                        }
+                    },
+                    "macroMetadata": {
+                        "macroId": {
+                            "value": "00000000-0000-0000-0000-000000000000"
+                        },
+                        "schemaVersion": {
+                            "value": "1"
+                        },
+                        "placeholder": [
+                            {
+                                "type": "image",
+                                "data": {
+                                    "url": "https://ac.draw.io/connectImage?mVer=2&simple=0&zoom=1&inComment=0&pageId=1234567890&custContentId=0987654321&diagramDisplayName=example-diagram.drawio&lbox=1&contentVer=1&revision=1&baseUrl=https%3A%2F%2Fsome.atlassian.net%2Fwiki&diagramName=example-diagram.drawio&pCenter=0&width=281&links=&tbstyle=&height=391"
+                                }
+                            }
+                        ],
+                        "title": "draw.io Diagram"
+                    }
+                },
+                "localId": "c249b3ff-7dce-4308-8f7f-5190d6b92117"
             }
         }
     ],
