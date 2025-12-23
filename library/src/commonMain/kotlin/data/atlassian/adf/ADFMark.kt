@@ -15,40 +15,35 @@ sealed interface ADFMark
  */
 @Serializable
 @SerialName("strong")
-data class StrongMark(
-) : ADFMark
+data object StrongMark : ADFMark
 
 /**
  * Emphasis (italic) text mark.
  */
 @Serializable
 @SerialName("em")
-data class EmMark(
-) : ADFMark
+data object EmMark : ADFMark
 
 /**
  * Code (monospace) text mark.
  */
 @Serializable
 @SerialName("code")
-data class CodeMark(
-) : ADFMark
+data object CodeMark : ADFMark
 
 /**
  * Strikethrough text mark.
  */
 @Serializable
 @SerialName("strike")
-data class StrikeMark(
-) : ADFMark
+data object StrikeMark : ADFMark
 
 /**
  * Underline text mark.
  */
 @Serializable
 @SerialName("underline")
-data class UnderlineMark(
-) : ADFMark
+data object UnderlineMark : ADFMark
 
 /**
  * Link mark with href and optional title.
