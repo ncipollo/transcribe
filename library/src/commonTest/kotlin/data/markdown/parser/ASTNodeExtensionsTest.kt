@@ -101,7 +101,7 @@ class ASTNodeExtensionsTest {
     }
 
     @Test
-    fun getTextInNode_extractsTextFromSimpleNode() {
+    fun getTextContent_extractsTextFromSimpleNode() {
         val text = "Hello world"
         val root = parseMarkdown(text)
         
@@ -109,14 +109,14 @@ class ASTNodeExtensionsTest {
         val paragraph = root.findChildOfType(MarkdownElementTypes.PARAGRAPH)
         assertNotNull(paragraph)
         
-        val extractedText = paragraph.getTextInNode(text)
+        val extractedText = paragraph.getTextContent(text)
         
         assertNotNull(extractedText, "Should extract text")
         assertEquals("Hello world", extractedText.toString().trim(), "Should extract correct text")
     }
 
     @Test
-    fun getTextInNode_extractsTextFromNodeAtDifferentOffsets() {
+    fun getTextContent_extractsTextFromNodeAtDifferentOffsets() {
         val text = "First paragraph\n\nSecond paragraph"
         val root = parseMarkdown(text)
         
@@ -125,7 +125,7 @@ class ASTNodeExtensionsTest {
         
         if (paragraphs.isNotEmpty()) {
             val firstParagraph = paragraphs[0]
-            val extractedText = firstParagraph.getTextInNode(text)
+            val extractedText = firstParagraph.getTextContent(text)
             
             assertNotNull(extractedText, "Should extract text from first paragraph")
             assertEquals("First paragraph", extractedText.toString().trim(), "Should extract correct text")
@@ -133,11 +133,11 @@ class ASTNodeExtensionsTest {
     }
 
     @Test
-    fun getTextInNode_handlesEmptyNode() {
+    fun getTextContent_handlesEmptyNode() {
         val text = ""
         val root = parseMarkdown(text)
         
-        val extractedText = root.getTextInNode(text)
+        val extractedText = root.getTextContent(text)
         
         assertNotNull(extractedText, "Should handle empty node")
         assertEquals("", extractedText.toString(), "Should return empty string for empty node")
