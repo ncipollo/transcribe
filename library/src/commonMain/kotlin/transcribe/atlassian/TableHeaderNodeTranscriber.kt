@@ -20,7 +20,7 @@ class TableHeaderNodeTranscriber(
         
         val nodeTranscriber = ADFNodeTranscriber(nodeMap)
         val markdown = content.joinToString("") { block ->
-            nodeTranscriber.transcribeBlock(block).content
+            nodeTranscriber.transcribe(block).content
         }
         
         return TranscribeResult(markdown.trim())

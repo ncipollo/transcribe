@@ -1,7 +1,5 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFBlockNode
-import data.atlassian.adf.ADFInlineNode
 import data.atlassian.adf.ADFNode
 import kotlin.reflect.KClass
 import transcribe.TranscribeResult
@@ -14,29 +12,12 @@ class ADFNodeTranscriber(
     private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
 ) {
     /**
-     * Transcribes an inline node to markdown string.
-     */
-    fun transcribeInline(node: ADFInlineNode): TranscribeResult<String> {
-        val transcriber = nodeMap[node::class] as? ADFTranscriber<ADFInlineNode>
-        return transcriber?.transcribe(node) ?: TranscribeResult("")
-    }
-
-    /**
-     * Transcribes a block node to markdown string.
-     */
-    fun transcribeBlock(node: ADFBlockNode): TranscribeResult<String> {
-        val transcriber = nodeMap[node::class] as? ADFTranscriber<ADFBlockNode>
-        return transcriber?.transcribe(node) ?: TranscribeResult("")
-    }
-
-    /**
      * Transcribes any ADF node to markdown string.
      */
+    @Suppress("UNCHECKED_CAST")
     fun transcribe(node: ADFNode): TranscribeResult<String> {
-        return when (node) {
-            is ADFInlineNode -> transcribeInline(node)
-            is ADFBlockNode -> transcribeBlock(node)
-        }
+        val transcriber = nodeMap[node::class] as? ADFTranscriber<ADFNode>
+        return transcriber?.transcribe(node) ?: TranscribeResult("")
     }
 }
 

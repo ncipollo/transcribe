@@ -26,7 +26,7 @@ class TaskItemNodeTranscriber(
         } else {
             val nodeTranscriber = ADFNodeTranscriber(nodeMap)
             content.joinToString("") { node ->
-                nodeTranscriber.transcribeInline(node).content
+                nodeTranscriber.transcribe(node).content
             }
         }
         

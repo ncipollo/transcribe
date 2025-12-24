@@ -20,14 +20,7 @@ class ListItemNodeTranscriber(
         
         val nodeTranscriber = ADFNodeTranscriber(nodeMap)
         val markdown = content.joinToString("") { node ->
-            when (node) {
-                is data.atlassian.adf.ADFInlineNode -> {
-                    nodeTranscriber.transcribeInline(node).content
-                }
-                is data.atlassian.adf.ADFBlockNode -> {
-                    nodeTranscriber.transcribeBlock(node).content
-                }
-            }
+            nodeTranscriber.transcribe(node).content
         }
         
         return TranscribeResult(markdown)

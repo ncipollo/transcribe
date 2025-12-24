@@ -23,8 +23,8 @@ class TableRowNodeTranscriber(
         val nodeTranscriber = ADFNodeTranscriber(nodeMap)
         val cells = content.map { cell ->
             when (cell) {
-                is TableCellNode -> nodeTranscriber.transcribeBlock(cell).content
-                is TableHeaderNode -> nodeTranscriber.transcribeBlock(cell).content
+                is TableCellNode -> nodeTranscriber.transcribe(cell).content
+                is TableHeaderNode -> nodeTranscriber.transcribe(cell).content
                 else -> ""
             }
         }

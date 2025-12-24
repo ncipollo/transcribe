@@ -21,10 +21,7 @@ class TaskListNodeTranscriber(
         
         val nodeTranscriber = ADFNodeTranscriber(nodeMap)
         val markdown = content.joinToString("\n") { node ->
-            when (node) {
-                is TaskItemNode -> nodeTranscriber.transcribeInline(node).content
-                else -> nodeTranscriber.transcribe(node).content
-            }
+            nodeTranscriber.transcribe(node).content
         }
         
         return TranscribeResult("$markdown\n\n")

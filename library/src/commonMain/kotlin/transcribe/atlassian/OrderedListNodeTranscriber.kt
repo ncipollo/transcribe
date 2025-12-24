@@ -22,7 +22,7 @@ class OrderedListNodeTranscriber(
         val startOrder = input.attrs?.order ?: 1
         val markdown = content.mapIndexed { index, item ->
             val itemNumber = startOrder + index
-            val itemContent = nodeTranscriber.transcribeBlock(item).content
+            val itemContent = nodeTranscriber.transcribe(item).content
             "$itemNumber. $itemContent"
         }.joinToString("\n")
         

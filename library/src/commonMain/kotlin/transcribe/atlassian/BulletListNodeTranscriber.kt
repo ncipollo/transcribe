@@ -20,7 +20,7 @@ class BulletListNodeTranscriber(
         
         val nodeTranscriber = ADFNodeTranscriber(nodeMap)
         val markdown = content.joinToString("\n") { item ->
-            val itemContent = nodeTranscriber.transcribeBlock(item).content
+            val itemContent = nodeTranscriber.transcribe(item).content
             "- $itemContent"
         }
         

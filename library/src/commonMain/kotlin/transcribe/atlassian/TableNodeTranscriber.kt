@@ -21,7 +21,7 @@ class TableNodeTranscriber(
         
         val nodeTranscriber = ADFNodeTranscriber(nodeMap)
         val markdownRows = rows.map { row ->
-            nodeTranscriber.transcribeBlock(row).content
+            nodeTranscriber.transcribe(row).content
         }
         
         // Check if first row contains headers
