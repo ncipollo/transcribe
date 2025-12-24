@@ -24,13 +24,6 @@ class TranscriberMapBuilder<N : Any, T : Transcriber<N, *>> {
     }
 
     /**
-     * Add transcriber with java.lang.Class (Java).
-     */
-    fun add(nodeClass: Class<out N>, transcriber: T): TranscriberMapBuilder<N, T> {
-        return add(nodeClass.kotlin, transcriber)
-    }
-
-    /**
      * Add all transcribers from an existing map.
      */
     fun addAll(transcriberMap: Map<KClass<out N>, T>): TranscriberMapBuilder<N, T> {
