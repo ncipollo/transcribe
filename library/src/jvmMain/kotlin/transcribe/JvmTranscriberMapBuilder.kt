@@ -26,12 +26,3 @@ class JvmTranscriberMapBuilder<N : Any, T : Transcriber<N, *>>(
         return builder.build()
     }
 }
-
-/**
- * DSL for building transcriber maps on JVM.
- */
-fun <N : Any, T : Transcriber<N, *>> jvmTranscriberMap(
-    block: JvmTranscriberMapBuilder<N, T>.() -> Unit
-): Map<KClass<out N>, T> {
-    return JvmTranscriberMapBuilder<N, T>().apply(block).build()
-}

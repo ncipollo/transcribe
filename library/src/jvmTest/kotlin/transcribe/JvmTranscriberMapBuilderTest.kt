@@ -40,14 +40,14 @@ class JvmTranscriberMapBuilderTest {
     }
 
     @Test
-    fun jvmTranscriberMap_dslStyle() {
+    fun add_builderStyleChaining() {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
 
-        val map = jvmTranscriberMap<TestNode, TestTranscriber> {
-            add(TestNodeA::class.java, transcriber1)
-            add(TestNodeB::class.java, transcriber2)
-        }
+        val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
+            .add(TestNodeA::class.java, transcriber1)
+            .add(TestNodeB::class.java, transcriber2)
+            .build()
 
         assertEquals(2, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
