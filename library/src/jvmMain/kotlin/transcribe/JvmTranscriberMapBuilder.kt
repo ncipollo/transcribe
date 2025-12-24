@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
  * JVM-specific wrapper around TranscriberMapBuilder that provides
  * convenience methods for working with Java Class objects.
  */
-class JvmTranscriberMapBuilder<N : Any, T : Transcriber<N, *>>(
+class JvmTranscriberMapBuilder<N : Any, T : Transcriber<out N, *>>(
     private val builder: TranscriberMapBuilder<N, T> = TranscriberMapBuilder()
 ) : TranscriberMapBuildable<N, T> {
 
