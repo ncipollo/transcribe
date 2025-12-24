@@ -9,4 +9,6 @@ This project is a kotlin multi-platform project.
 - Prefer to place new code in commonMain and commonTest unless explicitly instructed to place it within a platform-specific target.
 
 
+# Test Names
 
+- Test names should typically be in the form function_condition
