@@ -34,17 +34,8 @@ class TranscriberMapBuilder<N : Any, T : Transcriber<N, *>> : TranscriberMapBuil
     /**
      * Build immutable map.
      */
-    override fun toMap(): Map<KClass<out N>, T> {
+    override fun build(): Map<KClass<out N>, T> {
         return map.toMap()
-    }
-
-    /**
-     * Build immutable map.
-     * @deprecated Use toMap() instead
-     */
-    @Deprecated("Use toMap() instead", ReplaceWith("toMap()"))
-    fun build(): Map<KClass<out N>, T> {
-        return toMap()
     }
 }
 
@@ -54,6 +45,6 @@ class TranscriberMapBuilder<N : Any, T : Transcriber<N, *>> : TranscriberMapBuil
 inline fun <N : Any, T : Transcriber<N, *>> transcriberMap(
     block: TranscriberMapBuilder<N, T>.() -> Unit
 ): Map<KClass<out N>, T> {
-    return TranscriberMapBuilder<N, T>().apply(block).toMap()
+    return TranscriberMapBuilder<N, T>().apply(block).build()
 }
 

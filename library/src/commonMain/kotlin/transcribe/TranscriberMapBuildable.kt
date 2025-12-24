@@ -9,5 +9,5 @@ interface TranscriberMapBuildable<N : Any, T : Transcriber<N, *>> {
     /**
      * Build and return an immutable map of transcribers.
      */
-    fun toMap(): Map<KClass<out N>, T>
+    fun build(): Map<KClass<out N>, T>
 }

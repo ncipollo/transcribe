@@ -29,17 +29,8 @@ class JvmTranscriberMapBuilder<N : Any, T : Transcriber<N, *>>(
     /**
      * Build immutable map.
      */
-    override fun toMap(): Map<KClass<out N>, T> {
-        return builder.toMap()
-    }
-
-    /**
-     * Build immutable map.
-     * @deprecated Use toMap() instead
-     */
-    @Deprecated("Use toMap() instead", ReplaceWith("toMap()"))
-    fun build(): Map<KClass<out N>, T> {
-        return toMap()
+    override fun build(): Map<KClass<out N>, T> {
+        return builder.build()
     }
 }
 
@@ -49,5 +40,5 @@ class JvmTranscriberMapBuilder<N : Any, T : Transcriber<N, *>>(
 fun <N : Any, T : Transcriber<N, *>> jvmTranscriberMap(
     block: JvmTranscriberMapBuilder<N, T>.() -> Unit
 ): Map<KClass<out N>, T> {
-    return JvmTranscriberMapBuilder<N, T>().apply(block).toMap()
+    return JvmTranscriberMapBuilder<N, T>().apply(block).build()
 }
