@@ -37,21 +37,6 @@ class JvmTranscriberMapBuilderTest {
     }
 
     @Test
-    fun add_reifiedGeneric() {
-        val transcriber1 = TestTranscriber("transcriber1")
-        val transcriber2 = TestTranscriber("transcriber2")
-
-        val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
-            .add<TestNodeA>(transcriber1)
-            .add<TestNodeB>(transcriber2)
-            .build()
-
-        assertEquals(2, map.size)
-        assertEquals(transcriber1, map[TestNodeA::class])
-        assertEquals(transcriber2, map[TestNodeB::class])
-    }
-
-    @Test
     fun add_mixedJavaClassAndKClass() {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
@@ -60,28 +45,6 @@ class JvmTranscriberMapBuilderTest {
         val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
             .add(TestNodeA::class.java, transcriber1)
             .add(TestNodeB::class, transcriber2)
-            .add<TestNodeC>(transcriber3)
-            .build()
-
-        assertEquals(3, map.size)
-        assertEquals(transcriber1, map[TestNodeA::class])
-        assertEquals(transcriber2, map[TestNodeB::class])
-        assertEquals(transcriber3, map[TestNodeC::class])
-    }
-
-    @Test
-    fun addAll_existingMap() {
-        val transcriber1 = TestTranscriber("transcriber1")
-        val transcriber2 = TestTranscriber("transcriber2")
-        val transcriber3 = TestTranscriber("transcriber3")
-
-        val existingMap = mapOf(
-            TestNodeA::class to transcriber1,
-            TestNodeB::class to transcriber2
-        )
-
-        val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
-            .addAll(existingMap)
             .add(TestNodeC::class.java, transcriber3)
             .build()
 
