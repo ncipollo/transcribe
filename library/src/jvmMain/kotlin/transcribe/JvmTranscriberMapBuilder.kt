@@ -9,20 +9,13 @@ import kotlin.reflect.KClass
 class JvmTranscriberMapBuilder<N : Any, T : Transcriber<N, *>>(
     private val builder: TranscriberMapBuilder<N, T> = TranscriberMapBuilder()
 ) : TranscriberMapBuildable<N, T> {
+
     /**
      * Add transcriber using Java Class (JVM).
      * Converts the Java Class to KClass before delegating to the builder.
      */
     fun add(nodeClass: Class<out N>, transcriber: T): JvmTranscriberMapBuilder<N, T> {
         builder.add(nodeClass.kotlin, transcriber)
-        return this
-    }
-
-    /**
-     * Add transcriber with explicit KClass (Kotlin).
-     */
-    fun add(nodeClass: KClass<out N>, transcriber: T): JvmTranscriberMapBuilder<N, T> {
-        builder.add(nodeClass, transcriber)
         return this
     }
 

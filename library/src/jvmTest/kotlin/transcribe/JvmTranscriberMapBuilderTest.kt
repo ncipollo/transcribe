@@ -22,29 +22,14 @@ class JvmTranscriberMapBuilderTest {
     }
 
     @Test
-    fun add_kclass() {
-        val transcriber1 = TestTranscriber("transcriber1")
-        val transcriber2 = TestTranscriber("transcriber2")
-
-        val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
-            .add(TestNodeA::class, transcriber1)
-            .add(TestNodeB::class, transcriber2)
-            .build()
-
-        assertEquals(2, map.size)
-        assertEquals(transcriber1, map[TestNodeA::class])
-        assertEquals(transcriber2, map[TestNodeB::class])
-    }
-
-    @Test
-    fun add_mixedJavaClassAndKClass() {
+    fun add_multipleJavaClasses() {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
         val transcriber3 = TestTranscriber("transcriber3")
 
         val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
             .add(TestNodeA::class.java, transcriber1)
-            .add(TestNodeB::class, transcriber2)
+            .add(TestNodeB::class.java, transcriber2)
             .add(TestNodeC::class.java, transcriber3)
             .build()
 
