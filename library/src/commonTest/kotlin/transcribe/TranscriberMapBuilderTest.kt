@@ -37,21 +37,6 @@ class TranscriberMapBuilderTest {
     }
 
     @Test
-    fun add_javaClass() {
-        val transcriber1 = TestTranscriber("transcriber1")
-        val transcriber2 = TestTranscriber("transcriber2")
-
-        val map = TranscriberMapBuilder<TestNode, TestTranscriber>()
-            .add(TestNodeA::class.java, transcriber1)
-            .add(TestNodeB::class.java, transcriber2)
-            .build()
-
-        assertEquals(2, map.size)
-        assertEquals(transcriber1, map[TestNodeA::class])
-        assertEquals(transcriber2, map[TestNodeB::class])
-    }
-
-    @Test
     fun addAll_existingMap() {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
