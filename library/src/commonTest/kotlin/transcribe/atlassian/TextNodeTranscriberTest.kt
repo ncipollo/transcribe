@@ -13,13 +13,13 @@ class TextNodeTranscriberTest {
     fun transcribe_withMark() {
         val node = TextNode(text = "hello", marks = listOf(StrongMark))
         val result = transcriber.transcribe(node)
-        assertEquals("**hello**", result.text)
+        assertEquals("**hello**", result.content)
     }
 
     @Test
     fun transcribe_noMarks() {
         val node = TextNode(text = "hello")
         val result = transcriber.transcribe(node)
-        assertEquals("hello", result.text)
+        assertEquals("hello", result.content)
     }
 }

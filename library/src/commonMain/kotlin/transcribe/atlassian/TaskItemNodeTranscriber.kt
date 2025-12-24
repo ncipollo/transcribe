@@ -1,0 +1,31 @@
+package transcribe.atlassian
+
+import data.atlassian.adf.TaskItemNode
+import data.atlassian.adf.TaskState
+import transcribe.TranscribeResult
+
+/**
+ * Transcriber for TaskItemNode that converts ADF task item to markdown checkbox.
+ * Outputs - [ ] or - [x] based on task state, followed by inline content.
+ */
+class TaskItemNodeTranscriber : ADFTranscriber<TaskItemNode> {
+    override fun transcribe(input: TaskItemNode): TranscribeResult<String> {
+        val checkbox = if (input.attrs.state == TaskState.DONE) {
+            "- [x]"
+        } else {
+            "- [ ]"
+        }
+        
+        val content = input.content
+        val markdown = if (content.isNullOrEmpty()) {
+            ""
+        } else {
+            content.joinToString("") { node ->
+                ADFNodeTranscriber.transcribeInline(node).content
+            }
+        }
+        
+        return TranscribeResult("$checkbox $markdown")
+    }
+}
+
