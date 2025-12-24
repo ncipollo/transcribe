@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class TableCellNodeTranscriberTest {
 
-    private val transcriber = TableCellNodeTranscriber()
+    private val transcriber = TableCellNodeTranscriber(defaultADFNodeMap())
 
     @Test
     fun transcribe_withContent() {

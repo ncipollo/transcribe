@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class TableHeaderNodeTranscriberTest {
 
-    private val transcriber = TableHeaderNodeTranscriber()
+    private val transcriber = TableHeaderNodeTranscriber(defaultADFNodeMap())
 
     @Test
     fun transcribe_withContent() {

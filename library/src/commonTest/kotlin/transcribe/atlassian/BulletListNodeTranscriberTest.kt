@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 
 class BulletListNodeTranscriberTest {
 
-    private val transcriber = BulletListNodeTranscriber()
+    private val transcriber = BulletListNodeTranscriber(defaultADFNodeMap())
 
     @Test
     fun transcribe_withItems() {

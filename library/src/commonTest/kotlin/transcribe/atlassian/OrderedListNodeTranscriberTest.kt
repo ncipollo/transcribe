@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 class OrderedListNodeTranscriberTest {
 
-    private val transcriber = OrderedListNodeTranscriber()
+    private val transcriber = OrderedListNodeTranscriber(defaultADFNodeMap())
 
     @Test
     fun transcribe_withItems() {

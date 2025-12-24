@@ -1,22 +1,27 @@
 package transcribe.atlassian
 
+import data.atlassian.adf.ADFNode
 import data.atlassian.adf.TableNode
 import data.atlassian.adf.TableRowNode
+import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
  * Transcriber for TableNode that converts ADF table to GitHub markdown table.
  * Outputs table rows with separator row after header.
  */
-class TableNodeTranscriber : ADFTranscriber<TableNode> {
+class TableNodeTranscriber(
+    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+) : ADFTranscriber<TableNode> {
     override fun transcribe(input: TableNode): TranscribeResult<String> {
         val rows = input.content
         if (rows.isEmpty()) {
             return TranscribeResult("")
         }
         
+        val nodeTranscriber = ADFNodeTranscriber(nodeMap)
         val markdownRows = rows.map { row ->
-            ADFNodeTranscriber.transcribeBlock(row).content
+            nodeTranscriber.transcribeBlock(row).content
         }
         
         // Check if first row contains headers

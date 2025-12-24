@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class BlockquoteNodeTranscriberTest {
 
-    private val transcriber = BlockquoteNodeTranscriber()
+    private val transcriber = BlockquoteNodeTranscriber(defaultADFNodeMap())
 
     @Test
     fun transcribe_withContent() {

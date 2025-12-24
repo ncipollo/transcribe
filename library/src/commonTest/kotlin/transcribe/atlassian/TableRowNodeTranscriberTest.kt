@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 class TableRowNodeTranscriberTest {
 
-    private val transcriber = TableRowNodeTranscriber()
+    private val transcriber = TableRowNodeTranscriber(defaultADFNodeMap())
 
     @Test
     fun transcribe_withCells() {

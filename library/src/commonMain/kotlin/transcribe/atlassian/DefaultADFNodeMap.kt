@@ -28,29 +28,32 @@ import transcribe.transcriberMap
  * This map includes all mappings found in ADFNodeTranscriber's when statements.
  */
 fun defaultADFNodeMap(): Map<KClass<out ADFNode>, ADFTranscriber<*>> {
-    return transcriberMap<ADFNode, ADFTranscriber<*>> {
-        // Inline nodes
-        add<TextNode>(TextNodeTranscriber())
-        add<HardBreakNode>(HardBreakNodeTranscriber())
-        add<EmojiNode>(EmojiNodeTranscriber())
-        add<MentionNode>(MentionNodeTranscriber())
-        add<InlineCardNode>(InlineCardNodeTranscriber())
-        add<TaskItemNode>(TaskItemNodeTranscriber())
-
-        // Block nodes
-        add<ParagraphNode>(ParagraphNodeTranscriber())
-        add<HeadingNode>(HeadingNodeTranscriber())
-        add<BulletListNode>(BulletListNodeTranscriber())
-        add<OrderedListNode>(OrderedListNodeTranscriber())
-        add<ListItemNode>(ListItemNodeTranscriber())
-        add<CodeBlockNode>(CodeBlockNodeTranscriber())
-        add<BlockquoteNode>(BlockquoteNodeTranscriber())
-        add<RuleNode>(RuleNodeTranscriber())
-        add<TableNode>(TableNodeTranscriber())
-        add<TableRowNode>(TableRowNodeTranscriber())
-        add<TableCellNode>(TableCellNodeTranscriber())
-        add<TableHeaderNode>(TableHeaderNodeTranscriber())
-        add<TaskListNode>(TaskListNodeTranscriber())
-    }
+    // Create a mutable map first
+    val map = mutableMapOf<KClass<out ADFNode>, ADFTranscriber<*>>()
+    
+    // Add transcribers that don't need the map (leaf nodes)
+    map[TextNode::class] = TextNodeTranscriber()
+    map[HardBreakNode::class] = HardBreakNodeTranscriber()
+    map[EmojiNode::class] = EmojiNodeTranscriber()
+    map[MentionNode::class] = MentionNodeTranscriber()
+    map[InlineCardNode::class] = InlineCardNodeTranscriber()
+    map[CodeBlockNode::class] = CodeBlockNodeTranscriber()
+    map[RuleNode::class] = RuleNodeTranscriber()
+    
+    // Add transcribers that need the map (they create ADFNodeTranscriber on-demand)
+    map[TaskItemNode::class] = TaskItemNodeTranscriber(map)
+    map[ParagraphNode::class] = ParagraphNodeTranscriber(map)
+    map[HeadingNode::class] = HeadingNodeTranscriber(map)
+    map[BulletListNode::class] = BulletListNodeTranscriber(map)
+    map[OrderedListNode::class] = OrderedListNodeTranscriber(map)
+    map[ListItemNode::class] = ListItemNodeTranscriber(map)
+    map[BlockquoteNode::class] = BlockquoteNodeTranscriber(map)
+    map[TableNode::class] = TableNodeTranscriber(map)
+    map[TableRowNode::class] = TableRowNodeTranscriber(map)
+    map[TableCellNode::class] = TableCellNodeTranscriber(map)
+    map[TableHeaderNode::class] = TableHeaderNodeTranscriber(map)
+    map[TaskListNode::class] = TaskListNodeTranscriber(map)
+    
+    return map.toMap()
 }
 

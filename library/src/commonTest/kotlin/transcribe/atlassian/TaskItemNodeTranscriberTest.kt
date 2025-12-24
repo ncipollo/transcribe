@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 
 class TaskItemNodeTranscriberTest {
 
-    private val transcriber = TaskItemNodeTranscriber()
+    private val transcriber = TaskItemNodeTranscriber(defaultADFNodeMap())
 
     @Test
     fun transcribe_todoState() {
