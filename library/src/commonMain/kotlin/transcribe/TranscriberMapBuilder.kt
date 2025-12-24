@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 /**
  * Builder for creating a map of node types to transcribers.
  */
-class TranscriberMapBuilder<N : Any, T : Transcriber<N, *>> {
+class TranscriberMapBuilder<N : Any, T : Transcriber<N, *>> : TranscriberMapBuildable<N, T> {
     private val map = mutableMapOf<KClass<out N>, T>()
 
     /**
@@ -34,8 +34,17 @@ class TranscriberMapBuilder<N : Any, T : Transcriber<N, *>> {
     /**
      * Build immutable map.
      */
-    fun build(): Map<KClass<out N>, T> {
+    override fun toMap(): Map<KClass<out N>, T> {
         return map.toMap()
+    }
+
+    /**
+     * Build immutable map.
+     * @deprecated Use toMap() instead
+     */
+    @Deprecated("Use toMap() instead", ReplaceWith("toMap()"))
+    fun build(): Map<KClass<out N>, T> {
+        return toMap()
     }
 }
 
@@ -45,6 +54,6 @@ class TranscriberMapBuilder<N : Any, T : Transcriber<N, *>> {
 inline fun <N : Any, T : Transcriber<N, *>> transcriberMap(
     block: TranscriberMapBuilder<N, T>.() -> Unit
 ): Map<KClass<out N>, T> {
-    return TranscriberMapBuilder<N, T>().apply(block).build()
+    return TranscriberMapBuilder<N, T>().apply(block).toMap()
 }
 

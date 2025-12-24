@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
  */
 class JvmTranscriberMapBuilder<N : Any, T : Transcriber<N, *>>(
     private val builder: TranscriberMapBuilder<N, T> = TranscriberMapBuilder()
-) {
+) : TranscriberMapBuildable<N, T> {
     /**
      * Add transcriber using Java Class (JVM).
      * Converts the Java Class to KClass before delegating to the builder.
@@ -29,8 +29,17 @@ class JvmTranscriberMapBuilder<N : Any, T : Transcriber<N, *>>(
     /**
      * Build immutable map.
      */
+    override fun toMap(): Map<KClass<out N>, T> {
+        return builder.toMap()
+    }
+
+    /**
+     * Build immutable map.
+     * @deprecated Use toMap() instead
+     */
+    @Deprecated("Use toMap() instead", ReplaceWith("toMap()"))
     fun build(): Map<KClass<out N>, T> {
-        return builder.build()
+        return toMap()
     }
 }
 
@@ -40,5 +49,5 @@ class JvmTranscriberMapBuilder<N : Any, T : Transcriber<N, *>>(
 fun <N : Any, T : Transcriber<N, *>> jvmTranscriberMap(
     block: JvmTranscriberMapBuilder<N, T>.() -> Unit
 ): Map<KClass<out N>, T> {
-    return JvmTranscriberMapBuilder<N, T>().apply(block).build()
+    return JvmTranscriberMapBuilder<N, T>().apply(block).toMap()
 }

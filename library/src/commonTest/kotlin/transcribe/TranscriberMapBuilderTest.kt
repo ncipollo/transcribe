@@ -14,7 +14,7 @@ class TranscriberMapBuilderTest {
         val map = TranscriberMapBuilder<TestNode, TestTranscriber>()
             .add<TestNodeA>(transcriber1)
             .add<TestNodeB>(transcriber2)
-            .build()
+            .toMap()
 
         assertEquals(2, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -29,7 +29,7 @@ class TranscriberMapBuilderTest {
         val map = TranscriberMapBuilder<TestNode, TestTranscriber>()
             .add(TestNodeA::class, transcriber1)
             .add(TestNodeB::class, transcriber2)
-            .build()
+            .toMap()
 
         assertEquals(2, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -50,7 +50,7 @@ class TranscriberMapBuilderTest {
         val map = TranscriberMapBuilder<TestNode, TestTranscriber>()
             .addAll(existingMap)
             .add<TestNodeC>(transcriber3)
-            .build()
+            .toMap()
 
         assertEquals(3, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -74,15 +74,15 @@ class TranscriberMapBuilderTest {
     }
 
     @Test
-    fun build_returnsImmutableCopy() {
+    fun toMap_returnsImmutableCopy() {
         val builder = TranscriberMapBuilder<TestNode, TestTranscriber>()
         val transcriber = TestTranscriber("transcriber")
 
         builder.add<TestNodeA>(transcriber)
-        val map1 = builder.build()
+        val map1 = builder.toMap()
 
         builder.add<TestNodeB>(transcriber)
-        val map2 = builder.build()
+        val map2 = builder.toMap()
 
         // First map should only have 1 entry, second should have 2
         assertEquals(1, map1.size)
