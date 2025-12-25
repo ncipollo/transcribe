@@ -9,6 +9,7 @@ import data.atlassian.adf.HardBreakNode
 import data.atlassian.adf.HeadingNode
 import data.atlassian.adf.InlineCardNode
 import data.atlassian.adf.ListItemNode
+import data.atlassian.adf.MediaSingleNode
 import data.atlassian.adf.MentionNode
 import data.atlassian.adf.NestedExpandNode
 import data.atlassian.adf.OrderedListNode
@@ -36,6 +37,7 @@ fun defaultADFNodeMapper(): ADFNodeMapper {
         add<InlineCardNode> { InlineCardNodeTranscriber() }
         add<CodeBlockNode> { CodeBlockNodeTranscriber() }
         add<RuleNode> { RuleNodeTranscriber() }
+        add<MediaSingleNode> { MediaSingleNodeTranscriber() }
 
         // Container node transcribers (need mapper parameter)
         add<TaskItemNode> { mapper -> TaskItemNodeTranscriber(mapper) }
