@@ -1,15 +1,13 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.DocNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 class ADFDocumentTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<DocNode> {
     override fun transcribe(input: DocNode): TranscribeResult<String> {
-        val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+        val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown = input.content.joinToString("") { node ->
             nodeTranscriber.transcribe(node).content
         }

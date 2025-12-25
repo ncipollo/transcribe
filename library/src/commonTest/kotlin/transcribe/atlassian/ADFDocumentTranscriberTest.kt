@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class ADFDocumentTranscriberTest {
 
-    private val transcriber = ADFDocumentTranscriber(defaultADFNodeMap())
+    private val transcriber = ADFDocumentTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_withContent() {

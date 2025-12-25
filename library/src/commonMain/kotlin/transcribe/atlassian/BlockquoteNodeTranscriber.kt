@@ -1,8 +1,6 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.BlockquoteNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
@@ -10,7 +8,7 @@ import transcribe.TranscribeResult
  * Outputs > prefixed lines for each block child.
  */
 class BlockquoteNodeTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<BlockquoteNode> {
     override fun transcribe(input: BlockquoteNode): TranscribeResult<String> {
         val content = input.content
@@ -18,7 +16,7 @@ class BlockquoteNodeTranscriber(
             return TranscribeResult("")
         }
         
-        val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+        val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown = content.joinToString("") { block ->
             val blockContent = nodeTranscriber.transcribe(block).content
             // Prefix each line with >

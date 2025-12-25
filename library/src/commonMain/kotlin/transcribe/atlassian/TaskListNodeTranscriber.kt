@@ -1,9 +1,6 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
-import data.atlassian.adf.TaskItemNode
 import data.atlassian.adf.TaskListNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
@@ -11,7 +8,7 @@ import transcribe.TranscribeResult
  * Outputs task items, one per line.
  */
 class TaskListNodeTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<TaskListNode> {
     override fun transcribe(input: TaskListNode): TranscribeResult<String> {
         val content = input.content
@@ -19,7 +16,7 @@ class TaskListNodeTranscriber(
             return TranscribeResult("")
         }
         
-        val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+        val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown = content.joinToString("\n") { node ->
             nodeTranscriber.transcribe(node).content
         }

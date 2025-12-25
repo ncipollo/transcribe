@@ -1,8 +1,6 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.OrderedListNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
@@ -10,7 +8,7 @@ import transcribe.TranscribeResult
  * Outputs numbered items (1., 2., etc.), starting from order attribute if present.
  */
 class OrderedListNodeTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<OrderedListNode> {
     override fun transcribe(input: OrderedListNode): TranscribeResult<String> {
         val content = input.content
@@ -18,7 +16,7 @@ class OrderedListNodeTranscriber(
             return TranscribeResult("")
         }
         
-        val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+        val nodeTranscriber = ADFNodeTranscriber(mapper)
         val startOrder = input.attrs?.order ?: 1
         val markdown = content.mapIndexed { index, item ->
             val itemNumber = startOrder + index

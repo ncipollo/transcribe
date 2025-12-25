@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 
 class ParagraphNodeTranscriberTest {
 
-    private val transcriber = ParagraphNodeTranscriber(defaultADFNodeMap())
+    private val transcriber = ParagraphNodeTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_withContent() {

@@ -1,10 +1,7 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.DocNode
-import transcribe.EmptyTranscriberMapBuilder
 import transcribe.Transcriber
-import transcribe.TranscriberMapBuildable
 import transcribe.TranscribeResult
 
 /**
@@ -12,10 +9,10 @@ import transcribe.TranscribeResult
  * Combines default node mappings with custom transcriber overrides.
  */
 class ConfluenceToMarkdownTranscriber(
-    customTranscribers: TranscriberMapBuildable<ADFNode, ADFTranscriber<*>> = EmptyTranscriberMapBuilder()
+    customTranscribers: ADFTranscriberMapBuildable = EmptyADFTranscriberMapBuilder()
 ) : Transcriber<DocNode, String> {
-    private val nodeMap = defaultADFNodeMap() + customTranscribers.build()
-    private val documentTranscriber = ADFDocumentTranscriber(nodeMap)
+    private val mapper = defaultADFNodeMapper() + customTranscribers.build()
+    private val documentTranscriber = ADFDocumentTranscriber(mapper)
 
     override fun transcribe(input: DocNode): TranscribeResult<String> {
         return documentTranscriber.transcribe(input)

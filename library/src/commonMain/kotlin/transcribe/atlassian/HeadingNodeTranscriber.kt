@@ -1,8 +1,6 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.HeadingNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
@@ -10,7 +8,7 @@ import transcribe.TranscribeResult
  * Outputs # prefix based on level (1-6), followed by content and double newline.
  */
 class HeadingNodeTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<HeadingNode> {
     override fun transcribe(input: HeadingNode): TranscribeResult<String> {
         val level = input.attrs.level.coerceIn(1, 6)
@@ -20,7 +18,7 @@ class HeadingNodeTranscriber(
         val markdown = if (content.isNullOrEmpty()) {
             ""
         } else {
-            val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+            val nodeTranscriber = ADFNodeTranscriber(mapper)
             content.joinToString("") { node ->
                 nodeTranscriber.transcribe(node).content
             }

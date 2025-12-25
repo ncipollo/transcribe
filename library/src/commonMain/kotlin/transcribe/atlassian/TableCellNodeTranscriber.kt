@@ -1,8 +1,6 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.TableCellNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
@@ -10,7 +8,7 @@ import transcribe.TranscribeResult
  * Transcribes block content within the cell.
  */
 class TableCellNodeTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<TableCellNode> {
     override fun transcribe(input: TableCellNode): TranscribeResult<String> {
         val content = input.content
@@ -18,7 +16,7 @@ class TableCellNodeTranscriber(
             return TranscribeResult("")
         }
         
-        val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+        val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown = content.joinToString("") { block ->
             nodeTranscriber.transcribe(block).content
         }

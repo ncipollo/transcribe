@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class HeadingNodeTranscriberTest {
 
-    private val transcriber = HeadingNodeTranscriber(defaultADFNodeMap())
+    private val transcriber = HeadingNodeTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_level1() {

@@ -1,9 +1,7 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.TableNode
 import data.atlassian.adf.TableRowNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
@@ -11,7 +9,7 @@ import transcribe.TranscribeResult
  * Outputs table rows with separator row after header.
  */
 class TableNodeTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<TableNode> {
     override fun transcribe(input: TableNode): TranscribeResult<String> {
         val rows = input.content
@@ -19,7 +17,7 @@ class TableNodeTranscriber(
             return TranscribeResult("")
         }
         
-        val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+        val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdownRows = rows.map { row ->
             nodeTranscriber.transcribe(row).content
         }

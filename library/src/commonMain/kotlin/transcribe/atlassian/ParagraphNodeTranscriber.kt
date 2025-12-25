@@ -1,8 +1,6 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.ParagraphNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
@@ -10,14 +8,14 @@ import transcribe.TranscribeResult
  * Transcribes inline content and appends newline.
  */
 class ParagraphNodeTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<ParagraphNode> {
     override fun transcribe(input: ParagraphNode): TranscribeResult<String> {
         val content = input.content
         val markdown = if (content.isNullOrEmpty()) {
             ""
         } else {
-            val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+            val nodeTranscriber = ADFNodeTranscriber(mapper)
             content.joinToString("") { node ->
                 nodeTranscriber.transcribe(node).content
             }

@@ -1,8 +1,6 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.BulletListNode
-import kotlin.reflect.KClass
 import transcribe.TranscribeResult
 
 /**
@@ -10,7 +8,7 @@ import transcribe.TranscribeResult
  * Outputs - prefixed items, one per line.
  */
 class BulletListNodeTranscriber(
-    private val nodeMap: Map<KClass<out ADFNode>, ADFTranscriber<*>>
+    private val mapper: ADFNodeMapper
 ) : ADFTranscriber<BulletListNode> {
     override fun transcribe(input: BulletListNode): TranscribeResult<String> {
         val content = input.content
@@ -18,7 +16,7 @@ class BulletListNodeTranscriber(
             return TranscribeResult("")
         }
         
-        val nodeTranscriber = ADFNodeTranscriber(nodeMap)
+        val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown = content.joinToString("\n") { item ->
             val itemContent = nodeTranscriber.transcribe(item).content
             "- $itemContent"

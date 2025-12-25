@@ -1,14 +1,17 @@
 package transcribe.atlassian
 
+import data.atlassian.adf.TextNode
 import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class DefaultADFNodeMapTest {
 
     @Test
-    fun defaultADFNodeMap_containsExpectedCount() {
-        val map = defaultADFNodeMap()
-        assertEquals(19, map.size)
+    fun defaultADFNodeMapper_createsTranscriberForTextNode() {
+        val mapper = defaultADFNodeMapper()
+        val textNode = TextNode(text = "test")
+        val transcriber = mapper.transcriberFor(textNode)
+        assertNotNull(transcriber)
     }
 }
 

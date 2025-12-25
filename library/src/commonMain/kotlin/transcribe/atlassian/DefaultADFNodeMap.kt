@@ -20,40 +20,35 @@ import data.atlassian.adf.TableRowNode
 import data.atlassian.adf.TaskItemNode
 import data.atlassian.adf.TaskListNode
 import data.atlassian.adf.TextNode
-import kotlin.reflect.KClass
-import transcribe.transcriberMap
 
 /**
- * Creates a default map of ADF node types to their corresponding transcribers.
- * This map includes all mappings found in ADFNodeTranscriber's when statements.
+ * Creates a default mapper of ADF node types to their corresponding transcriber factories.
+ * This mapper includes all mappings found in ADFNodeTranscriber's when statements.
  */
-fun defaultADFNodeMap(): Map<KClass<out ADFNode>, ADFTranscriber<*>> {
-    // Create a mutable map first
-    val map = mutableMapOf<KClass<out ADFNode>, ADFTranscriber<*>>()
-    
-    // Add transcribers that don't need the map (leaf nodes)
-    map[TextNode::class] = TextNodeTranscriber()
-    map[HardBreakNode::class] = HardBreakNodeTranscriber()
-    map[EmojiNode::class] = EmojiNodeTranscriber()
-    map[MentionNode::class] = MentionNodeTranscriber()
-    map[InlineCardNode::class] = InlineCardNodeTranscriber()
-    map[CodeBlockNode::class] = CodeBlockNodeTranscriber()
-    map[RuleNode::class] = RuleNodeTranscriber()
-    
-    // Add transcribers that need the map (they create ADFNodeTranscriber on-demand)
-    map[TaskItemNode::class] = TaskItemNodeTranscriber(map)
-    map[ParagraphNode::class] = ParagraphNodeTranscriber(map)
-    map[HeadingNode::class] = HeadingNodeTranscriber(map)
-    map[BulletListNode::class] = BulletListNodeTranscriber(map)
-    map[OrderedListNode::class] = OrderedListNodeTranscriber(map)
-    map[ListItemNode::class] = ListItemNodeTranscriber(map)
-    map[BlockquoteNode::class] = BlockquoteNodeTranscriber(map)
-    map[TableNode::class] = TableNodeTranscriber(map)
-    map[TableRowNode::class] = TableRowNodeTranscriber(map)
-    map[TableCellNode::class] = TableCellNodeTranscriber(map)
-    map[TableHeaderNode::class] = TableHeaderNodeTranscriber(map)
-    map[TaskListNode::class] = TaskListNodeTranscriber(map)
-    
-    return map.toMap()
+fun defaultADFNodeMapper(): ADFNodeMapper {
+    return adfNodeMapper {
+        // Leaf node transcribers (don't need mapper parameter)
+        add<TextNode> { TextNodeTranscriber() }
+        add<HardBreakNode> { HardBreakNodeTranscriber() }
+        add<EmojiNode> { EmojiNodeTranscriber() }
+        add<MentionNode> { MentionNodeTranscriber() }
+        add<InlineCardNode> { InlineCardNodeTranscriber() }
+        add<CodeBlockNode> { CodeBlockNodeTranscriber() }
+        add<RuleNode> { RuleNodeTranscriber() }
+        
+        // Container node transcribers (need mapper parameter)
+        add<TaskItemNode> { mapper -> TaskItemNodeTranscriber(mapper) }
+        add<ParagraphNode> { mapper -> ParagraphNodeTranscriber(mapper) }
+        add<HeadingNode> { mapper -> HeadingNodeTranscriber(mapper) }
+        add<BulletListNode> { mapper -> BulletListNodeTranscriber(mapper) }
+        add<OrderedListNode> { mapper -> OrderedListNodeTranscriber(mapper) }
+        add<ListItemNode> { mapper -> ListItemNodeTranscriber(mapper) }
+        add<BlockquoteNode> { mapper -> BlockquoteNodeTranscriber(mapper) }
+        add<TableNode> { mapper -> TableNodeTranscriber(mapper) }
+        add<TableRowNode> { mapper -> TableRowNodeTranscriber(mapper) }
+        add<TableCellNode> { mapper -> TableCellNodeTranscriber(mapper) }
+        add<TableHeaderNode> { mapper -> TableHeaderNodeTranscriber(mapper) }
+        add<TaskListNode> { mapper -> TaskListNodeTranscriber(mapper) }
+    }
 }
 

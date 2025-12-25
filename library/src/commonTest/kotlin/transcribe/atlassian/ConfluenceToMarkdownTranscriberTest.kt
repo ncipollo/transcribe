@@ -5,14 +5,12 @@ import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import transcribe.EmptyTranscriberMapBuilder
-import transcribe.TranscriberMapBuilder
 
 class ConfluenceToMarkdownTranscriberTest {
 
     @Test
     fun transcribe_withEmptyBuilder() {
-        val transcriber = ConfluenceToMarkdownTranscriber(EmptyTranscriberMapBuilder())
+        val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
         val node = DocNode(
             content = listOf(
                 ParagraphNode(content = listOf(TextNode(text = "Hello"))),
@@ -32,8 +30,8 @@ class ConfluenceToMarkdownTranscriberTest {
             }
         }
 
-        val customBuilder = TranscriberMapBuilder<data.atlassian.adf.ADFNode, ADFTranscriber<*>>()
-            .add<TextNode>(customTextTranscriber)
+        val customBuilder = ADFNodeMapperBuilder()
+            .add<TextNode> { customTextTranscriber }
 
         val transcriber = ConfluenceToMarkdownTranscriber(customBuilder)
         val node = DocNode(
@@ -48,7 +46,7 @@ class ConfluenceToMarkdownTranscriberTest {
 
     @Test
     fun transcribe_emptyContent() {
-        val transcriber = ConfluenceToMarkdownTranscriber(EmptyTranscriberMapBuilder())
+        val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
         val node = DocNode(content = emptyList())
         val result = transcriber.transcribe(node)
         assertEquals("", result.content)

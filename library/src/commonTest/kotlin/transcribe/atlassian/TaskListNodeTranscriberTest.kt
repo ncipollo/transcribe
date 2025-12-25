@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 
 class TaskListNodeTranscriberTest {
 
-    private val transcriber = TaskListNodeTranscriber(defaultADFNodeMap())
+    private val transcriber = TaskListNodeTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_withItems() {

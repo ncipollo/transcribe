@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class ListItemNodeTranscriberTest {
 
-    private val transcriber = ListItemNodeTranscriber(defaultADFNodeMap())
+    private val transcriber = ListItemNodeTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_withInlineContent() {
