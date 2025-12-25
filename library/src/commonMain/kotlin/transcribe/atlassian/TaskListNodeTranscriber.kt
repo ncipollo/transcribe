@@ -22,6 +22,6 @@ class TaskListNodeTranscriber(
                 nodeTranscriber.transcribe(node).content
             }
 
-        return TranscribeResult("$markdown\n\n")
+        return TranscribeResult("$markdown\n")
     }
 }

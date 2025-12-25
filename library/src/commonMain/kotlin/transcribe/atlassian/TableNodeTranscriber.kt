@@ -37,6 +37,6 @@ class TableNodeTranscriber(
                 markdownRows
             }
 
-        return TranscribeResult(table.joinToString("\n") + "\n\n")
+        return TranscribeResult(table.joinToString("\n"))
     }
 }

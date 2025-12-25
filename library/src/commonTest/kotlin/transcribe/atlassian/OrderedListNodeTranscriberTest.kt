@@ -32,7 +32,7 @@ class OrderedListNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("1. First\n\n2. Second\n\n\n", result.content)
+        assertEquals("1. First\n2. Second\n", result.content)
     }
 
     @Test
@@ -51,7 +51,7 @@ class OrderedListNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("5. Item\n\n\n", result.content)
+        assertEquals("5. Item\n", result.content)
     }
 
     @Test

@@ -25,6 +25,6 @@ class HeadingNodeTranscriber(
                 }
             }
 
-        return TranscribeResult("$prefix $markdown\n\n")
+        return TranscribeResult("\n$prefix $markdown\n")
     }
 }

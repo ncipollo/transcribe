@@ -55,7 +55,7 @@ class TableNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |\n\n", result.content)
+        assertEquals("| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |", result.content)
     }
 
     @Test
@@ -78,7 +78,7 @@ class TableNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("| Cell 1 |\n\n", result.content)
+        assertEquals("| Cell 1 |", result.content)
     }
 
     @Test

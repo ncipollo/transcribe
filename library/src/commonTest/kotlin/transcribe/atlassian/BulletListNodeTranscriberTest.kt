@@ -31,7 +31,7 @@ class BulletListNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("- First item\n\n- Second item\n\n\n", result.content)
+        assertEquals("- First item\n- Second item\n", result.content)
     }
 
     @Test

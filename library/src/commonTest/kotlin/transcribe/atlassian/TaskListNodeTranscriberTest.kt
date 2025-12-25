@@ -30,7 +30,7 @@ class TaskListNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("- [ ] Task 1\n- [x] Task 2\n\n", result.content)
+        assertEquals("- [ ] Task 1\n- [x] Task 2\n", result.content)
     }
 
     @Test

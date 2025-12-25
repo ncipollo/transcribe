@@ -17,7 +17,7 @@ class HeadingNodeTranscriberTest {
                 content = listOf(TextNode(text = "Title")),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("# Title\n\n", result.content)
+        assertEquals("\n# Title\n", result.content)
     }
 
     @Test
@@ -28,7 +28,7 @@ class HeadingNodeTranscriberTest {
                 content = listOf(TextNode(text = "Subtitle")),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("### Subtitle\n\n", result.content)
+        assertEquals("\n### Subtitle\n", result.content)
     }
 
     @Test
@@ -39,7 +39,7 @@ class HeadingNodeTranscriberTest {
                 content = listOf(TextNode(text = "Smallest")),
             )
         val result = transcriber.transcribe(node)
-        assertEquals("###### Smallest\n\n", result.content)
+        assertEquals("\n###### Smallest\n", result.content)
     }
 
     @Test
@@ -50,6 +50,6 @@ class HeadingNodeTranscriberTest {
                 content = null,
             )
         val result = transcriber.transcribe(node)
-        assertEquals("## \n\n", result.content)
+        assertEquals("\n## \n", result.content)
     }
 }
