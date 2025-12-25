@@ -103,4 +103,53 @@ class MarkApplicatorTest {
             )
         assertEquals("[***hello***](https://example.com)", result)
     }
+
+    @Test
+    fun applyMarks_strongMark_withLeadingSpace() {
+        val result = MarkApplicator.applyMarks(" hello", listOf(StrongMark))
+        assertEquals(" **hello**", result)
+    }
+
+    @Test
+    fun applyMarks_strongMark_withTrailingSpace() {
+        val result = MarkApplicator.applyMarks("hello ", listOf(StrongMark))
+        assertEquals("**hello** ", result)
+    }
+
+    @Test
+    fun applyMarks_strongMark_withLeadingAndTrailingSpaces() {
+        val result = MarkApplicator.applyMarks(" hello ", listOf(StrongMark))
+        assertEquals(" **hello** ", result)
+    }
+
+    @Test
+    fun applyMarks_codeMark_withLeadingSpace() {
+        val result = MarkApplicator.applyMarks(" hello", listOf(CodeMark))
+        assertEquals(" `hello`", result)
+    }
+
+    @Test
+    fun applyMarks_codeMark_withTrailingSpace() {
+        val result = MarkApplicator.applyMarks("hello ", listOf(CodeMark))
+        assertEquals("`hello` ", result)
+    }
+
+    @Test
+    fun applyMarks_codeMark_withLeadingAndTrailingSpaces() {
+        val result = MarkApplicator.applyMarks(" hello ", listOf(CodeMark))
+        assertEquals(" `hello` ", result)
+    }
+
+    @Test
+    fun applyMarks_multipleMarks_withSpaces() {
+        val result =
+            MarkApplicator.applyMarks(
+                " hello ",
+                listOf(
+                    StrongMark,
+                    EmMark,
+                ),
+            )
+        assertEquals(" ***hello*** ", result)
+    }
 }
