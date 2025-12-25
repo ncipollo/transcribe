@@ -4,11 +4,13 @@ import data.atlassian.adf.BlockquoteNode
 import data.atlassian.adf.BulletListNode
 import data.atlassian.adf.CodeBlockNode
 import data.atlassian.adf.EmojiNode
+import data.atlassian.adf.ExpandNode
 import data.atlassian.adf.HardBreakNode
 import data.atlassian.adf.HeadingNode
 import data.atlassian.adf.InlineCardNode
 import data.atlassian.adf.ListItemNode
 import data.atlassian.adf.MentionNode
+import data.atlassian.adf.NestedExpandNode
 import data.atlassian.adf.OrderedListNode
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.RuleNode
@@ -43,6 +45,8 @@ fun defaultADFNodeMapper(): ADFNodeMapper {
         add<OrderedListNode> { mapper -> OrderedListNodeTranscriber(mapper) }
         add<ListItemNode> { mapper -> ListItemNodeTranscriber(mapper) }
         add<BlockquoteNode> { mapper -> BlockquoteNodeTranscriber(mapper) }
+        add<ExpandNode> { mapper -> ExpandNodeTranscriber(mapper) }
+        add<NestedExpandNode> { mapper -> NestedExpandNodeTranscriber(mapper) }
         add<TableNode> { mapper -> TableNodeTranscriber(mapper) }
         add<TableRowNode> { mapper -> TableRowNodeTranscriber(mapper) }
         add<TableCellNode> { mapper -> TableCellNodeTranscriber(mapper) }
