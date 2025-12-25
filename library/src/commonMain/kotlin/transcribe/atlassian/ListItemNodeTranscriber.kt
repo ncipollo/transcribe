@@ -10,7 +10,7 @@ import transcribe.TranscribeResult
 class ListItemNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<ListItemNode> {
-    override fun transcribe(input: ListItemNode): TranscribeResult<String> {
+    override fun transcribe(input: ListItemNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")
@@ -19,7 +19,7 @@ class ListItemNodeTranscriber(
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown =
             content.joinToString("") { node ->
-                nodeTranscriber.transcribe(node).content
+                nodeTranscriber.transcribe(node, context).content
             }
 
         return TranscribeResult(markdown)

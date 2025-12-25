@@ -11,6 +11,7 @@ import kotlin.test.assertEquals
 
 class TaskListNodeTranscriberTest {
     private val transcriber = TaskListNodeTranscriber(defaultADFNodeMapper())
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withItems() {
@@ -29,7 +30,7 @@ class TaskListNodeTranscriberTest {
                         ),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("- [ ] Task 1\n- [x] Task 2\n", result.content)
     }
 
@@ -40,7 +41,7 @@ class TaskListNodeTranscriberTest {
                 attrs = TaskListAttrs(localId = "1"),
                 content = emptyList(),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("", result.content)
     }
 }

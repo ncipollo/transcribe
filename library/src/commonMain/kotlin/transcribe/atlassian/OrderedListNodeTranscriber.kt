@@ -10,7 +10,7 @@ import transcribe.TranscribeResult
 class OrderedListNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<OrderedListNode> {
-    override fun transcribe(input: OrderedListNode): TranscribeResult<String> {
+    override fun transcribe(input: OrderedListNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")
@@ -21,7 +21,7 @@ class OrderedListNodeTranscriber(
         val markdown =
             content.mapIndexed { index, item ->
                 val itemNumber = startOrder + index
-                val itemContent = nodeTranscriber.transcribe(item).content
+                val itemContent = nodeTranscriber.transcribe(item, context).content
                 "$itemNumber. $itemContent"
             }.joinToString("")
 

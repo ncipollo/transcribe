@@ -10,7 +10,7 @@ import transcribe.TranscribeResult
 class TableCellNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TableCellNode> {
-    override fun transcribe(input: TableCellNode): TranscribeResult<String> {
+    override fun transcribe(input: TableCellNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")
@@ -19,7 +19,7 @@ class TableCellNodeTranscriber(
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown =
             content.joinToString("") { block ->
-                nodeTranscriber.transcribe(block).content
+                nodeTranscriber.transcribe(block, context).content
             }
 
         return TranscribeResult(markdown.trim())

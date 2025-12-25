@@ -9,6 +9,7 @@ import kotlin.test.assertEquals
 
 class ExpandNodeTranscriberTest {
     private val transcriber = ExpandNodeTranscriber(defaultADFNodeMapper())
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withTitleAndContent() {
@@ -20,7 +21,7 @@ class ExpandNodeTranscriberTest {
                         ParagraphNode(content = listOf(TextNode(text = "Content which is kinda hidden."))),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Collapse</summary>\nContent which is kinda hidden.\n</details>\n", result.content)
     }
 
@@ -34,7 +35,7 @@ class ExpandNodeTranscriberTest {
                         ParagraphNode(content = listOf(TextNode(text = "Hidden content"))),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Click to expand</summary>\nHidden content\n</details>\n", result.content)
     }
 
@@ -45,7 +46,7 @@ class ExpandNodeTranscriberTest {
                 attrs = ExpandAttrs(title = "Empty expand"),
                 content = emptyList(),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Empty expand</summary>\n</details>\n", result.content)
     }
 
@@ -60,7 +61,7 @@ class ExpandNodeTranscriberTest {
                         ParagraphNode(content = listOf(TextNode(text = "Second paragraph"))),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Multiple items</summary>\nFirst paragraph\nSecond paragraph\n</details>\n", result.content)
     }
 }

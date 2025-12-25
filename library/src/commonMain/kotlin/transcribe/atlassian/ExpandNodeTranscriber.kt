@@ -10,7 +10,7 @@ import transcribe.TranscribeResult
 class ExpandNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<ExpandNode> {
-    override fun transcribe(input: ExpandNode): TranscribeResult<String> {
+    override fun transcribe(input: ExpandNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val content = input.content
         val summaryText = input.attrs?.title ?: "Click to expand"
 
@@ -21,7 +21,7 @@ class ExpandNodeTranscriber(
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown =
             content.joinToString("") { block ->
-                nodeTranscriber.transcribe(block).content
+                nodeTranscriber.transcribe(block, context).content
             }
 
         return TranscribeResult("<details>\n<summary>$summaryText</summary>\n$markdown</details>\n")

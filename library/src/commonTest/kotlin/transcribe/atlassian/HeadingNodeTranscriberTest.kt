@@ -8,6 +8,7 @@ import kotlin.test.assertEquals
 
 class HeadingNodeTranscriberTest {
     private val transcriber = HeadingNodeTranscriber(defaultADFNodeMapper())
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_level1() {
@@ -16,7 +17,7 @@ class HeadingNodeTranscriberTest {
                 attrs = HeadingAttrs(level = 1),
                 content = listOf(TextNode(text = "Title")),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("\n# Title\n", result.content)
     }
 
@@ -27,7 +28,7 @@ class HeadingNodeTranscriberTest {
                 attrs = HeadingAttrs(level = 3),
                 content = listOf(TextNode(text = "Subtitle")),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("\n### Subtitle\n", result.content)
     }
 
@@ -38,7 +39,7 @@ class HeadingNodeTranscriberTest {
                 attrs = HeadingAttrs(level = 6),
                 content = listOf(TextNode(text = "Smallest")),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("\n###### Smallest\n", result.content)
     }
 
@@ -49,7 +50,7 @@ class HeadingNodeTranscriberTest {
                 attrs = HeadingAttrs(level = 2),
                 content = null,
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("\n## \n", result.content)
     }
 }

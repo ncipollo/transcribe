@@ -10,6 +10,7 @@ import kotlin.test.assertEquals
 
 class TableRowNodeTranscriberTest {
     private val transcriber = TableRowNodeTranscriber(defaultADFNodeMapper())
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withCells() {
@@ -31,7 +32,7 @@ class TableRowNodeTranscriberTest {
                         ),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("| Cell 1 | Cell 2 |", result.content)
     }
 
@@ -55,14 +56,14 @@ class TableRowNodeTranscriberTest {
                         ),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("| Header 1 | Header 2 |", result.content)
     }
 
     @Test
     fun transcribe_emptyContent() {
         val node = TableRowNode(content = emptyList())
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("", result.content)
     }
 }

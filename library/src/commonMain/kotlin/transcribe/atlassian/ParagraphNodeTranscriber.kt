@@ -10,7 +10,7 @@ import transcribe.TranscribeResult
 class ParagraphNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<ParagraphNode> {
-    override fun transcribe(input: ParagraphNode): TranscribeResult<String> {
+    override fun transcribe(input: ParagraphNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val content = input.content
         val markdown =
             if (content.isNullOrEmpty()) {
@@ -18,7 +18,7 @@ class ParagraphNodeTranscriber(
             } else {
                 val nodeTranscriber = ADFNodeTranscriber(mapper)
                 content.joinToString("") { node ->
-                    nodeTranscriber.transcribe(node).content
+                    nodeTranscriber.transcribe(node, context).content
                 }
             }
         return TranscribeResult("$markdown\n")

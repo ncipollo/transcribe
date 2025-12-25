@@ -8,7 +8,7 @@ import transcribe.TranscribeResult
  * Outputs --- followed by double newline.
  */
 class RuleNodeTranscriber : ADFTranscriber<RuleNode> {
-    override fun transcribe(input: RuleNode): TranscribeResult<String> {
+    override fun transcribe(input: RuleNode, context: ADFTranscriberContext): TranscribeResult<String> {
         return TranscribeResult("---\n\n")
     }
 }

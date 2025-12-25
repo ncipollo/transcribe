@@ -8,7 +8,7 @@ import transcribe.TranscribeResult
  * Outputs [url](url) format if URL is available, otherwise empty string.
  */
 class InlineCardNodeTranscriber : ADFTranscriber<InlineCardNode> {
-    override fun transcribe(input: InlineCardNode): TranscribeResult<String> {
+    override fun transcribe(input: InlineCardNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val url = input.attrs.url
         return if (url != null && url.isNotBlank()) {
             TranscribeResult("[$url]($url)")

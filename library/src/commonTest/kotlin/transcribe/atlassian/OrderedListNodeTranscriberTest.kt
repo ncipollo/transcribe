@@ -10,6 +10,7 @@ import kotlin.test.assertEquals
 
 class OrderedListNodeTranscriberTest {
     private val transcriber = OrderedListNodeTranscriber(defaultADFNodeMapper())
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withItems() {
@@ -31,7 +32,7 @@ class OrderedListNodeTranscriberTest {
                         ),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("1. First\n2. Second\n", result.content)
     }
 
@@ -50,14 +51,14 @@ class OrderedListNodeTranscriberTest {
                         ),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("5. Item\n", result.content)
     }
 
     @Test
     fun transcribe_emptyList() {
         val node = OrderedListNode(content = emptyList())
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("", result.content)
     }
 }

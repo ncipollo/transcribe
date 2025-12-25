@@ -1,5 +1,5 @@
 package transcribe
 
-interface Transcriber<In, Out> {
-    fun transcribe(input: In): TranscribeResult<Out>
+interface Transcriber<In, Out, Context> {
+    fun transcribe(input: In, context: Context): TranscribeResult<Out>
 }

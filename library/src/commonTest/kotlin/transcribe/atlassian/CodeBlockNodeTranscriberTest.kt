@@ -8,6 +8,7 @@ import kotlin.test.assertEquals
 
 class CodeBlockNodeTranscriberTest {
     private val transcriber = CodeBlockNodeTranscriber()
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withLanguage() {
@@ -21,7 +22,7 @@ class CodeBlockNodeTranscriberTest {
                         TextNode(text = "}"),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("```kotlin\nfun main() {\n    println(\"Hello\")\n}\n```\n\n", result.content)
     }
 
@@ -31,14 +32,14 @@ class CodeBlockNodeTranscriberTest {
             CodeBlockNode(
                 content = listOf(TextNode(text = "code here")),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("```\ncode here\n```\n\n", result.content)
     }
 
     @Test
     fun transcribe_emptyContent() {
         val node = CodeBlockNode(content = null)
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("```\n\n```\n\n", result.content)
     }
 }

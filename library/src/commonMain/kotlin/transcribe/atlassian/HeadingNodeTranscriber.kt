@@ -10,7 +10,7 @@ import transcribe.TranscribeResult
 class HeadingNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<HeadingNode> {
-    override fun transcribe(input: HeadingNode): TranscribeResult<String> {
+    override fun transcribe(input: HeadingNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val level = input.attrs.level.coerceIn(1, 6)
         val prefix = "#".repeat(level)
 
@@ -21,7 +21,7 @@ class HeadingNodeTranscriber(
             } else {
                 val nodeTranscriber = ADFNodeTranscriber(mapper)
                 content.joinToString("") { node ->
-                    nodeTranscriber.transcribe(node).content
+                    nodeTranscriber.transcribe(node, context).content
                 }
             }
 

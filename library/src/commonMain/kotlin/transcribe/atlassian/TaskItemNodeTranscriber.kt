@@ -11,7 +11,7 @@ import transcribe.TranscribeResult
 class TaskItemNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TaskItemNode> {
-    override fun transcribe(input: TaskItemNode): TranscribeResult<String> {
+    override fun transcribe(input: TaskItemNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val checkbox =
             if (input.attrs.state == TaskState.DONE) {
                 "- [x]"
@@ -26,7 +26,7 @@ class TaskItemNodeTranscriber(
             } else {
                 val nodeTranscriber = ADFNodeTranscriber(mapper)
                 content.joinToString("") { node ->
-                    nodeTranscriber.transcribe(node).content
+                    nodeTranscriber.transcribe(node, context).content
                 }
             }
 

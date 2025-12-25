@@ -9,6 +9,7 @@ import kotlin.test.assertEquals
 
 class BulletListNodeTranscriberTest {
     private val transcriber = BulletListNodeTranscriber(defaultADFNodeMapper())
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withItems() {
@@ -30,14 +31,14 @@ class BulletListNodeTranscriberTest {
                         ),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("- First item\n- Second item\n", result.content)
     }
 
     @Test
     fun transcribe_emptyList() {
         val node = BulletListNode(content = emptyList())
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("", result.content)
     }
 }

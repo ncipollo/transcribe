@@ -84,8 +84,10 @@ class JvmTranscriberMapBuilderTest {
 
     data class TestNodeC(val value: String = "C") : TestNode
 
-    class TestTranscriber(private val name: String) : Transcriber<TestNode, String> {
-        override fun transcribe(input: TestNode): TranscribeResult<String> {
+    class TestContext
+
+    class TestTranscriber(private val name: String) : Transcriber<TestNode, String, TestContext> {
+        override fun transcribe(input: TestNode, context: TestContext): TranscribeResult<String> {
             return TranscribeResult("$name: $input")
         }
     }

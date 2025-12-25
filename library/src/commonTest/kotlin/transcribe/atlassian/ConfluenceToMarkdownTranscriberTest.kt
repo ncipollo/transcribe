@@ -9,6 +9,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ConfluenceToMarkdownTranscriberTest {
+    private val context = ADFTranscriberContext()
+
     @Test
     fun transcribe_withEmptyBuilder() {
         val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
@@ -20,7 +22,7 @@ class ConfluenceToMarkdownTranscriberTest {
                         ParagraphNode(content = listOf(TextNode(text = "World"))),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("Hello\nWorld\n", result.content)
     }
 
@@ -29,7 +31,7 @@ class ConfluenceToMarkdownTranscriberTest {
         // Create a custom TextNode transcriber that adds a prefix
         val customTextTranscriber =
             object : ADFTranscriber<TextNode> {
-                override fun transcribe(input: TextNode): transcribe.TranscribeResult<String> {
+                override fun transcribe(input: TextNode, context: ADFTranscriberContext): transcribe.TranscribeResult<String> {
                     return transcribe.TranscribeResult("[CUSTOM]${input.text}")
                 }
             }
@@ -46,7 +48,7 @@ class ConfluenceToMarkdownTranscriberTest {
                         ParagraphNode(content = listOf(TextNode(text = "Hello"))),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         // Should use custom transcriber instead of default
         assertEquals("[CUSTOM]Hello\n", result.content)
     }
@@ -55,7 +57,7 @@ class ConfluenceToMarkdownTranscriberTest {
     fun transcribe_emptyContent() {
         val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
         val node = DocNode(content = emptyList())
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("", result.content)
     }
 
@@ -63,7 +65,7 @@ class ConfluenceToMarkdownTranscriberTest {
     fun transcribe_simpleFixtureDocument() {
         val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
         val node = ADFSerializer.fromJson(ADFFixture.SAMPLE_DOCUMENT)
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         println("---------------")
         println(result.content)
     }

@@ -7,25 +7,26 @@ import kotlin.test.assertEquals
 
 class EmojiNodeTranscriberTest {
     private val transcriber = EmojiNodeTranscriber()
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withShortName() {
         val node = EmojiNode(attrs = EmojiAttrs(shortName = "smile"))
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals(":smile:", result.content)
     }
 
     @Test
     fun transcribe_withText() {
         val node = EmojiNode(attrs = EmojiAttrs(shortName = "smile", text = "😊"))
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("😊", result.content)
     }
 
     @Test
     fun transcribe_emptyText() {
         val node = EmojiNode(attrs = EmojiAttrs(shortName = "smile", text = ""))
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals(":smile:", result.content)
     }
 }

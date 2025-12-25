@@ -6,11 +6,12 @@ import kotlin.test.assertEquals
 
 class RuleNodeTranscriberTest {
     private val transcriber = RuleNodeTranscriber()
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_basic() {
         val node = RuleNode()
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("---\n\n", result.content)
     }
 }

@@ -9,6 +9,7 @@ import kotlin.test.assertEquals
 
 class MediaSingleNodeTranscriberTest {
     private val transcriber = MediaSingleNodeTranscriber()
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withAltText() {
@@ -27,7 +28,7 @@ class MediaSingleNodeTranscriberTest {
                         ),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("![Tony](images/image.png)\n", result.content)
     }
 
@@ -47,14 +48,14 @@ class MediaSingleNodeTranscriberTest {
                         ),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("![](images/image.png)\n", result.content)
     }
 
     @Test
     fun transcribe_emptyContent() {
         val node = MediaSingleNode(content = emptyList())
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("![](images/image.png)\n", result.content)
     }
 }

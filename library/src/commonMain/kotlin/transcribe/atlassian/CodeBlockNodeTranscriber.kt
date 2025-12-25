@@ -8,7 +8,7 @@ import transcribe.TranscribeResult
  * Outputs triple backticks with optional language identifier.
  */
 class CodeBlockNodeTranscriber : ADFTranscriber<CodeBlockNode> {
-    override fun transcribe(input: CodeBlockNode): TranscribeResult<String> {
+    override fun transcribe(input: CodeBlockNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val language = input.attrs?.language ?: ""
 
         val content = input.content

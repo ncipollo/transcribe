@@ -9,6 +9,7 @@ import kotlin.test.assertEquals
 
 class NestedExpandNodeTranscriberTest {
     private val transcriber = NestedExpandNodeTranscriber(defaultADFNodeMapper())
+    private val context = ADFTranscriberContext()
 
     @Test
     fun transcribe_withTitleAndContent() {
@@ -20,7 +21,7 @@ class NestedExpandNodeTranscriberTest {
                         ParagraphNode(content = listOf(TextNode(text = "Nested content which is hidden."))),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Nested Collapse</summary>\nNested content which is hidden.\n</details>\n", result.content)
     }
 
@@ -34,7 +35,7 @@ class NestedExpandNodeTranscriberTest {
                         ParagraphNode(content = listOf(TextNode(text = "Hidden nested content"))),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Click to expand</summary>\nHidden nested content\n</details>\n", result.content)
     }
 
@@ -45,7 +46,7 @@ class NestedExpandNodeTranscriberTest {
                 attrs = NestedExpandAttrs(title = "Empty nested expand"),
                 content = emptyList(),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Empty nested expand</summary>\n</details>\n", result.content)
     }
 
@@ -60,7 +61,7 @@ class NestedExpandNodeTranscriberTest {
                         ParagraphNode(content = listOf(TextNode(text = "Second nested paragraph"))),
                     ),
             )
-        val result = transcriber.transcribe(node)
+        val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Multiple nested items</summary>\nFirst nested paragraph\nSecond nested paragraph\n</details>\n", result.content)
     }
 }

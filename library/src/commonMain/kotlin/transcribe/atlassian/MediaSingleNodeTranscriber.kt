@@ -9,7 +9,7 @@ import transcribe.TranscribeResult
  * Outputs ![alt](images/image.png) format with default path.
  */
 class MediaSingleNodeTranscriber : ADFTranscriber<MediaSingleNode> {
-    override fun transcribe(input: MediaSingleNode): TranscribeResult<String> {
+    override fun transcribe(input: MediaSingleNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val mediaNode = input.content.firstOrNull() as? MediaNode
         val altText = mediaNode?.attrs?.alt ?: ""
         return TranscribeResult("![$altText](images/image.png)\n")

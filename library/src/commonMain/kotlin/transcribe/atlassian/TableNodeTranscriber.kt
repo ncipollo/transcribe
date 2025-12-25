@@ -11,7 +11,7 @@ import transcribe.TranscribeResult
 class TableNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TableNode> {
-    override fun transcribe(input: TableNode): TranscribeResult<String> {
+    override fun transcribe(input: TableNode, context: ADFTranscriberContext): TranscribeResult<String> {
         val rows = input.content
         if (rows.isEmpty()) {
             return TranscribeResult("")
@@ -20,7 +20,7 @@ class TableNodeTranscriber(
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdownRows =
             rows.map { row ->
-                nodeTranscriber.transcribe(row).content
+                nodeTranscriber.transcribe(row, context).content
             }
 
         // Check if first row contains headers
