@@ -7,16 +7,17 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ConfluenceToMarkdownTranscriberTest {
-
     @Test
     fun transcribe_withEmptyBuilder() {
         val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
-        val node = DocNode(
-            content = listOf(
-                ParagraphNode(content = listOf(TextNode(text = "Hello"))),
-                ParagraphNode(content = listOf(TextNode(text = "World")))
+        val node =
+            DocNode(
+                content =
+                    listOf(
+                        ParagraphNode(content = listOf(TextNode(text = "Hello"))),
+                        ParagraphNode(content = listOf(TextNode(text = "World"))),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         assertEquals("Hello\nWorld\n", result.content)
     }
@@ -24,21 +25,25 @@ class ConfluenceToMarkdownTranscriberTest {
     @Test
     fun transcribe_withCustomTranscriberOverride() {
         // Create a custom TextNode transcriber that adds a prefix
-        val customTextTranscriber = object : ADFTranscriber<TextNode> {
-            override fun transcribe(input: TextNode): transcribe.TranscribeResult<String> {
-                return transcribe.TranscribeResult("[CUSTOM]${input.text}")
+        val customTextTranscriber =
+            object : ADFTranscriber<TextNode> {
+                override fun transcribe(input: TextNode): transcribe.TranscribeResult<String> {
+                    return transcribe.TranscribeResult("[CUSTOM]${input.text}")
+                }
             }
-        }
 
-        val customBuilder = ADFNodeMapperBuilder()
-            .add<TextNode> { customTextTranscriber }
+        val customBuilder =
+            ADFNodeMapperBuilder()
+                .add<TextNode> { customTextTranscriber }
 
         val transcriber = ConfluenceToMarkdownTranscriber(customBuilder)
-        val node = DocNode(
-            content = listOf(
-                ParagraphNode(content = listOf(TextNode(text = "Hello")))
+        val node =
+            DocNode(
+                content =
+                    listOf(
+                        ParagraphNode(content = listOf(TextNode(text = "Hello"))),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         // Should use custom transcriber instead of default
         assertEquals("[CUSTOM]Hello\n", result.content)
@@ -52,4 +57,3 @@ class ConfluenceToMarkdownTranscriberTest {
         assertEquals("", result.content)
     }
 }
-

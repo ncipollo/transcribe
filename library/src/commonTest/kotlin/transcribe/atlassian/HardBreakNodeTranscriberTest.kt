@@ -5,7 +5,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class HardBreakNodeTranscriberTest {
-
     private val transcriber = HardBreakNodeTranscriber()
 
     @Test
@@ -22,4 +21,3 @@ class HardBreakNodeTranscriberTest {
         assertEquals("\n", result.content)
     }
 }
-

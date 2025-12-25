@@ -7,14 +7,16 @@ import data.atlassian.adf.ADFNode
  * convenience methods for working with Java Class objects.
  */
 class JvmADFNodeMapperBuilder(
-    private val builder: ADFNodeMapperBuilder = ADFNodeMapperBuilder()
+    private val builder: ADFNodeMapperBuilder = ADFNodeMapperBuilder(),
 ) : ADFTranscriberMapBuildable {
-
     /**
      * Add a transcriber factory using Java Class (JVM).
      * Converts the Java Class to KClass before delegating to the builder.
      */
-    fun add(nodeClass: Class<out ADFNode>, factory: (ADFNodeMapper) -> ADFTranscriber<*>): JvmADFNodeMapperBuilder {
+    fun add(
+        nodeClass: Class<out ADFNode>,
+        factory: (ADFNodeMapper) -> ADFTranscriber<*>,
+    ): JvmADFNodeMapperBuilder {
         builder.add(nodeClass.kotlin, factory)
         return this
     }
@@ -26,4 +28,3 @@ class JvmADFNodeMapperBuilder(
         return builder.build()
     }
 }
-

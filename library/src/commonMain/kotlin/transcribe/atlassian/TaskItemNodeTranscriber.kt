@@ -9,26 +9,27 @@ import transcribe.TranscribeResult
  * Outputs - [ ] or - [x] based on task state, followed by inline content.
  */
 class TaskItemNodeTranscriber(
-    private val mapper: ADFNodeMapper
+    private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TaskItemNode> {
     override fun transcribe(input: TaskItemNode): TranscribeResult<String> {
-        val checkbox = if (input.attrs.state == TaskState.DONE) {
-            "- [x]"
-        } else {
-            "- [ ]"
-        }
-        
-        val content = input.content
-        val markdown = if (content.isNullOrEmpty()) {
-            ""
-        } else {
-            val nodeTranscriber = ADFNodeTranscriber(mapper)
-            content.joinToString("") { node ->
-                nodeTranscriber.transcribe(node).content
+        val checkbox =
+            if (input.attrs.state == TaskState.DONE) {
+                "- [x]"
+            } else {
+                "- [ ]"
             }
-        }
-        
+
+        val content = input.content
+        val markdown =
+            if (content.isNullOrEmpty()) {
+                ""
+            } else {
+                val nodeTranscriber = ADFNodeTranscriber(mapper)
+                content.joinToString("") { node ->
+                    nodeTranscriber.transcribe(node).content
+                }
+            }
+
         return TranscribeResult("$checkbox $markdown")
     }
 }
-

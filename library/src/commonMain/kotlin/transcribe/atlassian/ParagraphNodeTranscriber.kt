@@ -8,19 +8,19 @@ import transcribe.TranscribeResult
  * Transcribes inline content and appends newline.
  */
 class ParagraphNodeTranscriber(
-    private val mapper: ADFNodeMapper
+    private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<ParagraphNode> {
     override fun transcribe(input: ParagraphNode): TranscribeResult<String> {
         val content = input.content
-        val markdown = if (content.isNullOrEmpty()) {
-            ""
-        } else {
-            val nodeTranscriber = ADFNodeTranscriber(mapper)
-            content.joinToString("") { node ->
-                nodeTranscriber.transcribe(node).content
+        val markdown =
+            if (content.isNullOrEmpty()) {
+                ""
+            } else {
+                val nodeTranscriber = ADFNodeTranscriber(mapper)
+                content.joinToString("") { node ->
+                    nodeTranscriber.transcribe(node).content
+                }
             }
-        }
         return TranscribeResult("$markdown\n")
     }
 }
-

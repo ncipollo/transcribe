@@ -4,14 +4,14 @@ import data.atlassian.adf.DocNode
 import transcribe.TranscribeResult
 
 class ADFDocumentTranscriber(
-    private val mapper: ADFNodeMapper
+    private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<DocNode> {
     override fun transcribe(input: DocNode): TranscribeResult<String> {
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown = input.content.joinToString("") { node ->
-            nodeTranscriber.transcribe(node).content
-        }
+        val markdown =
+            input.content.joinToString("") { node ->
+                nodeTranscriber.transcribe(node).content
+            }
         return TranscribeResult(markdown)
     }
 }
-

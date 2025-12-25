@@ -5,7 +5,6 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class DefaultADFNodeMapTest {
-
     @Test
     fun defaultADFNodeMapper_createsTranscriberForTextNode() {
         val mapper = defaultADFNodeMapper()
@@ -14,4 +13,3 @@ class DefaultADFNodeMapTest {
         assertNotNull(transcriber)
     }
 }
-

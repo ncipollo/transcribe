@@ -5,7 +5,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RuleNodeTranscriberTest {
-
     private val transcriber = RuleNodeTranscriber()
 
     @Test
@@ -15,4 +14,3 @@ class RuleNodeTranscriberTest {
         assertEquals("---\n\n", result.content)
     }
 }
-

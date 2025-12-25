@@ -9,4 +9,3 @@ interface ADFTranscriberMapBuildable {
      */
     fun build(): ADFNodeMapper
 }
-

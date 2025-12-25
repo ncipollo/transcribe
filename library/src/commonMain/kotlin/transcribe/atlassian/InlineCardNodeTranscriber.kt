@@ -17,4 +17,3 @@ class InlineCardNodeTranscriber : ADFTranscriber<InlineCardNode> {
         }
     }
 }
-

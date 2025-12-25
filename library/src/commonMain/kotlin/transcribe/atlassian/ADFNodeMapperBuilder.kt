@@ -13,9 +13,7 @@ class ADFNodeMapperBuilder : ADFTranscriberMapBuildable {
     /**
      * Add a transcriber factory for a specific node type (reified generic).
      */
-    inline fun <reified Node : ADFNode> add(
-        noinline factory: (ADFNodeMapper) -> ADFTranscriber<*>
-    ): ADFNodeMapperBuilder {
+    inline fun <reified Node : ADFNode> add(noinline factory: (ADFNodeMapper) -> ADFTranscriber<*>): ADFNodeMapperBuilder {
         return add(Node::class, factory)
     }
 
@@ -24,7 +22,7 @@ class ADFNodeMapperBuilder : ADFTranscriberMapBuildable {
      */
     fun add(
         nodeClass: KClass<out ADFNode>,
-        factory: (ADFNodeMapper) -> ADFTranscriber<*>
+        factory: (ADFNodeMapper) -> ADFTranscriber<*>,
     ): ADFNodeMapperBuilder {
         _factories[nodeClass] = factory
         return this
@@ -44,6 +42,4 @@ class ADFNodeMapperBuilder : ADFTranscriberMapBuildable {
 /**
  * DSL function for building ADF node mappers.
  */
-inline fun adfNodeMapper(block: ADFNodeMapperBuilder.() -> Unit): ADFNodeMapper =
-    ADFNodeMapperBuilder().apply(block).mapper()
-
+inline fun adfNodeMapper(block: ADFNodeMapperBuilder.() -> Unit): ADFNodeMapper = ADFNodeMapperBuilder().apply(block).mapper()

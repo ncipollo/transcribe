@@ -7,17 +7,18 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ADFDocumentTranscriberTest {
-
     private val transcriber = ADFDocumentTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_withContent() {
-        val node = DocNode(
-            content = listOf(
-                ParagraphNode(content = listOf(TextNode(text = "Hello"))),
-                ParagraphNode(content = listOf(TextNode(text = "World")))
+        val node =
+            DocNode(
+                content =
+                    listOf(
+                        ParagraphNode(content = listOf(TextNode(text = "Hello"))),
+                        ParagraphNode(content = listOf(TextNode(text = "World"))),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         assertEquals("Hello\nWorld\n", result.content)
     }
@@ -29,4 +30,3 @@ class ADFDocumentTranscriberTest {
         assertEquals("", result.content)
     }
 }
-

@@ -18,7 +18,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MarkApplicatorTest {
-
     @Test
     fun applyMarks_strongMark() {
         val result = MarkApplicator.applyMarks("hello", listOf(StrongMark))
@@ -93,15 +92,15 @@ class MarkApplicatorTest {
 
     @Test
     fun applyMarks_multipleMarks() {
-        val result = MarkApplicator.applyMarks(
-            "hello",
-            listOf(
-                StrongMark,
-                EmMark,
-                LinkMark(LinkAttrs(href = "https://example.com"))
+        val result =
+            MarkApplicator.applyMarks(
+                "hello",
+                listOf(
+                    StrongMark,
+                    EmMark,
+                    LinkMark(LinkAttrs(href = "https://example.com")),
+                ),
             )
-        )
         assertEquals("[***hello***](https://example.com)", result)
     }
 }
-

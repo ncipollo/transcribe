@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class InlineCardNodeTranscriberTest {
-
     private val transcriber = InlineCardNodeTranscriber()
 
     @Test
@@ -30,4 +29,3 @@ class InlineCardNodeTranscriberTest {
         assertEquals("", result.content)
     }
 }
-

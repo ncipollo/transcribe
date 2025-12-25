@@ -9,14 +9,12 @@ import kotlin.reflect.KClass
  * ensuring custom overrides propagate correctly to container transcribers.
  */
 class ADFNodeMapper(
-    private val transcriberFactories: Map<KClass<out ADFNode>, (ADFNodeMapper) -> ADFTranscriber<*>>
+    private val transcriberFactories: Map<KClass<out ADFNode>, (ADFNodeMapper) -> ADFTranscriber<*>>,
 ) {
     fun transcriberFor(node: ADFNode): ADFTranscriber<*>? {
         val factory = transcriberFactories[node::class]
         return factory?.invoke(this)
     }
-    
-    operator fun plus(mapper: ADFNodeMapper): ADFNodeMapper =
-        ADFNodeMapper(transcriberFactories + mapper.transcriberFactories)
-}
 
+    operator fun plus(mapper: ADFNodeMapper): ADFNodeMapper = ADFNodeMapper(transcriberFactories + mapper.transcriberFactories)
+}

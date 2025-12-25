@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class EmojiNodeTranscriberTest {
-
     private val transcriber = EmojiNodeTranscriber()
 
     @Test
@@ -30,4 +29,3 @@ class EmojiNodeTranscriberTest {
         assertEquals(":smile:", result.content)
     }
 }
-

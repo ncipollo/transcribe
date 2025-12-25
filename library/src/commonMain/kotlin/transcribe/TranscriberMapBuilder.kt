@@ -18,7 +18,10 @@ class TranscriberMapBuilder<N : Any, T : Transcriber<out N, *>> : TranscriberMap
     /**
      * Add transcriber with explicit KClass (Kotlin).
      */
-    fun add(nodeClass: KClass<out N>, transcriber: T): TranscriberMapBuilder<N, T> {
+    fun add(
+        nodeClass: KClass<out N>,
+        transcriber: T,
+    ): TranscriberMapBuilder<N, T> {
         map[nodeClass] = transcriber
         return this
     }
@@ -42,9 +45,6 @@ class TranscriberMapBuilder<N : Any, T : Transcriber<out N, *>> : TranscriberMap
 /**
  * DSL for building transcriber maps.
  */
-inline fun <N : Any, T : Transcriber<out N, *>> transcriberMap(
-    block: TranscriberMapBuilder<N, T>.() -> Unit
-): Map<KClass<out N>, T> {
+inline fun <N : Any, T : Transcriber<out N, *>> transcriberMap(block: TranscriberMapBuilder<N, T>.() -> Unit): Map<KClass<out N>, T> {
     return TranscriberMapBuilder<N, T>().apply(block).build()
 }
-

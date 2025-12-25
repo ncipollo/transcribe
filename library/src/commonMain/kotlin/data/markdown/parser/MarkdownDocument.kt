@@ -6,4 +6,3 @@ data class MarkdownDocument(
     val parser: MarkdownParser,
     val text: String,
 )
-

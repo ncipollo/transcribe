@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MentionNodeTranscriberTest {
-
     private val transcriber = MentionNodeTranscriber()
 
     @Test
@@ -23,4 +22,3 @@ class MentionNodeTranscriberTest {
         assertEquals("@123", result.content)
     }
 }
-

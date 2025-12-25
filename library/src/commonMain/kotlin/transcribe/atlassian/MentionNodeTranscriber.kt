@@ -13,4 +13,3 @@ class MentionNodeTranscriber : ADFTranscriber<MentionNode> {
         return TranscribeResult("@$username")
     }
 }
-

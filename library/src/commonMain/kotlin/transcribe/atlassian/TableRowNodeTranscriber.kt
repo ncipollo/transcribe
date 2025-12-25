@@ -10,25 +10,25 @@ import transcribe.TranscribeResult
  * Outputs | cell | cell | format.
  */
 class TableRowNodeTranscriber(
-    private val mapper: ADFNodeMapper
+    private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TableRowNode> {
     override fun transcribe(input: TableRowNode): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")
         }
-        
+
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val cells = content.map { cell ->
-            when (cell) {
-                is TableCellNode -> nodeTranscriber.transcribe(cell).content
-                is TableHeaderNode -> nodeTranscriber.transcribe(cell).content
-                else -> ""
+        val cells =
+            content.map { cell ->
+                when (cell) {
+                    is TableCellNode -> nodeTranscriber.transcribe(cell).content
+                    is TableHeaderNode -> nodeTranscriber.transcribe(cell).content
+                    else -> ""
+                }
             }
-        }
-        
+
         val row = "| " + cells.joinToString(" | ") + " |"
         return TranscribeResult(row)
     }
 }
-

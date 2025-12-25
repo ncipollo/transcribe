@@ -17,4 +17,3 @@ class EmojiNodeTranscriber : ADFTranscriber<EmojiNode> {
         }
     }
 }
-

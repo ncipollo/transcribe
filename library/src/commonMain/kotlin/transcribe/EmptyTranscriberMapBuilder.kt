@@ -9,4 +9,3 @@ import kotlin.reflect.KClass
 class EmptyTranscriberMapBuilder<N : Any, T : Transcriber<out N, *>> : TranscriberMapBuildable<N, T> {
     override fun build(): Map<KClass<out N>, T> = emptyMap()
 }
-

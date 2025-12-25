@@ -7,14 +7,16 @@ import kotlin.reflect.KClass
  * convenience methods for working with Java Class objects.
  */
 class JvmTranscriberMapBuilder<N : Any, T : Transcriber<out N, *>>(
-    private val builder: TranscriberMapBuilder<N, T> = TranscriberMapBuilder()
+    private val builder: TranscriberMapBuilder<N, T> = TranscriberMapBuilder(),
 ) : TranscriberMapBuildable<N, T> {
-
     /**
      * Add transcriber using Java Class (JVM).
      * Converts the Java Class to KClass before delegating to the builder.
      */
-    fun add(nodeClass: Class<out N>, transcriber: T): JvmTranscriberMapBuilder<N, T> {
+    fun add(
+        nodeClass: Class<out N>,
+        transcriber: T,
+    ): JvmTranscriberMapBuilder<N, T> {
         builder.add(nodeClass.kotlin, transcriber)
         return this
     }

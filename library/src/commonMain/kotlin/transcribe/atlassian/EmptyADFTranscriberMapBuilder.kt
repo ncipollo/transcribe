@@ -7,4 +7,3 @@ package transcribe.atlassian
 class EmptyADFTranscriberMapBuilder : ADFTranscriberMapBuildable {
     override fun build(): ADFNodeMapper = adfNodeMapper { }
 }
-

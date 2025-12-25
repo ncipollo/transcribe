@@ -5,16 +5,16 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class JvmTranscriberMapBuilderTest {
-
     @Test
     fun add_javaClass() {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
 
-        val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
-            .add(TestNodeA::class.java, transcriber1)
-            .add(TestNodeB::class.java, transcriber2)
-            .build()
+        val map =
+            JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
+                .add(TestNodeA::class.java, transcriber1)
+                .add(TestNodeB::class.java, transcriber2)
+                .build()
 
         assertEquals(2, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -27,11 +27,12 @@ class JvmTranscriberMapBuilderTest {
         val transcriber2 = TestTranscriber("transcriber2")
         val transcriber3 = TestTranscriber("transcriber3")
 
-        val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
-            .add(TestNodeA::class.java, transcriber1)
-            .add(TestNodeB::class.java, transcriber2)
-            .add(TestNodeC::class.java, transcriber3)
-            .build()
+        val map =
+            JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
+                .add(TestNodeA::class.java, transcriber1)
+                .add(TestNodeB::class.java, transcriber2)
+                .add(TestNodeC::class.java, transcriber3)
+                .build()
 
         assertEquals(3, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -44,10 +45,11 @@ class JvmTranscriberMapBuilderTest {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
 
-        val map = JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
-            .add(TestNodeA::class.java, transcriber1)
-            .add(TestNodeB::class.java, transcriber2)
-            .build()
+        val map =
+            JvmTranscriberMapBuilder<TestNode, TestTranscriber>()
+                .add(TestNodeA::class.java, transcriber1)
+                .add(TestNodeB::class.java, transcriber2)
+                .build()
 
         assertEquals(2, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -77,7 +79,9 @@ class JvmTranscriberMapBuilderTest {
     sealed interface TestNode
 
     data class TestNodeA(val value: String = "A") : TestNode
+
     data class TestNodeB(val value: String = "B") : TestNode
+
     data class TestNodeC(val value: String = "C") : TestNode
 
     class TestTranscriber(private val name: String) : Transcriber<TestNode, String> {

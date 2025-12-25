@@ -12,4 +12,3 @@ class RuleNodeTranscriber : ADFTranscriber<RuleNode> {
         return TranscribeResult("---\n\n")
     }
 }
-

@@ -7,16 +7,17 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TableHeaderNodeTranscriberTest {
-
     private val transcriber = TableHeaderNodeTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_withContent() {
-        val node = TableHeaderNode(
-            content = listOf(
-                ParagraphNode(content = listOf(TextNode(text = "Header")))
+        val node =
+            TableHeaderNode(
+                content =
+                    listOf(
+                        ParagraphNode(content = listOf(TextNode(text = "Header"))),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         assertEquals("Header", result.content)
     }
@@ -28,4 +29,3 @@ class TableHeaderNodeTranscriberTest {
         assertEquals("", result.content)
     }
 }
-

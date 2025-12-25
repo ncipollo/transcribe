@@ -1,5 +1,4 @@
 import com.android.build.api.dsl.androidLibrary
-import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {

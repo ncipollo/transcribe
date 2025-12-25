@@ -7,16 +7,17 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class BlockquoteNodeTranscriberTest {
-
     private val transcriber = BlockquoteNodeTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_withContent() {
-        val node = BlockquoteNode(
-            content = listOf(
-                ParagraphNode(content = listOf(TextNode(text = "Quoted text")))
+        val node =
+            BlockquoteNode(
+                content =
+                    listOf(
+                        ParagraphNode(content = listOf(TextNode(text = "Quoted text"))),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         assertEquals("> Quoted text\n\n", result.content)
     }
@@ -30,14 +31,15 @@ class BlockquoteNodeTranscriberTest {
 
     @Test
     fun transcribe_multipleParagraphs() {
-        val node = BlockquoteNode(
-            content = listOf(
-                ParagraphNode(content = listOf(TextNode(text = "First"))),
-                ParagraphNode(content = listOf(TextNode(text = "Second")))
+        val node =
+            BlockquoteNode(
+                content =
+                    listOf(
+                        ParagraphNode(content = listOf(TextNode(text = "First"))),
+                        ParagraphNode(content = listOf(TextNode(text = "Second"))),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         assertEquals("> First\n> Second\n\n", result.content)
     }
 }
-

@@ -1,8 +1,8 @@
 package data.markdown.parser
 
-import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.IElementType
 import org.intellij.markdown.MarkdownTokenTypes
+import org.intellij.markdown.ast.ASTNode
 
 fun ASTNode.findChildOfType(type: IElementType): ASTNode? {
     return children.firstOrNull { it.type == type }
@@ -25,4 +25,3 @@ fun ASTNode.findTextNode(markdownText: CharSequence): String {
         ?.getTextContent(markdownText)
         ?.toString() ?: ""
 }
-

@@ -8,20 +8,20 @@ import transcribe.TranscribeResult
  * Outputs task items, one per line.
  */
 class TaskListNodeTranscriber(
-    private val mapper: ADFNodeMapper
+    private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TaskListNode> {
     override fun transcribe(input: TaskListNode): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")
         }
-        
+
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown = content.joinToString("\n") { node ->
-            nodeTranscriber.transcribe(node).content
-        }
-        
+        val markdown =
+            content.joinToString("\n") { node ->
+                nodeTranscriber.transcribe(node).content
+            }
+
         return TranscribeResult("$markdown\n\n")
     }
 }
-

@@ -8,7 +8,7 @@ import transcribe.TranscribeResult
  * This is used by block nodes to transcribe their child content.
  */
 class ADFNodeTranscriber(
-    private val mapper: ADFNodeMapper
+    private val mapper: ADFNodeMapper,
 ) {
     /**
      * Transcribes any ADF node to markdown string.
@@ -19,4 +19,3 @@ class ADFNodeTranscriber(
         return transcriber?.transcribe(node) ?: TranscribeResult("")
     }
 }
-

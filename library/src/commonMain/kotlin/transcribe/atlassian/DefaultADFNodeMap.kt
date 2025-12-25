@@ -1,6 +1,5 @@
 package transcribe.atlassian
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.BlockquoteNode
 import data.atlassian.adf.BulletListNode
 import data.atlassian.adf.CodeBlockNode
@@ -35,7 +34,7 @@ fun defaultADFNodeMapper(): ADFNodeMapper {
         add<InlineCardNode> { InlineCardNodeTranscriber() }
         add<CodeBlockNode> { CodeBlockNodeTranscriber() }
         add<RuleNode> { RuleNodeTranscriber() }
-        
+
         // Container node transcribers (need mapper parameter)
         add<TaskItemNode> { mapper -> TaskItemNodeTranscriber(mapper) }
         add<ParagraphNode> { mapper -> ParagraphNodeTranscriber(mapper) }
@@ -51,4 +50,3 @@ fun defaultADFNodeMapper(): ADFNodeMapper {
         add<TaskListNode> { mapper -> TaskListNodeTranscriber(mapper) }
     }
 }
-

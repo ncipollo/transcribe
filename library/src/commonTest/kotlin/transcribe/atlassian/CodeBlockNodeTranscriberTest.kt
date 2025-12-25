@@ -7,28 +7,30 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CodeBlockNodeTranscriberTest {
-
     private val transcriber = CodeBlockNodeTranscriber()
 
     @Test
     fun transcribe_withLanguage() {
-        val node = CodeBlockNode(
-            attrs = CodeBlockAttrs(language = "kotlin"),
-            content = listOf(
-                TextNode(text = "fun main() {"),
-                TextNode(text = "    println(\"Hello\")"),
-                TextNode(text = "}")
+        val node =
+            CodeBlockNode(
+                attrs = CodeBlockAttrs(language = "kotlin"),
+                content =
+                    listOf(
+                        TextNode(text = "fun main() {"),
+                        TextNode(text = "    println(\"Hello\")"),
+                        TextNode(text = "}"),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         assertEquals("```kotlin\nfun main() {\n    println(\"Hello\")\n}\n```\n\n", result.content)
     }
 
     @Test
     fun transcribe_withoutLanguage() {
-        val node = CodeBlockNode(
-            content = listOf(TextNode(text = "code here"))
-        )
+        val node =
+            CodeBlockNode(
+                content = listOf(TextNode(text = "code here")),
+            )
         val result = transcriber.transcribe(node)
         assertEquals("```\ncode here\n```\n\n", result.content)
     }
@@ -40,4 +42,3 @@ class CodeBlockNodeTranscriberTest {
         assertEquals("```\n\n```\n\n", result.content)
     }
 }
-

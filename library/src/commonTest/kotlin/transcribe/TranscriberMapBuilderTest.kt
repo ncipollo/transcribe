@@ -5,16 +5,16 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class TranscriberMapBuilderTest {
-
     @Test
     fun add_reifiedGeneric() {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
 
-        val map = TranscriberMapBuilder<TestNode, TestTranscriber>()
-            .add<TestNodeA>(transcriber1)
-            .add<TestNodeB>(transcriber2)
-            .build()
+        val map =
+            TranscriberMapBuilder<TestNode, TestTranscriber>()
+                .add<TestNodeA>(transcriber1)
+                .add<TestNodeB>(transcriber2)
+                .build()
 
         assertEquals(2, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -26,10 +26,11 @@ class TranscriberMapBuilderTest {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
 
-        val map = TranscriberMapBuilder<TestNode, TestTranscriber>()
-            .add(TestNodeA::class, transcriber1)
-            .add(TestNodeB::class, transcriber2)
-            .build()
+        val map =
+            TranscriberMapBuilder<TestNode, TestTranscriber>()
+                .add(TestNodeA::class, transcriber1)
+                .add(TestNodeB::class, transcriber2)
+                .build()
 
         assertEquals(2, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -42,15 +43,17 @@ class TranscriberMapBuilderTest {
         val transcriber2 = TestTranscriber("transcriber2")
         val transcriber3 = TestTranscriber("transcriber3")
 
-        val existingMap = mapOf(
-            TestNodeA::class to transcriber1,
-            TestNodeB::class to transcriber2
-        )
+        val existingMap =
+            mapOf(
+                TestNodeA::class to transcriber1,
+                TestNodeB::class to transcriber2,
+            )
 
-        val map = TranscriberMapBuilder<TestNode, TestTranscriber>()
-            .addAll(existingMap)
-            .add<TestNodeC>(transcriber3)
-            .build()
+        val map =
+            TranscriberMapBuilder<TestNode, TestTranscriber>()
+                .addAll(existingMap)
+                .add<TestNodeC>(transcriber3)
+                .build()
 
         assertEquals(3, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -63,10 +66,11 @@ class TranscriberMapBuilderTest {
         val transcriber1 = TestTranscriber("transcriber1")
         val transcriber2 = TestTranscriber("transcriber2")
 
-        val map = transcriberMap<TestNode, TestTranscriber> {
-            add<TestNodeA>(transcriber1)
-            add<TestNodeB>(transcriber2)
-        }
+        val map =
+            transcriberMap<TestNode, TestTranscriber> {
+                add<TestNodeA>(transcriber1)
+                add<TestNodeB>(transcriber2)
+            }
 
         assertEquals(2, map.size)
         assertEquals(transcriber1, map[TestNodeA::class])
@@ -96,7 +100,9 @@ class TranscriberMapBuilderTest {
     sealed interface TestNode
 
     data class TestNodeA(val value: String = "A") : TestNode
+
     data class TestNodeB(val value: String = "B") : TestNode
+
     data class TestNodeC(val value: String = "C") : TestNode
 
     class TestTranscriber(private val name: String) : Transcriber<TestNode, String> {
@@ -105,4 +111,3 @@ class TranscriberMapBuilderTest {
         }
     }
 }
-

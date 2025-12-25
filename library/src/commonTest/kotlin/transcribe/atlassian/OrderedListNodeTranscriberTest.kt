@@ -9,41 +9,47 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class OrderedListNodeTranscriberTest {
-
     private val transcriber = OrderedListNodeTranscriber(defaultADFNodeMapper())
 
     @Test
     fun transcribe_withItems() {
-        val node = OrderedListNode(
-            content = listOf(
-                ListItemNode(
-                    content = listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "First")))
-                    )
-                ),
-                ListItemNode(
-                    content = listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Second")))
-                    )
-                )
+        val node =
+            OrderedListNode(
+                content =
+                    listOf(
+                        ListItemNode(
+                            content =
+                                listOf(
+                                    ParagraphNode(content = listOf(TextNode(text = "First"))),
+                                ),
+                        ),
+                        ListItemNode(
+                            content =
+                                listOf(
+                                    ParagraphNode(content = listOf(TextNode(text = "Second"))),
+                                ),
+                        ),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         assertEquals("1. First\n\n2. Second\n\n\n", result.content)
     }
 
     @Test
     fun transcribe_withStartOrder() {
-        val node = OrderedListNode(
-            attrs = OrderedListAttrs(order = 5),
-            content = listOf(
-                ListItemNode(
-                    content = listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Item")))
-                    )
-                )
+        val node =
+            OrderedListNode(
+                attrs = OrderedListAttrs(order = 5),
+                content =
+                    listOf(
+                        ListItemNode(
+                            content =
+                                listOf(
+                                    ParagraphNode(content = listOf(TextNode(text = "Item"))),
+                                ),
+                        ),
+                    ),
             )
-        )
         val result = transcriber.transcribe(node)
         assertEquals("5. Item\n\n\n", result.content)
     }
@@ -55,4 +61,3 @@ class OrderedListNodeTranscriberTest {
         assertEquals("", result.content)
     }
 }
-

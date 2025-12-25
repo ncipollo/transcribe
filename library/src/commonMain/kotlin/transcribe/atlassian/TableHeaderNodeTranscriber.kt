@@ -8,20 +8,20 @@ import transcribe.TranscribeResult
  * Transcribes block content within the header cell.
  */
 class TableHeaderNodeTranscriber(
-    private val mapper: ADFNodeMapper
+    private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TableHeaderNode> {
     override fun transcribe(input: TableHeaderNode): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")
         }
-        
+
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown = content.joinToString("") { block ->
-            nodeTranscriber.transcribe(block).content
-        }
-        
+        val markdown =
+            content.joinToString("") { block ->
+                nodeTranscriber.transcribe(block).content
+            }
+
         return TranscribeResult(markdown.trim())
     }
 }
-

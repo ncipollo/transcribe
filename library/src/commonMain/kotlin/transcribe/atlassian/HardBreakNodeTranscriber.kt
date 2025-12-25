@@ -11,4 +11,3 @@ class HardBreakNodeTranscriber : ADFTranscriber<HardBreakNode> {
         return TranscribeResult("\n")
     }
 }
-

@@ -1,7 +1,6 @@
 package transcribe.atlassian
 
 import data.atlassian.adf.CodeBlockNode
-import data.atlassian.adf.TextNode
 import transcribe.TranscribeResult
 
 /**
@@ -11,23 +10,24 @@ import transcribe.TranscribeResult
 class CodeBlockNodeTranscriber : ADFTranscriber<CodeBlockNode> {
     override fun transcribe(input: CodeBlockNode): TranscribeResult<String> {
         val language = input.attrs?.language ?: ""
-        
+
         val content = input.content
-        val code = if (content.isNullOrEmpty()) {
-            ""
-        } else {
-            content.joinToString("\n") { textNode ->
-                textNode.text
+        val code =
+            if (content.isNullOrEmpty()) {
+                ""
+            } else {
+                content.joinToString("\n") { textNode ->
+                    textNode.text
+                }
             }
-        }
-        
-        val fence = if (language.isNotBlank()) {
-            "```$language\n$code\n```"
-        } else {
-            "```\n$code\n```"
-        }
-        
+
+        val fence =
+            if (language.isNotBlank()) {
+                "```$language\n$code\n```"
+            } else {
+                "```\n$code\n```"
+            }
+
         return TranscribeResult("$fence\n\n")
     }
 }
-

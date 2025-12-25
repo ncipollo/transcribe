@@ -8,20 +8,20 @@ import transcribe.TranscribeResult
  * Transcribes block content within the cell.
  */
 class TableCellNodeTranscriber(
-    private val mapper: ADFNodeMapper
+    private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TableCellNode> {
     override fun transcribe(input: TableCellNode): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")
         }
-        
+
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown = content.joinToString("") { block ->
-            nodeTranscriber.transcribe(block).content
-        }
-        
+        val markdown =
+            content.joinToString("") { block ->
+                nodeTranscriber.transcribe(block).content
+            }
+
         return TranscribeResult(markdown.trim())
     }
 }
-

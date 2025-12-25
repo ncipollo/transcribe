@@ -33,13 +33,19 @@ object MarkApplicator {
     /**
      * Applies a list of marks to the given text, returning formatted output.
      */
-    fun applyMarks(text: String, marks: List<ADFMark>?): String {
+    fun applyMarks(
+        text: String,
+        marks: List<ADFMark>?,
+    ): String {
         if (marks.isNullOrEmpty()) return text
 
         return marks.fold(text) { acc, mark -> applyMark(acc, mark) }
     }
 
-    private fun applyMark(text: String, mark: ADFMark): String {
+    private fun applyMark(
+        text: String,
+        mark: ADFMark,
+    ): String {
         return when (mark) {
             is StrongMark -> "**$text**"
             is EmMark -> "*$text*"
@@ -49,12 +55,12 @@ object MarkApplicator {
             is LinkMark -> "[$text](${mark.attrs.href})"
             is TextColorMark -> "<span style=\"color: ${mark.attrs.color}\">$text</span>"
             is BackgroundColorMark -> "<span style=\"background-color: ${mark.attrs.color}\">$text</span>"
-            is SubSupMark -> when (mark.attrs.type) {
-                SubSupType.SUB -> "<sub>$text</sub>"
-                SubSupType.SUP -> "<sup>$text</sup>"
-            }
+            is SubSupMark ->
+                when (mark.attrs.type) {
+                    SubSupType.SUB -> "<sub>$text</sub>"
+                    SubSupType.SUP -> "<sup>$text</sup>"
+                }
             else -> text
         }
     }
 }
-
