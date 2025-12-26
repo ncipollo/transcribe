@@ -12,7 +12,7 @@ class ExtensionNodeTranscriberTest {
     @Test
     fun transcribe_usesCustomMapperWhenAvailable() {
         val customTranscriber = TestExtensionNodeTranscriber("custom-result")
-        val customMapper = ExtensionMapper(mapOf("test-extension" to { customTranscriber }))
+        val customMapper = ExtensionMapper(mapOf("test-extension:key" to { customTranscriber }))
         val defaultMapper = ExtensionMapper(emptyMap())
         val transcriber = ExtensionNodeTranscriber(customMapper, defaultMapper)
 
@@ -26,7 +26,7 @@ class ExtensionNodeTranscriberTest {
     fun transcribe_fallsBackToDefaultMapperWhenCustomNotAvailable() {
         val defaultTranscriber = TestExtensionNodeTranscriber("default-result")
         val customMapper = ExtensionMapper(emptyMap())
-        val defaultMapper = ExtensionMapper(mapOf("test-extension" to { defaultTranscriber }))
+        val defaultMapper = ExtensionMapper(mapOf("test-extension:key" to { defaultTranscriber }))
         val transcriber = ExtensionNodeTranscriber(customMapper, defaultMapper)
 
         val node = ExtensionNode(attrs = ExtensionAttrs(extensionKey = "key", extensionType = "test-extension"))
@@ -39,8 +39,8 @@ class ExtensionNodeTranscriberTest {
     fun transcribe_customMapperOverridesDefaultMapper() {
         val customTranscriber = TestExtensionNodeTranscriber("custom-result")
         val defaultTranscriber = TestExtensionNodeTranscriber("default-result")
-        val customMapper = ExtensionMapper(mapOf("test-extension" to { customTranscriber }))
-        val defaultMapper = ExtensionMapper(mapOf("test-extension" to { defaultTranscriber }))
+        val customMapper = ExtensionMapper(mapOf("test-extension:key" to { customTranscriber }))
+        val defaultMapper = ExtensionMapper(mapOf("test-extension:key" to { defaultTranscriber }))
         val transcriber = ExtensionNodeTranscriber(customMapper, defaultMapper)
 
         val node = ExtensionNode(attrs = ExtensionAttrs(extensionKey = "key", extensionType = "test-extension"))
@@ -64,7 +64,7 @@ class ExtensionNodeTranscriberTest {
     @Test
     fun transcribe_usesDefaultMapperWhenCustomNotProvided() {
         val defaultTranscriber = TestExtensionNodeTranscriber("default-result")
-        val defaultMapper = ExtensionMapper(mapOf("test-extension" to { defaultTranscriber }))
+        val defaultMapper = ExtensionMapper(mapOf("test-extension:key" to { defaultTranscriber }))
         val transcriber = ExtensionNodeTranscriber(defaultExtensionMapper = defaultMapper)
 
         val node = ExtensionNode(attrs = ExtensionAttrs(extensionKey = "key", extensionType = "test-extension"))

@@ -14,19 +14,22 @@ internal class ExtensionNodeTranscriptionHelper(
 
     /**
      * Transcribes an extension node by looking up the appropriate transcriber
-     * for the given extensionType and invoking it.
+     * for the given extensionType and extensionKey combination.
      *
      * @param extensionType The type of extension to transcribe
+     * @param extensionKey The key of the extension to transcribe
      * @param context The transcription context
      * @param transcribe Function that invokes the transcriber with the appropriate node
      * @return TranscribeResult with the transcribed content, or empty string if no transcriber found
      */
     fun transcribeExtension(
         extensionType: String,
+        extensionKey: String,
         context: ADFTranscriberContext,
         transcribe: (ADFTranscriber<*>) -> TranscribeResult<String>,
     ): TranscribeResult<String> {
-        val transcriber = mergedMapper.transcriberFor(extensionType) ?: return TranscribeResult("")
+        val combinedKey = "$extensionType:$extensionKey"
+        val transcriber = mergedMapper.transcriberFor(combinedKey) ?: return TranscribeResult("")
         return transcribe(transcriber)
     }
 }

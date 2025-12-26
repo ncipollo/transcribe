@@ -6,6 +6,6 @@ package transcribe.atlassian
  */
 fun defaultExtensionMapper(): ExtensionMapper {
     return extensionMapper {
-        // Extension type mappings will be added here in the future
+        add("com.atlassian.confluence.macro.core:drawio") { DrawioExtensionTranscriber() }
     }
 }
