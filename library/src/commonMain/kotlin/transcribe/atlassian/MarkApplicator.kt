@@ -50,22 +50,23 @@ object MarkApplicator {
         val trailing = text.takeLastWhile { it.isWhitespace() }
         val trimmed = text.trim()
 
-        val formatted = when (mark) {
-            is StrongMark -> "**$trimmed**"
-            is EmMark -> "*$trimmed*"
-            is CodeMark -> "`$trimmed`"
-            is StrikeMark -> "~~$trimmed~~"
-            is UnderlineMark -> "<u>$trimmed</u>"
-            is LinkMark -> "[$trimmed](${mark.attrs.href})"
-            is TextColorMark -> "<span style=\"color: ${mark.attrs.color}\">$trimmed</span>"
-            is BackgroundColorMark -> "<span style=\"background-color: ${mark.attrs.color}\">$trimmed</span>"
-            is SubSupMark ->
-                when (mark.attrs.type) {
-                    SubSupType.SUB -> "<sub>$trimmed</sub>"
-                    SubSupType.SUP -> "<sup>$trimmed</sup>"
-                }
-            else -> return text
-        }
+        val formatted =
+            when (mark) {
+                is StrongMark -> "**$trimmed**"
+                is EmMark -> "*$trimmed*"
+                is CodeMark -> "`$trimmed`"
+                is StrikeMark -> "~~$trimmed~~"
+                is UnderlineMark -> "<u>$trimmed</u>"
+                is LinkMark -> "[$trimmed](${mark.attrs.href})"
+                is TextColorMark -> "<span style=\"color: ${mark.attrs.color}\">$trimmed</span>"
+                is BackgroundColorMark -> "<span style=\"background-color: ${mark.attrs.color}\">$trimmed</span>"
+                is SubSupMark ->
+                    when (mark.attrs.type) {
+                        SubSupType.SUB -> "<sub>$trimmed</sub>"
+                        SubSupType.SUP -> "<sup>$trimmed</sup>"
+                    }
+                else -> return text
+            }
 
         return "$leading$formatted$trailing"
     }

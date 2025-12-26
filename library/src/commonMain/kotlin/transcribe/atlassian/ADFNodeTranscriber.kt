@@ -14,7 +14,10 @@ class ADFNodeTranscriber(
      * Transcribes any ADF node to markdown string.
      */
     @Suppress("UNCHECKED_CAST")
-    fun transcribe(node: ADFNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    fun transcribe(
+        node: ADFNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         val transcriber = mapper.transcriberFor(node) as? ADFTranscriber<ADFNode>
         return transcriber?.transcribe(node, context) ?: TranscribeResult("")
     }

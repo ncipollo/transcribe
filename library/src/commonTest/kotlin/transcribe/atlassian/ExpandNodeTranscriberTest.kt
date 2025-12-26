@@ -65,4 +65,3 @@ class ExpandNodeTranscriberTest {
         assertEquals("<details>\n<summary>Multiple items</summary>\nFirst paragraph\nSecond paragraph\n</details>\n", result.content)
     }
 }
-

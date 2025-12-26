@@ -10,7 +10,10 @@ import transcribe.TranscribeResult
 class ListItemNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<ListItemNode> {
-    override fun transcribe(input: ListItemNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    override fun transcribe(
+        input: ListItemNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")

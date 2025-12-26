@@ -52,4 +52,3 @@ class StatusNodeTranscriberTest {
         assertEquals("[⚪ Pending]", result.content)
     }
 }
-

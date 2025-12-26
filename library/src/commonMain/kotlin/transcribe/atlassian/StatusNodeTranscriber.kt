@@ -9,16 +9,19 @@ import transcribe.TranscribeResult
  * Outputs [{emoji} {text}] format based on status color.
  */
 class StatusNodeTranscriber : ADFTranscriber<StatusNode> {
-    override fun transcribe(input: StatusNode, context: ADFTranscriberContext): TranscribeResult<String> {
-        val emoji = when (input.attrs.color) {
-            StatusColor.BLUE -> "🔵"
-            StatusColor.GREEN -> "🟢"
-            StatusColor.RED -> "🔴"
-            StatusColor.YELLOW -> "🟡"
-            StatusColor.PURPLE -> "🟣"
-            StatusColor.NEUTRAL -> "⚪"
-        }
+    override fun transcribe(
+        input: StatusNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
+        val emoji =
+            when (input.attrs.color) {
+                StatusColor.BLUE -> "🔵"
+                StatusColor.GREEN -> "🟢"
+                StatusColor.RED -> "🔴"
+                StatusColor.YELLOW -> "🟡"
+                StatusColor.PURPLE -> "🟣"
+                StatusColor.NEUTRAL -> "⚪"
+            }
         return TranscribeResult("[$emoji ${input.attrs.text}]")
     }
 }
-

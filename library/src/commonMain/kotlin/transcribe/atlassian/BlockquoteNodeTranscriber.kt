@@ -10,7 +10,10 @@ import transcribe.TranscribeResult
 class BlockquoteNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<BlockquoteNode> {
-    override fun transcribe(input: BlockquoteNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    override fun transcribe(
+        input: BlockquoteNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")

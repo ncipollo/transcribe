@@ -14,7 +14,10 @@ class NestedExpandNodeTranscriber(
 ) : ADFTranscriber<NestedExpandNode> {
     private val expandTranscriber = ExpandNodeTranscriber(mapper)
 
-    override fun transcribe(input: NestedExpandNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    override fun transcribe(
+        input: NestedExpandNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         // Convert NestedExpandNode to ExpandNode and delegate
         val expandNode =
             ExpandNode(
@@ -24,4 +27,3 @@ class NestedExpandNodeTranscriber(
         return expandTranscriber.transcribe(expandNode, context)
     }
 }
-

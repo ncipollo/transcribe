@@ -31,7 +31,10 @@ class ConfluenceToMarkdownTranscriberTest {
         // Create a custom TextNode transcriber that adds a prefix
         val customTextTranscriber =
             object : ADFTranscriber<TextNode> {
-                override fun transcribe(input: TextNode, context: ADFTranscriberContext): transcribe.TranscribeResult<String> {
+                override fun transcribe(
+                    input: TextNode,
+                    context: ADFTranscriberContext,
+                ): transcribe.TranscribeResult<String> {
                     return transcribe.TranscribeResult("[CUSTOM]${input.text}")
                 }
             }

@@ -14,7 +14,10 @@ class ConfluenceToMarkdownTranscriber(
     private val mapper = defaultADFNodeMapper() + customTranscribers.build()
     private val documentTranscriber = ADFDocumentTranscriber(mapper)
 
-    override fun transcribe(input: DocNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    override fun transcribe(
+        input: DocNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         return documentTranscriber.transcribe(input, context)
     }
 }

@@ -59,4 +59,3 @@ class MediaSingleNodeTranscriberTest {
         assertEquals("![](images/image.png)\n", result.content)
     }
 }
-

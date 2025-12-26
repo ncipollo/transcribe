@@ -12,7 +12,10 @@ import transcribe.TranscribeResult
 class TableRowNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<TableRowNode> {
-    override fun transcribe(input: TableRowNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    override fun transcribe(
+        input: TableRowNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")

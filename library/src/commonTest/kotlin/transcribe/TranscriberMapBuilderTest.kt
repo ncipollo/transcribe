@@ -108,7 +108,10 @@ class TranscriberMapBuilderTest {
     class TestContext
 
     class TestTranscriber(private val name: String) : Transcriber<TestNode, String, TestContext> {
-        override fun transcribe(input: TestNode, context: TestContext): TranscribeResult<String> {
+        override fun transcribe(
+            input: TestNode,
+            context: TestContext,
+        ): TranscribeResult<String> {
             return TranscribeResult("$name: $input")
         }
     }

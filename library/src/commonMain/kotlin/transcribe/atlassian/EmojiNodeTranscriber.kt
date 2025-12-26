@@ -8,7 +8,10 @@ import transcribe.TranscribeResult
  * Outputs :shortname: format, or falls back to text if available.
  */
 class EmojiNodeTranscriber : ADFTranscriber<EmojiNode> {
-    override fun transcribe(input: EmojiNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    override fun transcribe(
+        input: EmojiNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         val text = input.attrs.text
         return if (text != null && text.isNotBlank()) {
             TranscribeResult(text)

@@ -62,7 +62,9 @@ class NestedExpandNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("<details>\n<summary>Multiple nested items</summary>\nFirst nested paragraph\nSecond nested paragraph\n</details>\n", result.content)
+        assertEquals(
+            "<details>\n<summary>Multiple nested items</summary>\nFirst nested paragraph\nSecond nested paragraph\n</details>\n",
+            result.content,
+        )
     }
 }
-

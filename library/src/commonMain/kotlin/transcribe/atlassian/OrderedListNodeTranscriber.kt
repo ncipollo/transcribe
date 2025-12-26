@@ -10,7 +10,10 @@ import transcribe.TranscribeResult
 class OrderedListNodeTranscriber(
     private val mapper: ADFNodeMapper,
 ) : ADFTranscriber<OrderedListNode> {
-    override fun transcribe(input: OrderedListNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    override fun transcribe(
+        input: OrderedListNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         val content = input.content
         if (content.isEmpty()) {
             return TranscribeResult("")

@@ -8,7 +8,10 @@ import transcribe.TranscribeResult
  * Outputs @username format, using text if available, otherwise id.
  */
 class MentionNodeTranscriber : ADFTranscriber<MentionNode> {
-    override fun transcribe(input: MentionNode, context: ADFTranscriberContext): TranscribeResult<String> {
+    override fun transcribe(
+        input: MentionNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
         val username = input.attrs.text ?: input.attrs.id
         return TranscribeResult("@$username")
     }
