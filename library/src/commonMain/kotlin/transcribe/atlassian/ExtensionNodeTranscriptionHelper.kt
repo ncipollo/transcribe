@@ -18,14 +18,12 @@ internal class ExtensionNodeTranscriptionHelper(
      *
      * @param extensionType The type of extension to transcribe
      * @param extensionKey The key of the extension to transcribe
-     * @param context The transcription context
      * @param transcribe Function that invokes the transcriber with the appropriate node
      * @return TranscribeResult with the transcribed content, or empty string if no transcriber found
      */
     fun transcribeExtension(
         extensionType: String,
         extensionKey: String,
-        context: ADFTranscriberContext,
         transcribe: (ADFTranscriber<*>) -> TranscribeResult<String>,
     ): TranscribeResult<String> {
         val combinedKey = "$extensionType:$extensionKey"

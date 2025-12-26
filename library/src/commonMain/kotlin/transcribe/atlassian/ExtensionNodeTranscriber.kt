@@ -17,7 +17,7 @@ class ExtensionNodeTranscriber(
         input: ExtensionNode,
         context: ADFTranscriberContext,
     ): TranscribeResult<String> {
-        return helper.transcribeExtension(input.attrs.extensionType, input.attrs.extensionKey, context) { transcriber ->
+        return helper.transcribeExtension(input.attrs.extensionType, input.attrs.extensionKey) { transcriber ->
             @Suppress("UNCHECKED_CAST")
             (transcriber as? ADFTranscriber<ExtensionNode>)?.transcribe(input, context)
                 ?: TranscribeResult("")
