@@ -1,13 +1,16 @@
 package transcribe.atlassian
 
 import data.atlassian.adf.BlockquoteNode
+import data.atlassian.adf.BodiedExtensionNode
 import data.atlassian.adf.BulletListNode
 import data.atlassian.adf.CodeBlockNode
 import data.atlassian.adf.EmojiNode
 import data.atlassian.adf.ExpandNode
+import data.atlassian.adf.ExtensionNode
 import data.atlassian.adf.HardBreakNode
 import data.atlassian.adf.HeadingNode
 import data.atlassian.adf.InlineCardNode
+import data.atlassian.adf.InlineExtensionNode
 import data.atlassian.adf.ListItemNode
 import data.atlassian.adf.MediaSingleNode
 import data.atlassian.adf.MentionNode
@@ -40,6 +43,9 @@ fun defaultADFNodeMapper(): ADFNodeMapper {
         add<CodeBlockNode> { CodeBlockNodeTranscriber() }
         add<RuleNode> { RuleNodeTranscriber() }
         add<MediaSingleNode> { MediaSingleNodeTranscriber() }
+        add<ExtensionNode> { ExtensionNodeTranscriber() }
+        add<BodiedExtensionNode> { BodiedExtensionNodeTranscriber() }
+        add<InlineExtensionNode> { InlineExtensionNodeTranscriber() }
 
         // Container node transcribers (need mapper parameter)
         add<TaskItemNode> { mapper -> TaskItemNodeTranscriber(mapper) }
