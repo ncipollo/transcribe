@@ -15,6 +15,7 @@ import data.atlassian.adf.NestedExpandNode
 import data.atlassian.adf.OrderedListNode
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.RuleNode
+import data.atlassian.adf.StatusNode
 import data.atlassian.adf.TableCellNode
 import data.atlassian.adf.TableHeaderNode
 import data.atlassian.adf.TableNode
@@ -35,6 +36,7 @@ fun defaultADFNodeMapper(): ADFNodeMapper {
         add<EmojiNode> { EmojiNodeTranscriber() }
         add<MentionNode> { MentionNodeTranscriber() }
         add<InlineCardNode> { InlineCardNodeTranscriber() }
+        add<StatusNode> { StatusNodeTranscriber() }
         add<CodeBlockNode> { CodeBlockNodeTranscriber() }
         add<RuleNode> { RuleNodeTranscriber() }
         add<MediaSingleNode> { MediaSingleNodeTranscriber() }
