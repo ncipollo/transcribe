@@ -1,6 +1,7 @@
 package data.atlassian.adf
 
-import fixtures.ADFFixture
+import fixtures.adf.ComplexADFDocumentFixture
+import fixtures.adf.SimpleADFDocumentFixture
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -8,7 +9,7 @@ class ADFSerializerTest {
     @Test
     fun testRoundTripPreservesElementCount() {
         // Parse JSON to DocNode
-        val docNode = ADFSerializer.fromJson(ADFFixture.SAMPLE_DOCUMENT)
+        val docNode = ADFSerializer.fromJson(ComplexADFDocumentFixture.COMPLEX_DOCUMENT)
         val initialCount = docNode.content.size
 
         // Serialize back to JSON and parse again
@@ -21,8 +22,8 @@ class ADFSerializerTest {
 
     @Test
     fun testParsingMatchesExpectedNodes() {
-        val parsedDoc = ADFSerializer.fromJson(ADFFixture.SIMPLE_DOCUMENT)
-        val expected = ADFFixture.expectedSimpleDocNode
+        val parsedDoc = ADFSerializer.fromJson(SimpleADFDocumentFixture.SIMPLE_DOCUMENT)
+        val expected = SimpleADFDocumentFixture.expectedSimpleDocNode
         assertEquals(expected, parsedDoc)
     }
 }
