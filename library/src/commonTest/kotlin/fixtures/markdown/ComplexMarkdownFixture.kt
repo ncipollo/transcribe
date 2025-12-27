@@ -51,8 +51,8 @@ let thing = MyThing()
 <summary>Collapse</summary>
 - Content which is kinda hidden.
 </details>
-- [🔵 Status 1] 
-- [🔴 Status 2] 
+- [🔵 Status 1]
+- [🔴 Status 2]
 
 # Section 7
 ![draw.io Diagram](images/image.png)
