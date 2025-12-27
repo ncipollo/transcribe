@@ -21,7 +21,7 @@ class BlockquoteNodeTranscriber(
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val markdown =
-            content.joinToString("") { block ->
+            content.joinToString("\n") { block ->
                 val blockContent = nodeTranscriber.transcribe(block, context).content
                 // Prefix each line with >
                 blockContent.trimEnd('\n').lines().joinToString("\n") { line ->
@@ -30,9 +30,9 @@ class BlockquoteNodeTranscriber(
                     } else {
                         "> $line"
                     }
-                } + "\n"
+                }
             }
 
-        return TranscribeResult("$markdown\n")
+        return TranscribeResult(markdown)
     }
 }

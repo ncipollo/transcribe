@@ -20,7 +20,7 @@ class BlockquoteNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("> Quoted text\n\n", result.content)
+        assertEquals("> Quoted text", result.content)
     }
 
     @Test
@@ -41,6 +41,6 @@ class BlockquoteNodeTranscriberTest {
                     ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("> First\n> Second\n\n", result.content)
+        assertEquals("> First\n> Second", result.content)
     }
 }

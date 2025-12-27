@@ -5,6 +5,7 @@ import data.atlassian.adf.DocNode
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
 import fixtures.adf.ComplexADFDocumentFixture
+import fixtures.markdown.ComplexMarkdownFixture
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -69,7 +70,6 @@ class ConfluenceToMarkdownTranscriberTest {
         val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
         val node = ADFSerializer.fromJson(ComplexADFDocumentFixture.COMPLEX_DOCUMENT)
         val result = transcriber.transcribe(node, context)
-        println("---------------")
-        println(result.content)
+        assertEquals(ComplexMarkdownFixture.COMPLEX_MARKDOWN, result.content)
     }
 }
