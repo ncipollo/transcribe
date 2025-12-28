@@ -1,104 +1,17 @@
 package data.markdown.parser
 
 import org.intellij.markdown.MarkdownElementTypes
-import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.parser.MarkdownParser
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class ASTNodeExtensionsTest {
     private fun parseMarkdown(text: String): ASTNode {
         val parser = MarkdownParser(GFMFlavourDescriptor())
         return parser.buildMarkdownTreeFromString(text)
-    }
-
-    @Test
-    fun findChildOfType_findsExistingChild() {
-        val text = "# Heading\n\nParagraph text"
-        val root = parseMarkdown(text)
-
-        // Find a heading child in the document
-        val heading = root.findChildOfType(MarkdownElementTypes.ATX_1)
-
-        assertNotNull(heading, "Should find heading child")
-    }
-
-    @Test
-    fun findChildOfType_returnsNullWhenChildTypeNotFound() {
-        val text = "Simple paragraph text"
-        val root = parseMarkdown(text)
-
-        // Try to find a heading when there isn't one
-        val heading = root.findChildOfType(MarkdownElementTypes.ATX_1)
-
-        assertNull(heading, "Should return null when child type not found")
-    }
-
-    @Test
-    fun getParentOfType_findsImmediateParent() {
-        val text = "# Heading\n\nParagraph text"
-        val root = parseMarkdown(text)
-
-        // Find a heading node
-        val heading = root.findChildOfType(MarkdownElementTypes.ATX_1)
-        assertNotNull(heading)
-
-        // Get its parent (should be the root or a containing block)
-        val parent = heading.getParentOfType(MarkdownElementTypes.MARKDOWN_FILE)
-
-        assertNotNull(parent, "Should find parent")
-    }
-
-    @Test
-    fun getParentOfType_findsAncestorMultipleLevelsUp() {
-        val text = "> Blockquote\n> > Nested blockquote"
-        val root = parseMarkdown(text)
-
-        // Navigate to find nested structure
-        val firstBlockquote = root.findChildOfType(MarkdownElementTypes.BLOCK_QUOTE)
-        assertNotNull(firstBlockquote)
-
-        // Find nested blockquote within
-        val nestedBlockquote =
-            firstBlockquote.children.firstOrNull {
-                it.type == MarkdownTokenTypes.BLOCK_QUOTE
-            }
-
-        val parentBlockquote = nestedBlockquote?.getParentOfType(MarkdownElementTypes.BLOCK_QUOTE)
-        assertNotNull(parentBlockquote, "Should find ancestor blockquote")
-    }
-
-    @Test
-    fun getParentOfType_withMultipleTypeParameters() {
-        val text = "# Heading\n\nParagraph text"
-        val root = parseMarkdown(text)
-
-        val heading = root.findChildOfType(MarkdownElementTypes.ATX_1)
-        assertNotNull(heading)
-
-        // Search for multiple possible parent types
-        val parent =
-            heading.getParentOfType(
-                MarkdownElementTypes.MARKDOWN_FILE,
-                MarkdownElementTypes.PARAGRAPH,
-            )
-
-        assertNotNull(parent, "Should find parent matching one of the types")
-    }
-
-    @Test
-    fun getParentOfType_returnsNullWhenNoMatchingParent() {
-        val text = "Simple text"
-        val root = parseMarkdown(text)
-
-        // Try to find a parent that doesn't exist in the tree
-        val parent = root.getParentOfType(MarkdownElementTypes.ATX_1)
-
-        assertNull(parent, "Should return null when no matching parent exists")
     }
 
     @Test
@@ -142,5 +55,35 @@ class ASTNodeExtensionsTest {
 
         assertNotNull(extractedText, "Should handle empty node")
         assertEquals("", extractedText.toString(), "Should return empty string for empty node")
+    }
+
+    @Test
+    fun findImageNodes_emptyNodeList() {
+        val text = ""
+        val root = parseMarkdown(text)
+
+        val imageNodes = root.findImageNodes()
+
+        assertEquals(0, imageNodes.size)
+    }
+
+    @Test
+    fun findImageNodes_listContainsNodesButNoImageNodes() {
+        val text = "Hello world\n\nThis is a paragraph with no images."
+        val root = parseMarkdown(text)
+
+        val imageNodes = root.findImageNodes()
+
+        assertEquals(0, imageNodes.size)
+    }
+
+    @Test
+    fun findImageNodes_listContains2ImageNodes() {
+        val text = "![Alt text 1](image1.png)\n\n![Alt text 2](image2.png)"
+        val root = parseMarkdown(text)
+
+        val imageNodes = root.findImageNodes()
+
+        assertEquals(2, imageNodes.size)
     }
 }

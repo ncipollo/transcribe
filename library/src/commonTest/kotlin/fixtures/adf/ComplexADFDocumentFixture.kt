@@ -779,10 +779,6 @@ object ComplexADFDocumentFixture {
                                         "text": "Status 1",
                                         "localId": "5a1b494d-8033-4d64-9ac1-e235b5f76346"
                                     }
-                                },
-                                {
-                                    "text": " ",
-                                    "type": "text"
                                 }
                             ]
                         }
@@ -810,7 +806,7 @@ object ComplexADFDocumentFixture {
                                     }
                                 },
                                 {
-                                    "text": " ",
+                                    "text": " text after",
                                     "type": "text"
                                 }
                             ]

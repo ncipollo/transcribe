@@ -66,7 +66,7 @@ class ConfluenceToMarkdownTranscriberTest {
     }
 
     @Test
-    fun transcribe_simpleFixtureDocument() {
+    fun transcribe_complexFixtureDocument() {
         val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
         val node = ADFSerializer.fromJson(ComplexADFDocumentFixture.COMPLEX_DOCUMENT)
         val result = transcriber.transcribe(node, context)

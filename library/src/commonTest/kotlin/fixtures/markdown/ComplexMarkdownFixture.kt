@@ -52,7 +52,7 @@ let thing = MyThing()
 - Content which is kinda hidden.
 </details>
 - [🔵 Status 1]
-- [🔴 Status 2]
+- [🔴 Status 2] text after
 
 # Section 7
 ![draw.io Diagram](images/image.png)
