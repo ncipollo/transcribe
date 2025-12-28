@@ -46,7 +46,7 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
             StrikethroughTranscriber(inlineTranscriber)
         }
 
-        // Block content transcribers (need InlineContentTranscriber and/or BlockContentTranscriber)
+        // Block content transcribers (need MarkdownNodeMapper)
         add(MarkdownElementTypes.PARAGRAPH) {
             val inlineTranscriber = InlineContentTranscriber()
             ParagraphTranscriber(inlineTranscriber)
@@ -83,34 +83,24 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
             val inlineTranscriber = InlineContentTranscriber()
             HeadingTranscriber(inlineTranscriber)
         }
+        add(MarkdownElementTypes.UNORDERED_LIST) {
+            BulletListTranscriber(it)
+        }
         add(MarkdownElementTypes.ORDERED_LIST) {
-            add(MarkdownElementTypes.UNORDERED_LIST) {
-                val inlineTranscriber = InlineContentTranscriber()
-                val blockTranscriber = BlockContentTranscriber(inlineTranscriber)
-                BulletListTranscriber(blockTranscriber)
-            }
-            val inlineTranscriber = InlineContentTranscriber()
-            val blockTranscriber = BlockContentTranscriber(inlineTranscriber)
-            OrderedListTranscriber(blockTranscriber)
+            OrderedListTranscriber(it)
         }
         add(MarkdownElementTypes.LIST_ITEM) {
-            val inlineTranscriber = InlineContentTranscriber()
-            val blockTranscriber = BlockContentTranscriber(inlineTranscriber)
-            ListItemTranscriber(blockTranscriber)
+            ListItemTranscriber(it)
         }
         add(MarkdownElementTypes.BLOCK_QUOTE) {
-            val inlineTranscriber = InlineContentTranscriber()
-            val blockTranscriber = BlockContentTranscriber(inlineTranscriber)
-            BlockquoteTranscriber(blockTranscriber)
+            BlockquoteTranscriber(it)
         }
         add(MarkdownElementTypes.IMAGE) {
             val inlineTranscriber = InlineContentTranscriber()
             ImageTranscriber(inlineTranscriber)
         }
         add(GFMElementTypes.TABLE) {
-            val inlineTranscriber = InlineContentTranscriber()
-            val blockTranscriber = BlockContentTranscriber(inlineTranscriber)
-            TableTranscriber(blockTranscriber)
+            TableTranscriber(it)
         }
     }
 }

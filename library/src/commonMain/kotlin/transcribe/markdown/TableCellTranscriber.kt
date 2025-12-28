@@ -12,7 +12,7 @@ import transcribe.TranscribeResult
  * Transcriber for CELL nodes (GFM) that converts markdown table cells to ADF TableCellNode or TableHeaderNode.
  */
 class TableCellTranscriber(
-    private val blockTranscriber: BlockContentTranscriber,
+    private val nodeMapper: MarkdownNodeMapper,
     private val isHeader: Boolean = false,
 ) : MarkdownTranscriber<ADFBlockNode> {
     override fun transcribe(
@@ -21,7 +21,7 @@ class TableCellTranscriber(
     ): TranscribeResult<ADFBlockNode> {
         // Table cells typically contain inline content (text, formatting, etc.)
         // Wrap in a paragraph if needed
-        val blockContent = blockTranscriber.transcribeChildren(input, context)
+        val blockContent = nodeMapper.transcribeBlockChildren(input, context)
 
         // If no block content, create an empty paragraph
         val content = if (blockContent.isEmpty()) {

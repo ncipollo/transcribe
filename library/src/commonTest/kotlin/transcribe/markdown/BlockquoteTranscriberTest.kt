@@ -6,9 +6,8 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class BlockquoteTranscriberTest {
-    private val inlineTranscriber = InlineContentTranscriber()
-    private val blockTranscriber = BlockContentTranscriber(inlineTranscriber)
-    private val transcriber = BlockquoteTranscriber(blockTranscriber)
+    private val nodeMapper = defaultMarkdownNodeMapper()
+    private val transcriber = BlockquoteTranscriber(nodeMapper)
 
     @Test
     fun transcribe_blockquote() {

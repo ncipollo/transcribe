@@ -10,7 +10,7 @@ import transcribe.TranscribeResult
  * Transcriber for BLOCK_QUOTE nodes that converts markdown blockquotes to ADF BlockquoteNode.
  */
 class BlockquoteTranscriber(
-    private val blockTranscriber: BlockContentTranscriber,
+    private val nodeMapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<BlockquoteNode> {
     override fun transcribe(
         input: ASTNode,
@@ -18,7 +18,7 @@ class BlockquoteTranscriber(
     ): TranscribeResult<BlockquoteNode> {
         // Blockquotes can contain paragraphs, lists, etc.
         // Process all block-level children
-        val blockContent = blockTranscriber.transcribeChildren(input, context)
+        val blockContent = nodeMapper.transcribeBlockChildren(input, context)
 
         return TranscribeResult(
             BlockquoteNode(

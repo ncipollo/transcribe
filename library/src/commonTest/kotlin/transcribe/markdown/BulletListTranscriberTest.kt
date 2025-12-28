@@ -7,9 +7,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class BulletListTranscriberTest {
-    private val inlineTranscriber = InlineContentTranscriber()
-    private val blockTranscriber = BlockContentTranscriber(inlineTranscriber)
-    private val transcriber = BulletListTranscriber(blockTranscriber)
+    private val nodeMapper = defaultMarkdownNodeMapper()
+    private val transcriber = BulletListTranscriber(nodeMapper)
 
     @Test
     fun transcribe_bulletList() {

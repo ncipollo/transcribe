@@ -10,7 +10,7 @@ import transcribe.TranscribeResult
  * Transcriber for TABLE nodes (GFM) that converts markdown tables to ADF TableNode.
  */
 class TableTranscriber(
-    private val blockTranscriber: BlockContentTranscriber,
+    private val nodeMapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<TableNode> {
     override fun transcribe(
         input: ASTNode,
@@ -21,7 +21,7 @@ class TableTranscriber(
             .filter { it.type == GFMElementTypes.HEADER || it.type == GFMElementTypes.ROW }
             .map { rowNode ->
                 val isHeader = rowNode.type == GFMElementTypes.HEADER
-                val tableRowTranscriber = TableRowTranscriber(blockTranscriber, isHeader)
+                val tableRowTranscriber = TableRowTranscriber(nodeMapper, isHeader)
                 tableRowTranscriber.transcribe(rowNode, context).content
             }
 

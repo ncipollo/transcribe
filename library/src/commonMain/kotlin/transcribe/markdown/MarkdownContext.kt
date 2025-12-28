@@ -1,3 +1,5 @@
 package transcribe.markdown
 
-data class MarkdownContext(val markdownText: String = "")
+data class MarkdownContext(
+    val markdownText: String = ""
+)

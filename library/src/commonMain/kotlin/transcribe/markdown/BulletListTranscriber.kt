@@ -9,7 +9,7 @@ import transcribe.TranscribeResult
  * Transcriber for UNORDERED_LIST nodes that converts markdown bullet lists to ADF BulletListNode.
  */
 class BulletListTranscriber(
-    private val blockTranscriber: BlockContentTranscriber,
+    private val nodeMapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<BulletListNode> {
     override fun transcribe(
         input: ASTNode,
@@ -19,7 +19,7 @@ class BulletListTranscriber(
         val listItems = input.children
             .filter { it.type == MarkdownElementTypes.LIST_ITEM }
             .mapNotNull { itemNode ->
-                val listItemTranscriber = ListItemTranscriber(blockTranscriber)
+                val listItemTranscriber = ListItemTranscriber(nodeMapper)
                 listItemTranscriber.transcribe(itemNode, context).content
             }
 

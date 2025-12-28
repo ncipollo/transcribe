@@ -18,7 +18,7 @@ import transcribe.TranscribeResult
  * Transcriber for task lists (CHECK_BOX within LIST_ITEM) that converts markdown task lists to ADF TaskListNode.
  */
 class TaskListTranscriber(
-    private val blockTranscriber: BlockContentTranscriber,
+    private val nodeMapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<TaskListNode> {
     override fun transcribe(
         input: ASTNode,
@@ -42,11 +42,11 @@ class TaskListTranscriber(
                 for (child in contentNodes) {
                     when (child.type) {
                         MarkdownElementTypes.PARAGRAPH -> {
-                            val paragraphTranscriber = ParagraphTranscriber(blockTranscriber.inlineTranscriber)
-                            paragraphTranscriber.transcribe(child, context).content.let { content.add(it) }
+                            val paragraphTranscriber = nodeMapper.transcriberFor(child.type) as? MarkdownTranscriber<ADFNode>
+                            paragraphTranscriber?.transcribe(child, context)?.content?.let { content.add(it) }
                         }
                         else -> {
-                            val blockContent = blockTranscriber.transcribeChildren(child, context)
+                            val blockContent = nodeMapper.transcribeBlockChildren(child, context)
                             content.addAll(blockContent)
                         }
                     }

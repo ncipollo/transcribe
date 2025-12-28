@@ -13,7 +13,7 @@ import transcribe.TranscribeResult
  * Transcriber for LIST_ITEM nodes that converts markdown list items to ADF ListItemNode.
  */
 class ListItemTranscriber(
-    private val blockTranscriber: BlockContentTranscriber,
+    private val nodeMapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<ListItemNode> {
     override fun transcribe(
         input: ASTNode,
@@ -32,23 +32,23 @@ class ListItemTranscriber(
         for (child in contentNodes) {
             when (child.type) {
                 MarkdownElementTypes.PARAGRAPH -> {
-                    val paragraphTranscriber = ParagraphTranscriber(blockTranscriber.inlineTranscriber)
-                    paragraphTranscriber.transcribe(child, context).content?.let { content.add(it) }
+                    val paragraphTranscriber = nodeMapper.transcriberFor(child.type) as? MarkdownTranscriber<ADFNode>
+                    paragraphTranscriber?.transcribe(child, context)?.content?.let { content.add(it) }
                 }
                 MarkdownElementTypes.UNORDERED_LIST -> {
-                    val bulletListTranscriber = BulletListTranscriber(blockTranscriber)
-                    bulletListTranscriber.transcribe(child, context).content?.let { content.add(it) }
+                    val bulletListTranscriber = nodeMapper.transcriberFor(child.type) as? MarkdownTranscriber<ADFNode>
+                    bulletListTranscriber?.transcribe(child, context)?.content?.let { content.add(it) }
                 }
                 MarkdownElementTypes.ORDERED_LIST -> {
-                    val orderedListTranscriber = OrderedListTranscriber(blockTranscriber)
-                    orderedListTranscriber.transcribe(child, context).content?.let { content.add(it) }
+                    val orderedListTranscriber = nodeMapper.transcriberFor(child.type) as? MarkdownTranscriber<ADFNode>
+                    orderedListTranscriber?.transcribe(child, context)?.content?.let { content.add(it) }
                 }
                 MarkdownTokenTypes.EOL -> {
                     // Skip end-of-line nodes
                 }
                 else -> {
                     // Try to transcribe as block content
-                    val blockContent = blockTranscriber.transcribeChildren(child, context)
+                    val blockContent = nodeMapper.transcribeBlockChildren(child, context)
                     content.addAll(blockContent)
                 }
             }

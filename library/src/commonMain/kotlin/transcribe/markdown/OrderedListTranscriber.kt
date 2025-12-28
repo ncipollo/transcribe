@@ -9,7 +9,7 @@ import transcribe.TranscribeResult
  * Transcriber for ORDERED_LIST nodes that converts markdown ordered lists to ADF OrderedListNode.
  */
 class OrderedListTranscriber(
-    private val blockTranscriber: BlockContentTranscriber,
+    private val nodeMapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<OrderedListNode> {
     override fun transcribe(
         input: ASTNode,
@@ -19,7 +19,7 @@ class OrderedListTranscriber(
         val listItems = input.children
             .filter { it.type == MarkdownElementTypes.LIST_ITEM }
             .map { itemNode ->
-                val listItemTranscriber = ListItemTranscriber(blockTranscriber)
+                val listItemTranscriber = ListItemTranscriber(nodeMapper)
                 listItemTranscriber.transcribe(itemNode, context).content
             }
 

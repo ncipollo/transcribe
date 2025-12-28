@@ -11,7 +11,7 @@ import transcribe.TranscribeResult
  * Transcriber for ROW and HEADER nodes (GFM) that converts markdown table rows to ADF TableRowNode.
  */
 class TableRowTranscriber(
-    private val blockTranscriber: BlockContentTranscriber,
+    private val nodeMapper: MarkdownNodeMapper,
     private val isHeader: Boolean = false,
 ) : MarkdownTranscriber<TableRowNode> {
     override fun transcribe(
@@ -22,7 +22,7 @@ class TableRowTranscriber(
         val cells = input.children
             .filter { it.type == GFMTokenTypes.CELL }
             .map { cellNode ->
-                val tableCellTranscriber = TableCellTranscriber(blockTranscriber, isHeader)
+                val tableCellTranscriber = TableCellTranscriber(nodeMapper, isHeader)
                 tableCellTranscriber.transcribe(cellNode, context).content
             }
 
