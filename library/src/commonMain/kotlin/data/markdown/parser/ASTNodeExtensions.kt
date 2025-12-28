@@ -1,12 +1,14 @@
 package data.markdown.parser
 
-import org.intellij.markdown.IElementType
 import org.intellij.markdown.MarkdownElementTypes
+import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
+import org.intellij.markdown.ast.findChildOfType
 
-fun ASTNode.findChildOfType(type: IElementType): ASTNode? {
-    return children.firstOrNull { it.type == type }
-}
+fun ASTNode.findTextContent(markdownText: String) =
+    findChildOfType(MarkdownTokenTypes.TEXT)
+        ?.getTextContent(markdownText)
+        ?.toString() ?: ""
 
 fun ASTNode.getTextContent(markdownText: CharSequence): CharSequence {
     return markdownText.subSequence(startOffset, endOffset)
