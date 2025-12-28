@@ -8,8 +8,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class HeadingTranscriberTest {
-    private val inlineTranscriber = InlineContentTranscriber()
-    private val transcriber = HeadingTranscriber(inlineTranscriber)
+    private val mapper = defaultMarkdownNodeMapper()
+    private val transcriber = HeadingTranscriber(mapper)
 
     @Test
     fun transcribe_atx1() {

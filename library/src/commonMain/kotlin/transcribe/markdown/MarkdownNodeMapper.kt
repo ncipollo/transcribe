@@ -1,7 +1,11 @@
 package transcribe.markdown
 
 import data.atlassian.adf.ADFBlockNode
+import data.atlassian.adf.ADFInlineNode
+import data.atlassian.adf.TextNode
+import data.markdown.parser.getTextContent
 import org.intellij.markdown.IElementType
+import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
 
 /**
@@ -34,6 +38,42 @@ class MarkdownNodeMapper(
                 @Suppress("UNCHECKED_CAST")
                 val blockTranscriber = transcriber as? MarkdownTranscriber<ADFBlockNode>
                 blockTranscriber?.transcribe(child, context)?.content?.let { result.add(it) }
+            }
+        }
+
+        return result
+    }
+
+    /**
+     * Transcribes inline-level children of the given AST node using the appropriate transcribers.
+     * Returns a list of ADF inline nodes representing the transcribed children.
+     */
+    fun transcribeInlineChildren(
+        parent: ASTNode,
+        context: MarkdownContext,
+    ): List<ADFInlineNode> {
+        val result = mutableListOf<ADFInlineNode>()
+
+        // Process children in order
+        for (child in parent.children) {
+            when (child.type) {
+                MarkdownTokenTypes.EOL -> {
+                    // Skip end-of-line nodes
+                }
+                else -> {
+                    val transcriber = transcriberFor(child.type)
+                    if (transcriber != null) {
+                        @Suppress("UNCHECKED_CAST")
+                        val inlineTranscriber = transcriber as? MarkdownTranscriber<ADFInlineNode>
+                        inlineTranscriber?.transcribe(child, context)?.content?.let { result.add(it) }
+                    } else {
+                        // For unknown types, try to extract text content
+                        val textContent = child.getTextContent(context.markdownText).toString().trim()
+                        if (textContent.isNotEmpty()) {
+                            result.add(TextNode(text = textContent))
+                        }
+                    }
+                }
             }
         }
 

@@ -8,13 +8,13 @@ import transcribe.TranscribeResult
  * Transcriber for PARAGRAPH nodes that converts markdown paragraphs to ADF ParagraphNode.
  */
 class ParagraphTranscriber(
-    private val inlineTranscriber: InlineContentTranscriber,
+    private val mapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<ParagraphNode> {
     override fun transcribe(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<ParagraphNode> {
-        val inlineContent = inlineTranscriber.transcribeChildren(input, context)
+        val inlineContent = mapper.transcribeInlineChildren(input, context)
 
         return TranscribeResult(
             ParagraphNode(

@@ -12,7 +12,7 @@ import transcribe.TranscribeResult
  * Transcriber for ATX_1-6 and SETEXT_1-2 heading nodes that converts markdown headings to ADF HeadingNode.
  */
 class HeadingTranscriber(
-    private val inlineTranscriber: InlineContentTranscriber,
+    private val mapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<HeadingNode> {
     override fun transcribe(
         input: ASTNode,
@@ -35,10 +35,10 @@ class HeadingTranscriber(
         val contentNode = input.findChildOfType(MarkdownTokenTypes.ATX_CONTENT)
         val inlineContent =
             if (contentNode != null) {
-                inlineTranscriber.transcribeChildren(contentNode, context)
+                mapper.transcribeInlineChildren(contentNode, context)
             } else {
                 // For SETEXT or if no ATX_CONTENT, process all children that are inline
-                inlineTranscriber.transcribeChildren(input, context)
+                mapper.transcribeInlineChildren(input, context)
             }
 
         return TranscribeResult(

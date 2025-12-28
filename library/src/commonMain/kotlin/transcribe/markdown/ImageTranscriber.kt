@@ -18,7 +18,7 @@ import transcribe.TranscribeResult
  * Transcriber for IMAGE nodes that converts markdown images to ADF MediaSingleNode with MediaNode.
  */
 class ImageTranscriber(
-    private val inlineTranscriber: InlineContentTranscriber,
+    private val mapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<MediaSingleNode> {
     override fun transcribe(
         input: ASTNode,
@@ -39,7 +39,7 @@ class ImageTranscriber(
 
         val altText =
             if (linkTextNode != null) {
-                inlineTranscriber.transcribeChildren(linkTextNode, context)
+                mapper.transcribeInlineChildren(linkTextNode, context)
                     .joinToString("") { node ->
                         if (node is data.atlassian.adf.TextNode) node.text else ""
                     }

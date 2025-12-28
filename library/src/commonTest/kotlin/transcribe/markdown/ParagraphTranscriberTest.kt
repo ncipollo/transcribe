@@ -7,8 +7,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ParagraphTranscriberTest {
-    private val inlineTranscriber = InlineContentTranscriber()
-    private val transcriber = ParagraphTranscriber(inlineTranscriber)
+    private val mapper = defaultMarkdownNodeMapper()
+    private val transcriber = ParagraphTranscriber(mapper)
 
     @Test
     fun transcribe_simpleParagraph() {

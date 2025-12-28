@@ -14,7 +14,7 @@ import transcribe.TranscribeResult
  * that converts markdown links to ADF TextNode with LinkMark.
  */
 class LinkTranscriber(
-    private val inlineTranscriber: InlineContentTranscriber,
+    private val mapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<TextNode> {
     override fun transcribe(
         input: ASTNode,
@@ -43,7 +43,7 @@ class LinkTranscriber(
 
                 val text =
                     if (linkTextNode != null) {
-                        inlineTranscriber.transcribeChildren(linkTextNode, context)
+                        mapper.transcribeInlineChildren(linkTextNode, context)
                             .joinToString("") { node ->
                                 if (node is TextNode) node.text else ""
                             }
@@ -75,7 +75,7 @@ class LinkTranscriber(
                 val linkTextNode = input.findChildOfType(MarkdownElementTypes.LINK_TEXT)
                 val text =
                     if (linkTextNode != null) {
-                        inlineTranscriber.transcribeChildren(linkTextNode, context)
+                        mapper.transcribeInlineChildren(linkTextNode, context)
                             .joinToString("") { node ->
                                 if (node is TextNode) node.text else ""
                             }
