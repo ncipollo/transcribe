@@ -45,6 +45,7 @@ Subsection 2.
 **Lots** of *random* elements.
 ```swift
 let thing = MyThing()
+use(thing)
 ```
 
 <details>

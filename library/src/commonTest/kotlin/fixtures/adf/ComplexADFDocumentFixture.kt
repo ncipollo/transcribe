@@ -711,7 +711,7 @@ object ComplexADFDocumentFixture {
             },
             "content": [
                 {
-                    "text": "let thing = MyThing()",
+                    "text": "let thing = MyThing()\nuse(thing)",
                     "type": "text"
                 }
             ]

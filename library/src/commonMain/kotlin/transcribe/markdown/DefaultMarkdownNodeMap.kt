@@ -13,7 +13,7 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
         // Leaf node transcribers (don't need dependencies)
         add(MarkdownTokenTypes.TEXT) { TextTranscriber() }
         add(MarkdownElementTypes.CODE_SPAN) { CodeSpanTranscriber() }
-        add(MarkdownElementTypes.CODE_FENCE) { CodeBlockTranscriber() }
+        add(MarkdownElementTypes.CODE_FENCE) { CodeFenceTranscriber() }
         add(MarkdownElementTypes.CODE_BLOCK) { CodeBlockTranscriber() }
 
         // Inline content transcribers (need InlineContentTranscriber)
