@@ -1,8 +1,6 @@
 package transcribe.markdown
 
-import data.atlassian.adf.ADFBlockNode
 import data.atlassian.adf.BlockquoteNode
-import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import transcribe.TranscribeResult
 
@@ -24,4 +22,3 @@ class BlockquoteTranscriber(
         )
     }
 }
-

@@ -1,7 +1,6 @@
 package transcribe.markdown
 
 import data.atlassian.adf.TableNode
-import data.atlassian.adf.TableRowNode
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.flavours.gfm.GFMElementTypes
 import transcribe.TranscribeResult
@@ -17,13 +16,14 @@ class TableTranscriber(
         context: MarkdownContext,
     ): TranscribeResult<TableNode> {
         // Extract HEADER and ROW children
-        val rows = input.children
-            .filter { it.type == GFMElementTypes.HEADER || it.type == GFMElementTypes.ROW }
-            .map { rowNode ->
-                val isHeader = rowNode.type == GFMElementTypes.HEADER
-                val tableRowTranscriber = TableRowTranscriber(nodeMapper, isHeader)
-                tableRowTranscriber.transcribe(rowNode, context).content
-            }
+        val rows =
+            input.children
+                .filter { it.type == GFMElementTypes.HEADER || it.type == GFMElementTypes.ROW }
+                .map { rowNode ->
+                    val isHeader = rowNode.type == GFMElementTypes.HEADER
+                    val tableRowTranscriber = TableRowTranscriber(nodeMapper, isHeader)
+                    tableRowTranscriber.transcribe(rowNode, context).content
+                }
 
         return TranscribeResult(
             TableNode(
@@ -32,4 +32,3 @@ class TableTranscriber(
         )
     }
 }
-

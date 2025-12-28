@@ -104,4 +104,3 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
         }
     }
 }
-

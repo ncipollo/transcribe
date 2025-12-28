@@ -5,7 +5,6 @@ import data.atlassian.adf.ListItemNode
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
-import org.intellij.markdown.flavours.gfm.GFMElementTypes
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 import transcribe.TranscribeResult
 
@@ -21,11 +20,12 @@ class ListItemTranscriber(
     ): TranscribeResult<ListItemNode> {
         // List items can contain paragraphs, nested lists, etc.
         // Skip LIST_BULLET, LIST_NUMBER, and CHECK_BOX nodes
-        val contentNodes = input.children.filter { child ->
-            child.type != MarkdownTokenTypes.LIST_BULLET &&
-                child.type != MarkdownTokenTypes.LIST_NUMBER &&
-                child.type != GFMTokenTypes.CHECK_BOX
-        }
+        val contentNodes =
+            input.children.filter { child ->
+                child.type != MarkdownTokenTypes.LIST_BULLET &&
+                    child.type != MarkdownTokenTypes.LIST_NUMBER &&
+                    child.type != GFMTokenTypes.CHECK_BOX
+            }
 
         val content = mutableListOf<ADFNode>()
 
@@ -61,4 +61,3 @@ class ListItemTranscriber(
         )
     }
 }
-

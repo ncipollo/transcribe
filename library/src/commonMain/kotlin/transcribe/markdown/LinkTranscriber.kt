@@ -23,9 +23,10 @@ class LinkTranscriber(
         when (input.type) {
             MarkdownElementTypes.AUTOLINK -> {
                 // Autolink: extract URL directly from text
-                val url = input.getTextContent(context.markdownText).toString()
-                    .removePrefix("<")
-                    .removeSuffix(">")
+                val url =
+                    input.getTextContent(context.markdownText).toString()
+                        .removePrefix("<")
+                        .removeSuffix(">")
                 val text = url
 
                 return TranscribeResult(
@@ -40,22 +41,24 @@ class LinkTranscriber(
                 val linkTextNode = input.findChildOfType(MarkdownElementTypes.LINK_TEXT)
                 val destinationNode = input.findChildOfType(MarkdownElementTypes.LINK_DESTINATION)
 
-                val text = if (linkTextNode != null) {
-                    inlineTranscriber.transcribeChildren(linkTextNode, context)
-                        .joinToString("") { node ->
-                            if (node is TextNode) node.text else ""
-                        }
-                } else {
-                    ""
-                }
+                val text =
+                    if (linkTextNode != null) {
+                        inlineTranscriber.transcribeChildren(linkTextNode, context)
+                            .joinToString("") { node ->
+                                if (node is TextNode) node.text else ""
+                            }
+                    } else {
+                        ""
+                    }
 
-                val href = if (destinationNode != null) {
-                    destinationNode.getTextContent(context.markdownText).toString()
-                        .removePrefix("(")
-                        .removeSuffix(")")
-                } else {
-                    ""
-                }
+                val href =
+                    if (destinationNode != null) {
+                        destinationNode.getTextContent(context.markdownText).toString()
+                            .removePrefix("(")
+                            .removeSuffix(")")
+                    } else {
+                        ""
+                    }
 
                 return TranscribeResult(
                     TextNode(
@@ -65,18 +68,20 @@ class LinkTranscriber(
                 )
             }
             MarkdownElementTypes.FULL_REFERENCE_LINK,
-            MarkdownElementTypes.SHORT_REFERENCE_LINK -> {
+            MarkdownElementTypes.SHORT_REFERENCE_LINK,
+            -> {
                 // Reference links: [text][ref] or [text]
                 // For now, extract text only (reference resolution would need link definitions)
                 val linkTextNode = input.findChildOfType(MarkdownElementTypes.LINK_TEXT)
-                val text = if (linkTextNode != null) {
-                    inlineTranscriber.transcribeChildren(linkTextNode, context)
-                        .joinToString("") { node ->
-                            if (node is TextNode) node.text else ""
-                        }
-                } else {
-                    ""
-                }
+                val text =
+                    if (linkTextNode != null) {
+                        inlineTranscriber.transcribeChildren(linkTextNode, context)
+                            .joinToString("") { node ->
+                                if (node is TextNode) node.text else ""
+                            }
+                    } else {
+                        ""
+                    }
 
                 // TODO: Resolve reference link destination from link definitions
                 // For now, use text as href
@@ -95,4 +100,3 @@ class LinkTranscriber(
         }
     }
 }
-

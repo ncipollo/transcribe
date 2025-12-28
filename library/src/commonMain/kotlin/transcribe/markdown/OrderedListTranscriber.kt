@@ -16,12 +16,13 @@ class OrderedListTranscriber(
         context: MarkdownContext,
     ): TranscribeResult<OrderedListNode> {
         // Extract all LIST_ITEM children
-        val listItems = input.children
-            .filter { it.type == MarkdownElementTypes.LIST_ITEM }
-            .map { itemNode ->
-                val listItemTranscriber = ListItemTranscriber(nodeMapper)
-                listItemTranscriber.transcribe(itemNode, context).content
-            }
+        val listItems =
+            input.children
+                .filter { it.type == MarkdownElementTypes.LIST_ITEM }
+                .map { itemNode ->
+                    val listItemTranscriber = ListItemTranscriber(nodeMapper)
+                    listItemTranscriber.transcribe(itemNode, context).content
+                }
 
         return TranscribeResult(
             OrderedListNode(
@@ -30,4 +31,3 @@ class OrderedListTranscriber(
         )
     }
 }
-

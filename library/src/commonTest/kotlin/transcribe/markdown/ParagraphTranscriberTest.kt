@@ -1,10 +1,10 @@
 package transcribe.markdown
 
+import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
 import org.intellij.markdown.MarkdownElementTypes
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 class ParagraphTranscriberTest {
     private val inlineTranscriber = InlineContentTranscriber()
@@ -16,11 +16,14 @@ class ParagraphTranscriberTest {
         val paragraphNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.PARAGRAPH)
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(paragraphNode, context)
-        
-        assertNotNull(result.content)
-        assertNotNull(result.content.content)
-        assertEquals(1, result.content.content.size)
-        assertEquals("Hello world", (result.content.content[0] as TextNode).text.trim())
+
+        val expected =
+            ParagraphNode(
+                content =
+                    listOf(
+                        TextNode(text = "Hello world"),
+                    ),
+            )
+        assertEquals(expected, result.content)
     }
 }
-

@@ -43,4 +43,3 @@ class MarkdownNodeMapper(
     operator fun plus(mapper: MarkdownNodeMapper): MarkdownNodeMapper =
         MarkdownNodeMapper(transcriberFactories + mapper.transcriberFactories)
 }
-

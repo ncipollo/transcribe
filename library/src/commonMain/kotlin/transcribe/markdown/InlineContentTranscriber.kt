@@ -40,7 +40,8 @@ class InlineContentTranscriber {
                 MarkdownElementTypes.INLINE_LINK,
                 MarkdownElementTypes.FULL_REFERENCE_LINK,
                 MarkdownElementTypes.SHORT_REFERENCE_LINK,
-                MarkdownElementTypes.AUTOLINK -> {
+                MarkdownElementTypes.AUTOLINK,
+                -> {
                     val linkTranscriber = LinkTranscriber(this)
                     linkTranscriber.transcribe(child, context).content?.let { result.add(it) }
                 }
@@ -65,4 +66,3 @@ class InlineContentTranscriber {
         return result
     }
 }
-

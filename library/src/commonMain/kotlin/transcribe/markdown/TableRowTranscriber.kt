@@ -1,9 +1,7 @@
 package transcribe.markdown
 
-import data.atlassian.adf.ADFBlockNode
 import data.atlassian.adf.TableRowNode
 import org.intellij.markdown.ast.ASTNode
-import org.intellij.markdown.flavours.gfm.GFMElementTypes
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 import transcribe.TranscribeResult
 
@@ -19,12 +17,13 @@ class TableRowTranscriber(
         context: MarkdownContext,
     ): TranscribeResult<TableRowNode> {
         // Extract CELL children
-        val cells = input.children
-            .filter { it.type == GFMTokenTypes.CELL }
-            .map { cellNode ->
-                val tableCellTranscriber = TableCellTranscriber(nodeMapper, isHeader)
-                tableCellTranscriber.transcribe(cellNode, context).content
-            }
+        val cells =
+            input.children
+                .filter { it.type == GFMTokenTypes.CELL }
+                .map { cellNode ->
+                    val tableCellTranscriber = TableCellTranscriber(nodeMapper, isHeader)
+                    tableCellTranscriber.transcribe(cellNode, context).content
+                }
 
         return TranscribeResult(
             TableRowNode(
@@ -33,4 +32,3 @@ class TableRowTranscriber(
         )
     }
 }
-

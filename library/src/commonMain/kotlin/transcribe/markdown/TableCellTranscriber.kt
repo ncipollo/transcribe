@@ -5,7 +5,6 @@ import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TableCellNode
 import data.atlassian.adf.TableHeaderNode
 import org.intellij.markdown.ast.ASTNode
-import org.intellij.markdown.flavours.gfm.GFMElementTypes
 import transcribe.TranscribeResult
 
 /**
@@ -24,11 +23,12 @@ class TableCellTranscriber(
         val blockContent = nodeMapper.transcribeBlockChildren(input, context)
 
         // If no block content, create an empty paragraph
-        val content = if (blockContent.isEmpty()) {
-            listOf(ParagraphNode(content = emptyList()))
-        } else {
-            blockContent
-        }
+        val content =
+            if (blockContent.isEmpty()) {
+                listOf(ParagraphNode(content = emptyList()))
+            } else {
+                blockContent
+            }
 
         return if (isHeader) {
             TranscribeResult(
@@ -45,4 +45,3 @@ class TableCellTranscriber(
         }
     }
 }
-

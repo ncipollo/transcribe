@@ -28,6 +28,4 @@ class MarkdownNodeMapperBuilder {
 /**
  * DSL function for building markdown node mappers.
  */
-fun markdownNodeMapper(block: MarkdownNodeMapperBuilder.() -> Unit): MarkdownNodeMapper =
-    MarkdownNodeMapperBuilder().apply(block).mapper()
-
+fun markdownNodeMapper(block: MarkdownNodeMapperBuilder.() -> Unit): MarkdownNodeMapper = MarkdownNodeMapperBuilder().apply(block).mapper()

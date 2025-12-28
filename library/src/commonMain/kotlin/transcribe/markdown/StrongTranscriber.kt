@@ -17,13 +17,14 @@ class StrongTranscriber(
     ): TranscribeResult<TextNode> {
         // Transcribe all inline children and combine their text
         val inlineNodes = inlineTranscriber.transcribeChildren(input, context)
-        val text = inlineNodes.joinToString("") { node ->
-            if (node is TextNode) {
-                node.text
-            } else {
-                ""
+        val text =
+            inlineNodes.joinToString("") { node ->
+                if (node is TextNode) {
+                    node.text
+                } else {
+                    ""
+                }
             }
-        }
 
         return TranscribeResult(
             TextNode(
@@ -33,4 +34,3 @@ class StrongTranscriber(
         )
     }
 }
-

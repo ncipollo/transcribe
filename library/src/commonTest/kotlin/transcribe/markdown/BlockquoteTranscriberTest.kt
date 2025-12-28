@@ -17,17 +17,19 @@ class BlockquoteTranscriberTest {
         val blockquoteNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.BLOCK_QUOTE)
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(blockquoteNode, context)
-        
-        val expected = BlockquoteNode(
-            content = listOf(
-                ParagraphNode(
-                    content = listOf(
-                        TextNode(text = "Quote text")
-                    )
-                )
+
+        val expected =
+            BlockquoteNode(
+                content =
+                    listOf(
+                        ParagraphNode(
+                            content =
+                                listOf(
+                                    TextNode(text = "Quote text"),
+                                ),
+                        ),
+                    ),
             )
-        )
         assertEquals(expected, result.content)
     }
 }
-

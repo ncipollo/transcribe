@@ -63,4 +63,3 @@ object MarkdownTestHelper {
         return null
     }
 }
-

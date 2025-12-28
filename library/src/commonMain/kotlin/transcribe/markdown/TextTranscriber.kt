@@ -2,7 +2,6 @@ package transcribe.markdown
 
 import data.atlassian.adf.TextNode
 import data.markdown.parser.getTextContent
-import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import transcribe.TranscribeResult
 
@@ -18,4 +17,3 @@ class TextTranscriber : MarkdownTranscriber<TextNode> {
         return TranscribeResult(TextNode(text = text))
     }
 }
-
