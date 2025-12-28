@@ -10,10 +10,10 @@ import org.intellij.markdown.ast.ASTNode
  * ensuring custom overrides propagate correctly to container transcribers.
  */
 class MarkdownNodeMapper(
-    private val transcriberFactories: Map<String, (MarkdownNodeMapper) -> MarkdownTranscriber<*>>,
+    private val transcriberFactories: Map<IElementType, (MarkdownNodeMapper) -> MarkdownTranscriber<*>>,
 ) {
     fun transcriberFor(elementType: IElementType): MarkdownTranscriber<*>? {
-        val factory = transcriberFactories[elementType.name]
+        val factory = transcriberFactories[elementType]
         return factory?.invoke(this)
     }
 

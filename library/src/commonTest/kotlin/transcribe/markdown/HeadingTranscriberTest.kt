@@ -1,8 +1,6 @@
 package transcribe.markdown
 
-import data.atlassian.adf.HeadingAttrs
 import data.atlassian.adf.TextNode
-import data.markdown.parser.MarkdownDocument
 import org.intellij.markdown.MarkdownElementTypes
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,13 +13,7 @@ class HeadingTranscriberTest {
     @Test
     fun transcribe_atx1() {
         val markdown = "# Title"
-        val document = MarkdownDocument.create(markdown)
-        
-        val headingNode = document.rootNode.children
-            .firstOrNull { it.type == MarkdownElementTypes.ATX_1 }
-        
-        assertNotNull(headingNode, "Should find heading node")
-        
+        val headingNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.ATX_1)
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(headingNode, context)
         
@@ -35,13 +27,7 @@ class HeadingTranscriberTest {
     @Test
     fun transcribe_atx3() {
         val markdown = "### Subtitle"
-        val document = MarkdownDocument.create(markdown)
-        
-        val headingNode = document.rootNode.children
-            .firstOrNull { it.type == MarkdownElementTypes.ATX_3 }
-        
-        assertNotNull(headingNode, "Should find heading node")
-        
+        val headingNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.ATX_3)
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(headingNode, context)
         

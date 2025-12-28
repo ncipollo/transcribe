@@ -1,7 +1,6 @@
 package transcribe.markdown
 
 import data.atlassian.adf.TextNode
-import data.markdown.parser.MarkdownDocument
 import org.intellij.markdown.MarkdownElementTypes
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,13 +13,7 @@ class ParagraphTranscriberTest {
     @Test
     fun transcribe_simpleParagraph() {
         val markdown = "Hello world"
-        val document = MarkdownDocument.create(markdown)
-        
-        val paragraphNode = document.rootNode.children
-            .firstOrNull { it.type == MarkdownElementTypes.PARAGRAPH }
-        
-        assertNotNull(paragraphNode, "Should find paragraph node")
-        
+        val paragraphNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.PARAGRAPH)
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(paragraphNode, context)
         

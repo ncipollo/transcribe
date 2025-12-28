@@ -6,7 +6,7 @@ import org.intellij.markdown.IElementType
  * Builder for creating markdown node mappers with factory functions.
  */
 class MarkdownNodeMapperBuilder {
-    private val factories = mutableMapOf<String, (MarkdownNodeMapper) -> MarkdownTranscriber<*>>()
+    private val factories = mutableMapOf<IElementType, (MarkdownNodeMapper) -> MarkdownTranscriber<*>>()
 
     /**
      * Add a transcriber factory for a specific element type.
@@ -15,7 +15,7 @@ class MarkdownNodeMapperBuilder {
         elementType: IElementType,
         factory: (MarkdownNodeMapper) -> MarkdownTranscriber<*>,
     ): MarkdownNodeMapperBuilder {
-        factories[elementType.name] = factory
+        factories[elementType] = factory
         return this
     }
 

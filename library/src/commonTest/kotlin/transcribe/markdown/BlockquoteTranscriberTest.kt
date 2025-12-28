@@ -1,9 +1,11 @@
 package transcribe.markdown
 
-import data.markdown.parser.MarkdownDocument
+import data.atlassian.adf.BlockquoteNode
+import data.atlassian.adf.ParagraphNode
+import data.atlassian.adf.TextNode
 import org.intellij.markdown.MarkdownElementTypes
 import kotlin.test.Test
-import kotlin.test.assertNotNull
+import kotlin.test.assertEquals
 
 class BlockquoteTranscriberTest {
     private val nodeMapper = defaultMarkdownNodeMapper()
@@ -12,18 +14,20 @@ class BlockquoteTranscriberTest {
     @Test
     fun transcribe_blockquote() {
         val markdown = "> Quote text"
-        val document = MarkdownDocument.create(markdown)
-        
-        val blockquoteNode = document.rootNode.children
-            .firstOrNull { it.type == MarkdownElementTypes.BLOCK_QUOTE }
-        
-        assertNotNull(blockquoteNode, "Should find blockquote node")
-        
+        val blockquoteNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.BLOCK_QUOTE)
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(blockquoteNode, context)
         
-        assertNotNull(result.content)
-        assertNotNull(result.content.content)
+        val expected = BlockquoteNode(
+            content = listOf(
+                ParagraphNode(
+                    content = listOf(
+                        TextNode(text = "Quote text")
+                    )
+                )
+            )
+        )
+        assertEquals(expected, result.content)
     }
 }
 

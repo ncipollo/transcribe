@@ -1,6 +1,5 @@
 package transcribe.markdown
 
-import data.markdown.parser.MarkdownDocument
 import org.intellij.markdown.MarkdownTokenTypes
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,15 +11,7 @@ class TextTranscriberTest {
     @Test
     fun transcribe_simpleText() {
         val markdown = "Hello world"
-        val document = MarkdownDocument.create(markdown)
-        
-        // Find a TEXT node
-        val textNode = document.rootNode.children
-            .flatMap { it.children }
-            .firstOrNull { it.type == MarkdownTokenTypes.TEXT }
-        
-        assertNotNull(textNode, "Should find text node")
-        
+        val textNode = MarkdownTestHelper.findNestedNode(markdown, MarkdownTokenTypes.TEXT)
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(textNode, context)
         

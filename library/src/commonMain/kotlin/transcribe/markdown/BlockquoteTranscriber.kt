@@ -16,10 +16,7 @@ class BlockquoteTranscriber(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<BlockquoteNode> {
-        // Blockquotes can contain paragraphs, lists, etc.
-        // Process all block-level children
         val blockContent = nodeMapper.transcribeBlockChildren(input, context)
-
         return TranscribeResult(
             BlockquoteNode(
                 content = blockContent,
