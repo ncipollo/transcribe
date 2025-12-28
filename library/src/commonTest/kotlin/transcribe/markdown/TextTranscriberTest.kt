@@ -1,6 +1,7 @@
 package transcribe.markdown
 
 import data.markdown.parser.MarkdownDocument
+import org.intellij.markdown.MarkdownTokenTypes
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -16,7 +17,7 @@ class TextTranscriberTest {
         // Find a TEXT node
         val textNode = document.rootNode.children
             .flatMap { it.children }
-            .firstOrNull { it.type == org.intellij.markdown.MarkdownTokenTypes.TEXT }
+            .firstOrNull { it.type == MarkdownTokenTypes.TEXT }
         
         assertNotNull(textNode, "Should find text node")
         
