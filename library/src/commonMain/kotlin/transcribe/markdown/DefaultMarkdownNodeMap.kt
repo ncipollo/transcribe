@@ -18,7 +18,7 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
 
         // Inline content transcribers (need MarkdownNodeMapper)
         add(MarkdownElementTypes.EMPH) {
-            EmphasisTranscriber(it)
+            EmphasisTranscriber()
         }
         add(MarkdownElementTypes.STRONG) {
             StrongTranscriber(it)
