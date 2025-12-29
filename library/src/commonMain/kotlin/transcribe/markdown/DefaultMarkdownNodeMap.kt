@@ -21,7 +21,7 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
             EmphasisTranscriber()
         }
         add(MarkdownElementTypes.STRONG) {
-            StrongTranscriber(it)
+            StrongTranscriber()
         }
         add(MarkdownElementTypes.INLINE_LINK) {
             LinkTranscriber(it)

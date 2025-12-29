@@ -33,4 +33,3 @@ class CodeBlockTranscriberTest {
         assertEquals(expected, result.content)
     }
 }
-

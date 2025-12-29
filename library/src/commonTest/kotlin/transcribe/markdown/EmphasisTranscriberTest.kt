@@ -20,4 +20,3 @@ class EmphasisTranscriberTest {
         assertEquals(expected, result.content)
     }
 }
-

@@ -42,4 +42,3 @@ class CodeFenceTranscriber : MarkdownTranscriber<CodeBlockNode> {
         )
     }
 }
-

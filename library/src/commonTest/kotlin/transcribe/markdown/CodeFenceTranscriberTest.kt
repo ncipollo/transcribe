@@ -46,4 +46,3 @@ class CodeFenceTranscriberTest {
         assertEquals(expected, result.content)
     }
 }
-
