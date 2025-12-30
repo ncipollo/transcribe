@@ -36,7 +36,7 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
             LinkTranscriber()
         }
         add(GFMElementTypes.STRIKETHROUGH) {
-            StrikethroughTranscriber(it)
+            StrikethroughTranscriber()
         }
 
         // Block content transcribers (need MarkdownNodeMapper)
