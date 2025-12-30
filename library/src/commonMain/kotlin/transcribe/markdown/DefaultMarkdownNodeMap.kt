@@ -73,9 +73,6 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
         add(MarkdownElementTypes.ORDERED_LIST) {
             OrderedListTranscriber(it)
         }
-        add(MarkdownElementTypes.LIST_ITEM) {
-            ListItemTranscriber(it)
-        }
         add(MarkdownElementTypes.BLOCK_QUOTE) {
             BlockquoteTranscriber(it)
         }

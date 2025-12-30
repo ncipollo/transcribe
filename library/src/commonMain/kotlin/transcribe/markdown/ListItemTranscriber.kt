@@ -1,11 +1,9 @@
 package transcribe.markdown
 
-import data.atlassian.adf.ADFNode
 import data.atlassian.adf.ListItemNode
 import org.intellij.markdown.MarkdownElementTypes
-import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
-import org.intellij.markdown.flavours.gfm.GFMTokenTypes
+import org.intellij.markdown.ast.findChildOfType
 import transcribe.TranscribeResult
 
 /**
@@ -18,46 +16,13 @@ class ListItemTranscriber(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<ListItemNode> {
-        // List items can contain paragraphs, nested lists, etc.
-        // Skip LIST_BULLET, LIST_NUMBER, and CHECK_BOX nodes
-        val contentNodes =
-            input.children.filter { child ->
-                child.type != MarkdownTokenTypes.LIST_BULLET &&
-                    child.type != MarkdownTokenTypes.LIST_NUMBER &&
-                    child.type != GFMTokenTypes.CHECK_BOX
+        val paragraphContent =
+            findParagraphNode(input)?.let {
+                val transcriber = nodeMapper.transcriberFor(it.type)
+                transcriber?.transcribe(it, context)?.content
             }
-
-        val content = mutableListOf<ADFNode>()
-
-        for (child in contentNodes) {
-            when (child.type) {
-                MarkdownElementTypes.PARAGRAPH -> {
-                    val paragraphTranscriber = nodeMapper.transcriberFor(child.type) as? MarkdownTranscriber<ADFNode>
-                    paragraphTranscriber?.transcribe(child, context)?.content?.let { content.add(it) }
-                }
-                MarkdownElementTypes.UNORDERED_LIST -> {
-                    val bulletListTranscriber = nodeMapper.transcriberFor(child.type) as? MarkdownTranscriber<ADFNode>
-                    bulletListTranscriber?.transcribe(child, context)?.content?.let { content.add(it) }
-                }
-                MarkdownElementTypes.ORDERED_LIST -> {
-                    val orderedListTranscriber = nodeMapper.transcriberFor(child.type) as? MarkdownTranscriber<ADFNode>
-                    orderedListTranscriber?.transcribe(child, context)?.content?.let { content.add(it) }
-                }
-                MarkdownTokenTypes.EOL -> {
-                    // Skip end-of-line nodes
-                }
-                else -> {
-                    // Try to transcribe as block content
-                    val blockContent = nodeMapper.transcribeBlockChildren(child, context)
-                    content.addAll(blockContent)
-                }
-            }
-        }
-
-        return TranscribeResult(
-            ListItemNode(
-                content = content,
-            ),
-        )
+        return TranscribeResult(ListItemNode(content = listOfNotNull(paragraphContent)))
     }
+
+    private fun findParagraphNode(input: ASTNode): ASTNode? = input.findChildOfType(MarkdownElementTypes.PARAGRAPH)
 }
