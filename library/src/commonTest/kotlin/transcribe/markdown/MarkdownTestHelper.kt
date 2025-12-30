@@ -1,6 +1,7 @@
 package transcribe.markdown
 
 import data.markdown.parser.MarkdownDocument
+import data.markdown.parser.findChildOfTypeInSubtree
 import org.intellij.markdown.IElementType
 import org.intellij.markdown.ast.ASTNode
 import kotlin.test.assertNotNull
@@ -23,7 +24,7 @@ object MarkdownTestHelper {
         elementType: IElementType,
     ): ASTNode {
         val document = MarkdownDocument.create(markdownText)
-        val node = document.rootNode.children.firstOrNull { it.type == elementType }
+        val node = document.rootNode.findChildOfTypeInSubtree(elementType)
         assertNotNull(node, "Should find ${elementType.name} node")
         return node
     }

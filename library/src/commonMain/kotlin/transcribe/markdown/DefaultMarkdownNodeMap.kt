@@ -82,7 +82,7 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
             BlockquoteTranscriber(it)
         }
         add(MarkdownElementTypes.IMAGE) {
-            ImageTranscriber(it)
+            ImageTranscriber()
         }
         add(GFMElementTypes.TABLE) {
             TableTranscriber(it)
