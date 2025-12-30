@@ -18,26 +18,26 @@ class HeadingTranscriber(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<HeadingNode> {
-        val level =
-            when (input.type) {
-                MarkdownElementTypes.ATX_1 -> 1
-                MarkdownElementTypes.ATX_2 -> 2
-                MarkdownElementTypes.ATX_3 -> 3
-                MarkdownElementTypes.ATX_4 -> 4
-                MarkdownElementTypes.ATX_5 -> 5
-                MarkdownElementTypes.ATX_6 -> 6
-                MarkdownElementTypes.SETEXT_1 -> 1
-                MarkdownElementTypes.SETEXT_2 -> 2
-                else -> 1
-            }
+        val level = headingLevel(input)
 
-        // Find ATX_CONTENT or process children for content
-        val contentNode = input.findChildOfType(MarkdownTokenTypes.ATX_CONTENT)
+        // Find ATX_CONTENT or SETEXT_CONTENT, or process children for content
+        val atxContentNode = input.findChildOfType(MarkdownTokenTypes.ATX_CONTENT)
+        val setextContentNode = input.findChildOfType(MarkdownTokenTypes.SETEXT_CONTENT)
+        val contentNode = atxContentNode ?: setextContentNode
         val inlineContent =
             if (contentNode != null) {
-                mapper.transcribeInlineChildren(contentNode, context)
+                // Skip the first child if it's whitespace (space after # in ATX headings)
+                val childrenToProcess =
+                    contentNode.children.let { children ->
+                        if (children.firstOrNull()?.type == MarkdownTokenTypes.WHITE_SPACE) {
+                            children.drop(1)
+                        } else {
+                            children
+                        }
+                    }
+                mapper.transcribeInlineChildren(childrenToProcess, context)
             } else {
-                // For SETEXT or if no ATX_CONTENT, process all children that are inline
+                // If no content node found, process all children that are inline
                 mapper.transcribeInlineChildren(input, context)
             }
 
@@ -48,4 +48,17 @@ class HeadingTranscriber(
             ),
         )
     }
+
+    private fun headingLevel(input: ASTNode): Int =
+        when (input.type) {
+            MarkdownElementTypes.ATX_1 -> 1
+            MarkdownElementTypes.ATX_2 -> 2
+            MarkdownElementTypes.ATX_3 -> 3
+            MarkdownElementTypes.ATX_4 -> 4
+            MarkdownElementTypes.ATX_5 -> 5
+            MarkdownElementTypes.ATX_6 -> 6
+            MarkdownElementTypes.SETEXT_1 -> 1
+            MarkdownElementTypes.SETEXT_2 -> 2
+            else -> 1
+        }
 }

@@ -1090,10 +1090,35 @@ object ComplexADFDocumentFixture {
             ]
         },
         {
-            "type": "paragraph",
+            "type": "heading",
             "attrs": {
-                "localId": "563cac18-eec5-44a3-aade-532b8be32056"
-            }
+                "level": 1,
+                "localId": "bfd3e212-aba8-441f-8a9c-37d07bc65400"
+            },
+            "content": [
+                {
+                    "text": "Section ",
+                    "type": "text",
+                    "marks": [
+                        {
+                            "type": "em"
+                        }
+                    ]
+                },
+                {
+                    "text": "10 and ",
+                    "type": "text"
+                },
+                {
+                    "text": "Bold",
+                    "type": "text",
+                    "marks": [
+                        {
+                            "type": "strong"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "version": 1

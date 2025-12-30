@@ -5,7 +5,6 @@ import data.atlassian.adf.ADFInlineNode
 import data.atlassian.adf.TextNode
 import data.markdown.parser.getTextContent
 import org.intellij.markdown.IElementType
-import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
 
 /**
@@ -52,27 +51,31 @@ class MarkdownNodeMapper(
         parent: ASTNode,
         context: MarkdownContext,
     ): List<ADFInlineNode> {
+        return transcribeInlineChildren(parent.children, context)
+    }
+
+    /**
+     * Transcribes a list of AST nodes as inline-level content using the appropriate transcribers.
+     * Returns a list of ADF inline nodes representing the transcribed children.
+     */
+    fun transcribeInlineChildren(
+        children: List<ASTNode>,
+        context: MarkdownContext,
+    ): List<ADFInlineNode> {
         val result = mutableListOf<ADFInlineNode>()
 
         // Process children in order
-        for (child in parent.children) {
-            when (child.type) {
-                MarkdownTokenTypes.EOL -> {
-                    // Skip end-of-line nodes
-                }
-                else -> {
-                    val transcriber = transcriberFor(child.type)
-                    if (transcriber != null) {
-                        @Suppress("UNCHECKED_CAST")
-                        val inlineTranscriber = transcriber as? MarkdownTranscriber<ADFInlineNode>
-                        inlineTranscriber?.transcribe(child, context)?.content?.let { result.add(it) }
-                    } else {
-                        // For unknown types, try to extract text content
-                        val textContent = child.getTextContent(context.markdownText).toString().trim()
-                        if (textContent.isNotEmpty()) {
-                            result.add(TextNode(text = textContent))
-                        }
-                    }
+        for (child in children) {
+            val transcriber = transcriberFor(child.type)
+            if (transcriber != null) {
+                @Suppress("UNCHECKED_CAST")
+                val inlineTranscriber = transcriber as? MarkdownTranscriber<ADFInlineNode>
+                inlineTranscriber?.transcribe(child, context)?.content?.let { result.add(it) }
+            } else {
+                // For unknown types, try to extract text content
+                val textContent = child.getTextContent(context.markdownText).toString().trim()
+                if (textContent.isNotEmpty()) {
+                    result.add(TextNode(text = textContent))
                 }
             }
         }

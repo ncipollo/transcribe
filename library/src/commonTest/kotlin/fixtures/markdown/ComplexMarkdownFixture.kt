@@ -66,5 +66,6 @@ use(thing)
 > Next line.
 > - Bullet 1
 > - Bullet 2
+# *Section* 10 and **Bold**
 """
 }

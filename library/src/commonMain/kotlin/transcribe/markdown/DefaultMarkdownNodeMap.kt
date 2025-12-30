@@ -12,6 +12,8 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
     return markdownNodeMapper {
         // Leaf node transcribers (don't need dependencies)
         add(MarkdownTokenTypes.TEXT) { TextTranscriber() }
+        add(MarkdownTokenTypes.EOL) { EolTranscriber() }
+        add(MarkdownTokenTypes.WHITE_SPACE) { WhitespaceTranscriber() }
         add(MarkdownElementTypes.CODE_SPAN) { CodeSpanTranscriber() }
         add(MarkdownElementTypes.CODE_FENCE) { CodeFenceTranscriber() }
         add(MarkdownElementTypes.CODE_BLOCK) { CodeBlockTranscriber() }

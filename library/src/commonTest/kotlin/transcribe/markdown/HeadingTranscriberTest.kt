@@ -46,4 +46,44 @@ class HeadingTranscriberTest {
             )
         assertEquals(expected, result.content)
     }
+
+    @Test
+    fun transcribe_setext1() {
+        val markdown = "Title\n====="
+        val headingNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.SETEXT_1)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(headingNode, context)
+
+        val expected =
+            HeadingNode(
+                attrs = HeadingAttrs(level = 1),
+                content =
+                    listOf(
+                        TextNode(text = "Title"),
+                    ),
+            )
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_atx1WithStrongEmphasis() {
+        val markdown = "# Title with **bold** text"
+        val headingNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.ATX_1)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(headingNode, context)
+
+        val expected =
+            HeadingNode(
+                attrs = HeadingAttrs(level = 1),
+                content =
+                    listOf(
+                        TextNode(text = "Title with"),
+                        TextNode(text = " "),
+                        TextNode(text = "bold", marks = listOf(data.atlassian.adf.StrongMark)),
+                        TextNode(text = " "),
+                        TextNode(text = "text"),
+                    ),
+            )
+        assertEquals(expected, result.content)
+    }
 }
