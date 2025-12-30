@@ -3,6 +3,7 @@ package transcribe.markdown
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.flavours.gfm.GFMElementTypes
+import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 
 /**
  * Creates a default mapper of markdown element types to their corresponding transcriber factories.
@@ -26,16 +27,13 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
             StrongTranscriber()
         }
         add(MarkdownElementTypes.INLINE_LINK) {
-            LinkTranscriber(it)
-        }
-        add(MarkdownElementTypes.FULL_REFERENCE_LINK) {
-            LinkTranscriber(it)
-        }
-        add(MarkdownElementTypes.SHORT_REFERENCE_LINK) {
-            LinkTranscriber(it)
+            LinkTranscriber()
         }
         add(MarkdownElementTypes.AUTOLINK) {
-            LinkTranscriber(it)
+            LinkTranscriber()
+        }
+        add(GFMTokenTypes.GFM_AUTOLINK) {
+            LinkTranscriber()
         }
         add(GFMElementTypes.STRIKETHROUGH) {
             StrikethroughTranscriber(it)
