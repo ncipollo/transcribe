@@ -1,6 +1,8 @@
 package api.atlassian
 
 import kotlinx.coroutines.runBlocking
+import transcribe.atlassian.ADFTranscriberContext
+import transcribe.atlassian.ConfluenceToMarkdownTranscriber
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
@@ -32,6 +34,12 @@ class AtlassianIntegrationTest {
         val adfBody = page.body?.atlasDocFormat?.docNode
         assertNotNull(adfBody)
         assertNotNull(adfBody.content)
+
+        // Transcribe ADF to Markdown
+        val transcriber = ConfluenceToMarkdownTranscriber()
+        val result = transcriber.transcribe(adfBody, ADFTranscriberContext())
+        println("-----------")
+        println(result.content)
 
         httpClient.close()
     }
