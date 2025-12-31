@@ -5,7 +5,7 @@ import org.intellij.markdown.IElementType
 /**
  * Builder for creating markdown node mappers with factory functions.
  */
-class MarkdownNodeMapperBuilder {
+class MarkdownNodeMapperBuilder : MarkdownTranscriberMapBuildable {
     private val factories = mutableMapOf<IElementType, (MarkdownNodeMapper) -> MarkdownTranscriber<*>>()
 
     /**
@@ -20,12 +20,12 @@ class MarkdownNodeMapperBuilder {
     }
 
     /**
-     * Build the mapper from the configured factories.
+     * Build and return the mapper (implements MarkdownTranscriberMapBuildable).
      */
-    fun mapper() = MarkdownNodeMapper(factories)
+    override fun build(): MarkdownNodeMapper = MarkdownNodeMapper(factories)
 }
 
 /**
  * DSL function for building markdown node mappers.
  */
-fun markdownNodeMapper(block: MarkdownNodeMapperBuilder.() -> Unit): MarkdownNodeMapper = MarkdownNodeMapperBuilder().apply(block).mapper()
+fun markdownNodeMapper(block: MarkdownNodeMapperBuilder.() -> Unit): MarkdownNodeMapper = MarkdownNodeMapperBuilder().apply(block).build()
