@@ -2,8 +2,9 @@ package transcribe.markdown
 
 import data.atlassian.adf.ADFBlockNode
 import data.atlassian.adf.ADFInlineNode
+import data.atlassian.adf.HardBreakNode
+import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
-import data.markdown.parser.getTextContent
 import org.intellij.markdown.IElementType
 import org.intellij.markdown.ast.ASTNode
 
@@ -34,14 +35,31 @@ class MarkdownNodeMapper(
         for (child in parent.children) {
             val transcriber = transcriberFor(child.type)
             if (transcriber != null) {
-                @Suppress("UNCHECKED_CAST")
-                val blockTranscriber = transcriber as? MarkdownTranscriber<ADFBlockNode>
-                blockTranscriber?.transcribe(child, context)?.content?.let { result.add(it) }
+                when (val transcribedNode = transcriber.transcribe(child, context).content) {
+                    is ADFBlockNode -> result.add(transcribedNode)
+                    is ADFInlineNode -> {
+                        // Skip wrapping newline-only elements
+                        if (!isNewlineOnly(transcribedNode)) {
+                            result.add(ParagraphNode(content = listOf(transcribedNode)))
+                        }
+                    }
+                }
             }
         }
 
         return result
     }
+
+    /**
+     * Checks if an inline node contains only newline content.
+     * Returns true for HardBreakNode or TextNode containing only whitespace/newlines.
+     */
+    private fun isNewlineOnly(node: ADFInlineNode): Boolean =
+        when (node) {
+            is HardBreakNode -> true
+            is TextNode -> node.text.all { it.isWhitespace() }
+            else -> false
+        }
 
     /**
      * Transcribes inline-level children of the given AST node using the appropriate transcribers.
@@ -68,14 +86,9 @@ class MarkdownNodeMapper(
         for (child in children) {
             val transcriber = transcriberFor(child.type)
             if (transcriber != null) {
-                @Suppress("UNCHECKED_CAST")
-                val inlineTranscriber = transcriber as? MarkdownTranscriber<ADFInlineNode>
-                inlineTranscriber?.transcribe(child, context)?.content?.let { result.add(it) }
-            } else {
-                // For unknown types, try to extract text content
-                val textContent = child.getTextContent(context.markdownText).toString().trim()
-                if (textContent.isNotEmpty()) {
-                    result.add(TextNode(text = textContent))
+                val transcribedNode = transcriber.transcribe(child, context)?.content
+                if (transcribedNode is ADFInlineNode) {
+                    result.add(transcribedNode)
                 }
             }
         }
