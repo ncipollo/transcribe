@@ -1,73 +1,52 @@
 package transcribe.markdown
 
-import data.atlassian.adf.ADFNode
-import data.atlassian.adf.TaskItemAttrs
-import data.atlassian.adf.TaskItemNode
+import data.atlassian.adf.ADFBlockNode
 import data.atlassian.adf.TaskListAttrs
 import data.atlassian.adf.TaskListNode
-import data.atlassian.adf.TaskState
-import data.markdown.parser.getTextContent
 import org.intellij.markdown.MarkdownElementTypes
-import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
+import org.intellij.markdown.ast.findChildOfType
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 import transcribe.TranscribeResult
 
 /**
- * Transcriber for task lists (CHECK_BOX within LIST_ITEM) that converts markdown task lists to ADF TaskListNode.
+ * Utility transcriber for task lists (CHECK_BOX within LIST_ITEM) that converts markdown task lists to ADF TaskListNode.
+ * This transcriber can be used to detect if a list is a task list and transcribe it accordingly.
  */
 class TaskListTranscriber(
     private val nodeMapper: MarkdownNodeMapper,
-) : MarkdownTranscriber<TaskListNode> {
+) : MarkdownTranscriber<ADFBlockNode> {
+    /**
+     * Determines if the given AST node represents a task list by checking if all LIST_ITEM children contain CHECK_BOX nodes.
+     *
+     * @param input The AST node (typically UNORDERED_LIST or ORDERED_LIST)
+     * @return true if all list items contain checkboxes, false otherwise
+     */
+    fun isTaskList(input: ASTNode): Boolean {
+        val listItems = input.children.filter { it.type == MarkdownElementTypes.LIST_ITEM }
+
+        // Empty list is not a task list
+        if (listItems.isEmpty()) {
+            return false
+        }
+
+        // All list items must have checkboxes for it to be a task list
+        return listItems.all { itemNode ->
+            itemNode.findChildOfType(GFMTokenTypes.CHECK_BOX) != null
+        }
+    }
+
     override fun transcribe(
         input: ASTNode,
         context: MarkdownContext,
-    ): TranscribeResult<TaskListNode> {
-        // Task lists are UNORDERED_LIST nodes containing LIST_ITEM nodes with CHECK_BOX children
+    ): TranscribeResult<ADFBlockNode> {
+        // Extract all LIST_ITEM children and transcribe them using CheckListItemTranscriber
         val taskItems =
             input.children
                 .filter { it.type == MarkdownElementTypes.LIST_ITEM }
                 .map { itemNode ->
-                    // Find CHECK_BOX child to determine state
-                    val checkBoxNode = itemNode.children.firstOrNull { it.type == GFMTokenTypes.CHECK_BOX }
-                    val isChecked =
-                        checkBoxNode?.getTextContent(context.markdownText)?.toString()
-                            ?.contains("[x]", ignoreCase = true) == true
-
-                    // Extract content (skip LIST_BULLET and CHECK_BOX)
-                    val contentNodes =
-                        itemNode.children.filter { child ->
-                            child.type != MarkdownTokenTypes.LIST_BULLET &&
-                                child.type != GFMTokenTypes.CHECK_BOX
-                        }
-
-                    val content = mutableListOf<ADFNode>()
-                    for (child in contentNodes) {
-                        when (child.type) {
-                            MarkdownElementTypes.PARAGRAPH -> {
-                                val paragraphTranscriber =
-                                    nodeMapper.transcriberFor(child.type) as? MarkdownTranscriber<ADFNode>
-                                paragraphTranscriber?.transcribe(child, context)?.content?.let { content.add(it) }
-                            }
-
-                            else -> {
-                                val blockContent = nodeMapper.transcribeBlockChildren(child, context)
-                                content.addAll(blockContent)
-                            }
-                        }
-                    }
-
-                    // Convert inline content to inline nodes
-                    val inlineContent = content.filterIsInstance<data.atlassian.adf.ADFInlineNode>()
-
-                    TaskItemNode(
-                        attrs =
-                            TaskItemAttrs(
-                                localId = "",
-                                state = if (isChecked) TaskState.DONE else TaskState.TODO,
-                            ),
-                        content = inlineContent,
-                    )
+                    val checkListItemTranscriber = CheckListItemTranscriber(nodeMapper)
+                    checkListItemTranscriber.transcribe(itemNode, context).content
                 }
 
         return TranscribeResult(
