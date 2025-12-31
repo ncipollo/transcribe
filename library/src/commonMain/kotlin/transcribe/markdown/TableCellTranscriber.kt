@@ -4,6 +4,8 @@ import data.atlassian.adf.ADFBlockNode
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TableCellNode
 import data.atlassian.adf.TableHeaderNode
+import data.atlassian.adf.TextNode
+import kotlinx.serialization.json.JsonNull.content
 import org.intellij.markdown.ast.ASTNode
 import transcribe.TranscribeResult
 
@@ -18,28 +20,28 @@ class TableCellTranscriber(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<ADFBlockNode> {
-        // Table cells typically contain inline content (text, formatting, etc.)
-        // Wrap in a paragraph if needed
-        val blockContent = nodeMapper.transcribeBlockChildren(input, context)
+        // Table cells contain inline content (text, formatting, etc.)
+        // Wrap in a paragraph
+        val inlineContent = nodeMapper.transcribeInlineChildren(input, context)
 
-        // If no block content, create an empty paragraph
-        val content =
-            if (blockContent.isEmpty()) {
-                listOf(ParagraphNode(content = emptyList()))
-            } else {
-                blockContent
-            }
+        // Drop leading and trailing whitespace nodes
+        val trimmedContent =
+            inlineContent
+                .dropWhile { it is TextNode && it.text.isBlank() }
+                .dropLastWhile { it is TextNode && it.text.isBlank() }
+
+        val resultContent = listOf(ParagraphNode(content = trimmedContent))
 
         return if (isHeader) {
             TranscribeResult(
                 TableHeaderNode(
-                    content = content,
+                    content = resultContent,
                 ),
             )
         } else {
             TranscribeResult(
                 TableCellNode(
-                    content = content,
+                    content = resultContent,
                 ),
             )
         }
