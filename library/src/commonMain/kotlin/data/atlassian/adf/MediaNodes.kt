@@ -64,7 +64,7 @@ enum class MediaWidthType {
 @Serializable
 @SerialName("mediaGroup")
 data class MediaGroupNode(
-    val content: List<MediaNode>,
+    val content: List<ADFBlockNode>,
 ) : ADFBlockNode
 
 /**

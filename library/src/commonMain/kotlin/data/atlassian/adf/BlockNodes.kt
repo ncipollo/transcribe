@@ -73,7 +73,7 @@ data class HeadingAttrs(
 @Serializable
 @SerialName("bulletList")
 data class BulletListNode(
-    val content: List<ListItemNode>,
+    val content: List<ADFBlockNode>,
     val attrs: BulletListAttrs? = null,
 ) : ADFBlockNode
 
@@ -89,7 +89,7 @@ data class BulletListAttrs(
 @Serializable
 @SerialName("orderedList")
 data class OrderedListNode(
-    val content: List<ListItemNode>,
+    val content: List<ADFBlockNode>,
     val attrs: OrderedListAttrs? = null,
 ) : ADFBlockNode
 
@@ -393,7 +393,7 @@ enum class TaskState {
 @SerialName("decisionList")
 data class DecisionListNode(
     val attrs: DecisionListAttrs,
-    val content: List<DecisionItemNode>,
+    val content: List<ADFNode>,
 ) : ADFBlockNode
 
 @Serializable

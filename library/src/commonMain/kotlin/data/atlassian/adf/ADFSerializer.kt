@@ -32,7 +32,8 @@ object ADFSerializer {
     private val json =
         Json {
             ignoreUnknownKeys = true
-            encodeDefaults = false
+            encodeDefaults = true
+            explicitNulls = false
             serializersModule = this@ADFSerializer.serializersModule
         }
 
@@ -57,6 +58,7 @@ object ADFSerializer {
      * @return The JSON string representation
      */
     fun toJson(doc: DocNode): String {
-        return json.encodeToString(DocNode.serializer(), doc)
+        // Serialize as ADFBlockNode to include the "type": "doc" discriminator
+        return json.encodeToString(ADFBlockNode.serializer(), doc)
     }
 }

@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("table")
 data class TableNode(
-    val content: List<TableRowNode>,
+    val content: List<ADFBlockNode>,
     val attrs: TableAttrs? = null,
     val marks: List<ADFMark>? = null,
 ) : ADFBlockNode

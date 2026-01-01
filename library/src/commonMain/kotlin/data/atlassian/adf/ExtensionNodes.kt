@@ -59,7 +59,7 @@ data class BodiedExtensionNode(
 @Serializable
 @SerialName("layoutSection")
 data class LayoutSectionNode(
-    val content: List<LayoutColumnNode>,
+    val content: List<ADFBlockNode>,
     val attrs: LayoutSectionAttrs? = null,
     val marks: List<ADFMark>? = null,
 ) : ADFBlockNode
