@@ -1,8 +1,9 @@
 package api.atlassian
 
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 
 class PageAPIClient(private val httpClient: HttpClient) {
     suspend fun getPage(pageId: String): PageResponse {
@@ -11,4 +12,3 @@ class PageAPIClient(private val httpClient: HttpClient) {
         }.body()
     }
 }
-
