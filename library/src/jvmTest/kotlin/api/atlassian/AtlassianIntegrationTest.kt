@@ -1,47 +1,44 @@
 package api.atlassian
 
+import Transcribe
+import TranscribeConfiguration
 import kotlinx.coroutines.runBlocking
-import transcribe.atlassian.ADFTranscriberContext
-import transcribe.atlassian.ConfluenceToMarkdownTranscriber
 import kotlin.test.Test
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class AtlassianIntegrationTest {
     @Test
-    fun getPage_fetchesPageFromConfluence() =
+    fun getPageMarkdown_fetchesAndTranscribesPage() =
         runBlocking {
             val apiToken = System.getenv("ATLASSIAN_API_TOKEN")
             val email = System.getenv("ATLASSIAN_EMAIL")
             val siteName = System.getenv("ATLASSIAN_SITE_NAME")
-            val pageId = System.getenv("ATLASSIAN_TEST_PAGE_ID")
+            val pageUrl = System.getenv("ATLASSIAN_TEST_PAGE_URL")
 
             // Skip test if credentials are not available
-            if (apiToken == null || email == null || siteName == null || pageId == null) {
+            if (apiToken == null || email == null || siteName == null || pageUrl == null) {
                 return@runBlocking
             }
 
-            val authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken)
-            val httpClient = ConfluenceHttpClientFactory.create(siteName, authMaterial)
-            val pageClient = PageAPIClient(httpClient)
+            val configuration =
+                TranscribeConfiguration(
+                    confluenceConfiguration =
+                        ConfluenceConfiguration(
+                            siteName = siteName,
+                            authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken),
+                        ),
+                )
+            val transcribe = Transcribe(configuration)
 
-            val page = pageClient.getPage(pageId)
+            val markdown = transcribe.getPageMarkdown(pageUrl)
 
-            assertNotNull(page)
-            assertNotNull(page.id)
-            assertNotNull(page.title)
-            assertNotNull(page.spaceId)
+            assertNotNull(markdown)
+            assertTrue(markdown.isNotEmpty())
 
-            // Verify ADF body can be parsed
-            val adfBody = page.body?.atlasDocFormat?.docNode
-            assertNotNull(adfBody)
-            assertNotNull(adfBody.content)
-
-            // Transcribe ADF to Markdown
-            val transcriber = ConfluenceToMarkdownTranscriber()
-            val result = transcriber.transcribe(adfBody, ADFTranscriberContext())
             println("-----------")
-            println(result.content)
+            println(markdown)
 
-            httpClient.close()
+            transcribe.close()
         }
 }

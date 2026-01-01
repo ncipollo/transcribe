@@ -867,7 +867,7 @@ object ComplexADFDocumentFixture {
                             "value": "1"
                         },
                         "baseUrl": {
-                            "value": "https://whoopinc.atlassian.net/wiki"
+                            "value": "https://transcribe.atlassian.net/wiki"
                         },
                         "diagramName": {
                             "value": "Untitled Diagram-1766526257160.drawio"
@@ -899,7 +899,7 @@ object ComplexADFDocumentFixture {
                             {
                                 "type": "image",
                                 "data": {
-                                    "url": "https://ac.draw.io/connectImage?mVer=2&zoom=1&simple=0&inComment=0&custContentId=5384339671&pageId=5385126043&lbox=1&diagramDisplayName=Untitled+Diagram-1766526257160.drawio&contentVer=1&revision=1&baseUrl=https%3A%2F%2Fwhoopinc.atlassian.net%2Fwiki&diagramName=Untitled+Diagram-1766526257160.drawio&pCenter=0&width=281&links=&tbstyle=&height=391"
+                                    "url": "https://ac.draw.io/connectImage?mVer=2&zoom=1&simple=0&inComment=0&custContentId=5384339671&pageId=5385126043&lbox=1&diagramDisplayName=Untitled+Diagram-1766526257160.drawio&contentVer=1&revision=1&baseUrl=https%3A%2F%transcribe.atlassian.net%2Fwiki&diagramName=Untitled+Diagram-1766526257160.drawio&pCenter=0&width=281&links=&tbstyle=&height=391"
                                 }
                             }
                         ],
