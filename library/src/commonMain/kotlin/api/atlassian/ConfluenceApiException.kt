@@ -12,4 +12,3 @@ class ConfluenceApiException(
     val errorBody: String,
     message: String,
 ) : Exception(message)
-

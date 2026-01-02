@@ -29,24 +29,28 @@ class PageAPIClient(private val httpClient: HttpClient) {
         message: String? = null,
     ): PageResponse {
         val adfJson = ADFSerializer.toJson(docNode)
-        val request = PageUpdateRequest(
-            id = pageId,
-            status = status,
-            title = title,
-            version = PageUpdateVersion(
-                number = version,
-                message = message,
-            ),
-            body = PageUpdateBody(
-                representation = "atlas_doc_format",
-                value = adfJson,
-            ),
-        )
-        val response = httpClient.put("pages/$pageId") {
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
-        
+        val request =
+            PageUpdateRequest(
+                id = pageId,
+                status = status,
+                title = title,
+                version =
+                    PageUpdateVersion(
+                        number = version,
+                        message = message,
+                    ),
+                body =
+                    PageUpdateBody(
+                        representation = "atlas_doc_format",
+                        value = adfJson,
+                    ),
+            )
+        val response =
+            httpClient.put("pages/$pageId") {
+                contentType(ContentType.Application.Json)
+                setBody(request)
+            }
+
         if (!response.status.isSuccess()) {
             val errorBody = response.bodyAsText()
             throw ConfluenceApiException(
@@ -55,7 +59,7 @@ class PageAPIClient(private val httpClient: HttpClient) {
                 message = "Failed to update page $pageId: ${response.status} - $errorBody",
             )
         }
-        
+
         return response.body()
     }
 }

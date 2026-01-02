@@ -22,4 +22,3 @@ data class PageUpdateBody(
     val representation: String = "atlas_doc_format",
     val value: String,
 )
-

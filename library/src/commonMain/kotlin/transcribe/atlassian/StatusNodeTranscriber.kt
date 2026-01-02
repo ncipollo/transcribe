@@ -6,7 +6,7 @@ import transcribe.TranscribeResult
 
 /**
  * Transcriber for StatusNode that converts ADF status badge to markdown with emoji prefix.
- * Outputs [{emoji} {text}] format based on status color.
+ * Outputs {emoji} {text} format based on status color.
  */
 class StatusNodeTranscriber : ADFTranscriber<StatusNode> {
     override fun transcribe(
@@ -22,6 +22,6 @@ class StatusNodeTranscriber : ADFTranscriber<StatusNode> {
                 StatusColor.PURPLE -> "🟣"
                 StatusColor.NEUTRAL -> "⚪"
             }
-        return TranscribeResult("[$emoji ${input.attrs.text}]")
+        return TranscribeResult("$emoji ${input.attrs.text}")
     }
 }

@@ -52,8 +52,8 @@ use(thing)
 <summary>Collapse</summary>
 - Content which is kinda hidden.
 </details>
-- [🔵 Status 1]
-- [🔴 Status 2] text after
+- 🔵 Status 1
+- 🔴 Status 2 text after
 
 # Section 7
 ![draw.io Diagram](images/image.png)

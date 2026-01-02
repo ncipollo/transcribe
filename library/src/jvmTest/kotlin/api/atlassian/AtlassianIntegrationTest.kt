@@ -2,7 +2,6 @@ package api.atlassian
 
 import Transcribe
 import TranscribeConfiguration
-import fixtures.markdown.ComplexMarkdownFixture
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertNotNull
@@ -51,7 +50,7 @@ This is normal paragraph text. Nothing interesting here.
 The following are bullets:
 - Bullet 1
 - Bullet 2
-- Bullet 3 
+- Bullet 3
 
 # Section 2
 The following are bullets:
@@ -92,6 +91,9 @@ Subsection 2.
 let thing = MyThing()
 use(thing)
 ```
+
+- 🔵 Status 1
+- 🔴 Status 2 text after
     """
 
     @Test
@@ -117,11 +119,12 @@ use(thing)
                 )
             val transcribe = Transcribe(configuration)
 
-            val updatedPage = transcribe.updatePageMarkdown(
-                url = updatePageUrl,
-                markdown = testMarkdown,
-                message = "Integration test update",
-            )
+            val updatedPage =
+                transcribe.updatePageMarkdown(
+                    url = updatePageUrl,
+                    markdown = testMarkdown,
+                    message = "Integration test update",
+                )
 
             assertNotNull(updatedPage)
             assertNotNull(updatedPage.id)
