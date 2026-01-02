@@ -2,6 +2,8 @@ import api.atlassian.ConfluenceHttpClientFactory
 import api.atlassian.ConfluenceUrlParser
 import api.atlassian.PageAPIClient
 import api.atlassian.PageResponse
+import api.atlassian.TemplateAPIClient
+import api.atlassian.TemplateResponse
 import io.ktor.client.HttpClient
 import transcribe.atlassian.ADFTranscriberContext
 import transcribe.atlassian.ConfluenceToMarkdownTranscriber
@@ -22,8 +24,20 @@ class Transcribe(
         )
     }
 
+    private val httpClientV1: HttpClient by lazy {
+        ConfluenceHttpClientFactory.create(
+            siteName = configuration.confluenceConfiguration.siteName,
+            authMaterial = configuration.confluenceConfiguration.authMaterial,
+            apiVersion = "v1",
+        )
+    }
+
     private val pageApiClient: PageAPIClient by lazy {
         PageAPIClient(httpClient)
+    }
+
+    private val templateApiClient: TemplateAPIClient by lazy {
+        TemplateAPIClient(httpClientV1)
     }
 
     private val transcriber: ConfluenceToMarkdownTranscriber by lazy {
@@ -96,10 +110,44 @@ class Transcribe(
     }
 
     /**
-     * Closes the HTTP client and releases resources.
+     * Updates a Confluence template with markdown content.
+     * Converts the markdown to ADF format and updates the template.
+     *
+     * @param templateId The template ID to update
+     * @param markdown The markdown content to update the template with
+     * @param name The template name (required for update)
+     * @param templateType The template type (defaults to "page")
+     * @return The updated template response
+     * @throws IllegalStateException if markdown transcription fails or template cannot be updated
+     */
+    suspend fun updateTemplateMarkdown(
+        templateId: String,
+        markdown: String,
+        name: String,
+        templateType: String = "page",
+    ): TemplateResponse {
+        val currentTemplate = templateApiClient.getTemplate(templateId)
+
+        val result = markdownTranscriber.transcribe(markdown, MarkdownContext(markdownText = markdown))
+        val docNode = result.content
+
+        return templateApiClient.updateTemplate(
+            templateId = templateId,
+            name = name,
+            docNode = docNode,
+            templateType = templateType,
+            description = currentTemplate.description,
+            labels = currentTemplate.labels,
+            space = currentTemplate.space,
+        )
+    }
+
+    /**
+     * Closes the HTTP clients and releases resources.
      * Should be called when the Transcribe instance is no longer needed.
      */
     fun close() {
         httpClient.close()
+        httpClientV1.close()
     }
 }

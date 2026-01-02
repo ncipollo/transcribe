@@ -87,4 +87,49 @@ class AtlassianIntegrationTest {
 
             transcribe.close()
         }
+
+    @Test
+    fun updateTemplateMarkdown_updatesTemplateWithMarkdown() =
+        runBlocking {
+            val apiToken = System.getenv("ATLASSIAN_API_TOKEN")
+            val email = System.getenv("ATLASSIAN_EMAIL")
+            val siteName = System.getenv("ATLASSIAN_SITE_NAME")
+            val templateId = System.getenv("ATLASSIAN_TEMPLATE_ID")
+
+            // Skip test if credentials are not available
+            if (apiToken == null || email == null || siteName == null || templateId == null) {
+                return@runBlocking
+            }
+
+            val configuration =
+                TranscribeConfiguration(
+                    confluenceConfiguration =
+                        ConfluenceConfiguration(
+                            siteName = siteName,
+                            authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken),
+                        ),
+                )
+            val transcribe = Transcribe(configuration)
+
+            val markdown = ComplexMarkdownFixture.COMPLEX_MARKDOWN
+
+            val updatedTemplate =
+                transcribe.updateTemplateMarkdown(
+                    templateId = templateId,
+                    markdown = markdown,
+                    name = "Test Template",
+                )
+
+            assertNotNull(updatedTemplate)
+            assertNotNull(updatedTemplate.templateId)
+            assertNotNull(updatedTemplate.name)
+            assertTrue(updatedTemplate.name.isNotEmpty())
+
+            println("-----------")
+            println("Updated template ID: ${updatedTemplate.templateId}")
+            println("Updated template name: ${updatedTemplate.name}")
+            println("Template type: ${updatedTemplate.templateType}")
+
+            transcribe.close()
+        }
 }

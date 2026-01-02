@@ -96,4 +96,3 @@ class BlockquoteCleanupHelperTest {
         assertEquals(expected, result)
     }
 }
-

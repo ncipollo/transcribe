@@ -23,11 +23,17 @@ object ConfluenceHttpClientFactory {
     fun create(
         siteName: String,
         authMaterial: AtlassianAuthMaterial,
+        apiVersion: String = "v2",
         logging: Boolean = false,
         logLevel: LogLevel = LogLevel.INFO,
         httpClientEngine: HttpClientEngine? = null,
     ): HttpClient {
-        val baseUrl = "https://$siteName.atlassian.net/wiki/api/v2/"
+        val baseUrl =
+            when (apiVersion) {
+                "v1" -> "https://$siteName.atlassian.net/wiki/rest/api/"
+                "v2" -> "https://$siteName.atlassian.net/wiki/api/v2/"
+                else -> throw IllegalArgumentException("Unsupported API version: $apiVersion. Supported versions: v1, v2")
+            }
         val credentials = "${authMaterial.email}:${authMaterial.apiToken}"
         val authHeader = "Basic ${Base64.encode(credentials.encodeToByteArray())}"
 

@@ -1,11 +1,6 @@
 package transcribe.markdown
 
-import data.atlassian.adf.ADFBlockNode
-import data.atlassian.adf.ADFInlineNode
 import data.atlassian.adf.BlockquoteNode
-import data.atlassian.adf.HardBreakNode
-import data.atlassian.adf.ParagraphNode
-import data.atlassian.adf.TextNode
 import org.intellij.markdown.ast.ASTNode
 import transcribe.TranscribeResult
 

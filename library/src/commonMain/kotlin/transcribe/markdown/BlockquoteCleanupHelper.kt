@@ -72,4 +72,3 @@ object BlockquoteCleanupHelper {
             isBlockquoteMarkerText(content[0] as TextNode)
     }
 }
-
