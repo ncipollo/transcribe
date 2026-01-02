@@ -82,5 +82,8 @@ fun defaultMarkdownNodeMapper(): MarkdownNodeMapper {
         add(GFMElementTypes.TABLE) {
             TableTranscriber(it)
         }
+        add(MarkdownElementTypes.HTML_BLOCK) {
+            HtmlBlockTranscriber(it)
+        }
     }
 }
