@@ -1,5 +1,7 @@
 package api.atlassian
 
+import kotlin.jvm.JvmStatic
+
 data class AtlassianAuthMaterial(val email: String = "", val apiToken: String = "") {
     companion object {
         @JvmStatic

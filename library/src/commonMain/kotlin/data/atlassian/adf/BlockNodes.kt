@@ -125,7 +125,7 @@ data class ListItemAttrs(
 @SerialName("codeBlock")
 data class CodeBlockNode(
     val attrs: CodeBlockAttrs? = null,
-    val content: List<TextNode>? = null,
+    val content: List<ADFInlineNode>? = null,
     // Must be empty per schema
     val marks: List<ADFMark> = emptyList(),
 ) : ADFBlockNode

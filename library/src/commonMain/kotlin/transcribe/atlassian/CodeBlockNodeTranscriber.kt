@@ -1,6 +1,7 @@
 package transcribe.atlassian
 
 import data.atlassian.adf.CodeBlockNode
+import data.atlassian.adf.TextNode
 import transcribe.TranscribeResult
 
 /**
@@ -19,7 +20,7 @@ class CodeBlockNodeTranscriber : ADFTranscriber<CodeBlockNode> {
             if (content.isNullOrEmpty()) {
                 ""
             } else {
-                content.joinToString("\n") { textNode ->
+                content.filterIsInstance<TextNode>().joinToString("\n") { textNode ->
                     textNode.text
                 }
             }

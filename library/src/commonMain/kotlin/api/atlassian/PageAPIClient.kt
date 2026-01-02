@@ -8,8 +8,10 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.isSuccess
 
 class PageAPIClient(private val httpClient: HttpClient) {
     suspend fun getPage(pageId: String): PageResponse {
@@ -40,9 +42,20 @@ class PageAPIClient(private val httpClient: HttpClient) {
                 value = adfJson,
             ),
         )
-        return httpClient.put("pages/$pageId") {
+        val response = httpClient.put("pages/$pageId") {
             contentType(ContentType.Application.Json)
             setBody(request)
-        }.body()
+        }
+        
+        if (!response.status.isSuccess()) {
+            val errorBody = response.bodyAsText()
+            throw ConfluenceApiException(
+                statusCode = response.status.value,
+                errorBody = errorBody,
+                message = "Failed to update page $pageId: ${response.status} - $errorBody",
+            )
+        }
+        
+        return response.body()
     }
 }

@@ -1,5 +1,7 @@
 package api.atlassian
 
+import kotlin.jvm.JvmStatic
+
 data class ConfluenceConfiguration(val siteName: String = "", val authMaterial: AtlassianAuthMaterial = AtlassianAuthMaterial()) {
     companion object {
         @JvmStatic
