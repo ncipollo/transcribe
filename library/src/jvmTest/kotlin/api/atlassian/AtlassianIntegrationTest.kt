@@ -2,6 +2,7 @@ package api.atlassian
 
 import Transcribe
 import TranscribeConfiguration
+import fixtures.markdown.ComplexMarkdownFixture
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertNotNull
@@ -42,60 +43,6 @@ class AtlassianIntegrationTest {
             transcribe.close()
         }
 
-    private val testMarkdown = """
-# Section 1
-This is normal paragraph text. Nothing interesting here.
-
-# Section 2
-The following are bullets:
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-# Section 2
-The following are bullets:
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-And here we have numeric bullets:
-1. The number one.
-2. The number two
-
-And here's a task list:
-- [ ] Action 1
-- [ ] Action 2
-- [x] Checked
-
-# Section 3
-| **Column 1** | **Column 2** | **Column 3** |
-| --- | --- | --- |
-| Row 1, Column 1 | Row 1, Column 2 | Row 1, Column 3 |
-| Row 2, Column 1 | Row 2, Column 2 | Row 2, Column 3 |
-
-# Section 5
-This will have subsections.
-
-## Sub 1
-
-### H3 Section
-Wow, I'm nested!
-
-# Sub 2
-Subsection 2.
-
-# Section 6
-**Lots** of *random* elements.
-
-```swift
-let thing = MyThing()
-use(thing)
-```
-
-- 🔵 Status 1
-- 🔴 Status 2 text after
-    """
-
     @Test
     fun updatePageMarkdown_updatesPageWithMarkdown() =
         runBlocking {
@@ -119,10 +66,12 @@ use(thing)
                 )
             val transcribe = Transcribe(configuration)
 
+            val markdown = ComplexMarkdownFixture.COMPLEX_MARKDOWN
+
             val updatedPage =
                 transcribe.updatePageMarkdown(
                     url = updatePageUrl,
-                    markdown = testMarkdown,
+                    markdown = markdown,
                     message = "Integration test update",
                 )
 
