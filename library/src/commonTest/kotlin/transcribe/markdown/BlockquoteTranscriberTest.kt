@@ -1,7 +1,12 @@
 package transcribe.markdown
 
 import data.atlassian.adf.BlockquoteNode
+import data.atlassian.adf.BulletListNode
+import data.atlassian.adf.EmMark
+import data.atlassian.adf.HardBreakNode
+import data.atlassian.adf.ListItemNode
 import data.atlassian.adf.ParagraphNode
+import data.atlassian.adf.StrongMark
 import data.atlassian.adf.TextNode
 import org.intellij.markdown.MarkdownElementTypes
 import kotlin.test.Test
@@ -26,6 +31,67 @@ class BlockquoteTranscriberTest {
                             content =
                                 listOf(
                                     TextNode(text = "Quote text"),
+                                ),
+                        ),
+                    ),
+            )
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_complexBlockquote_removesJunkNodes() {
+        val markdown =
+            """
+            |> **This** and *that.*
+            |> Next line.
+            |> - Bullet 1
+            |> - Bullet 2
+            """.trimMargin()
+        val blockquoteNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.BLOCK_QUOTE)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(blockquoteNode, context)
+
+        val expected =
+            BlockquoteNode(
+                content =
+                    listOf(
+                        ParagraphNode(
+                            content =
+                                listOf(
+                                    TextNode(text = "This", marks = listOf(StrongMark)),
+                                    TextNode(text = " "),
+                                    TextNode(text = "and"),
+                                    TextNode(text = " "),
+                                    TextNode(text = "that.", marks = listOf(EmMark)),
+                                    HardBreakNode(),
+                                    TextNode(text = "Next line."),
+                                ),
+                        ),
+                        BulletListNode(
+                            content =
+                                listOf(
+                                    ListItemNode(
+                                        content =
+                                            listOf(
+                                                ParagraphNode(
+                                                    content =
+                                                        listOf(
+                                                            TextNode(text = "Bullet 1"),
+                                                        ),
+                                                ),
+                                            ),
+                                    ),
+                                    ListItemNode(
+                                        content =
+                                            listOf(
+                                                ParagraphNode(
+                                                    content =
+                                                        listOf(
+                                                            TextNode(text = "Bullet 2"),
+                                                        ),
+                                                ),
+                                            ),
+                                    ),
                                 ),
                         ),
                     ),
