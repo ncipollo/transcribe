@@ -1,4 +1,4 @@
-package transcribe.markdown
+package context
 
 data class MarkdownContext(
     val markdownText: String = "",

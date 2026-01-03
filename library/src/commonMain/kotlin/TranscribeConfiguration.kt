@@ -1,9 +1,9 @@
 import api.atlassian.ConfluenceConfiguration
-import transcribe.atlassian.ADFTranscriberContext
+import context.ADFTranscriberContext
+import context.MarkdownContext
 import transcribe.atlassian.ADFTranscriberMapBuildable
 import transcribe.atlassian.EmptyADFTranscriberMapBuilder
 import transcribe.markdown.EmptyMarkdownTranscriberMapBuilder
-import transcribe.markdown.MarkdownContext
 import transcribe.markdown.MarkdownTranscriberMapBuildable
 import transcribe.transformer.ADFTransformer
 import transcribe.transformer.IdentityADFTransformer

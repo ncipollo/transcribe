@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.CodeMark
 import data.atlassian.adf.TextNode
 import data.markdown.parser.getTextContent

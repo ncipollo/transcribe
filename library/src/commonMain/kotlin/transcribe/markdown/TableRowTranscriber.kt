@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.TableRowNode
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes

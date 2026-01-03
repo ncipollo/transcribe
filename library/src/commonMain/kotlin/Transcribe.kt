@@ -4,10 +4,10 @@ import api.atlassian.PageAPIClient
 import api.atlassian.PageResponse
 import api.atlassian.TemplateAPIClient
 import api.atlassian.TemplateResponse
+import context.ADFTranscriberContext
+import context.MarkdownContext
 import io.ktor.client.HttpClient
-import transcribe.atlassian.ADFTranscriberContext
 import transcribe.atlassian.ConfluenceToMarkdownTranscriber
-import transcribe.markdown.MarkdownContext
 import transcribe.markdown.MarkdownToConfluenceTranscriber
 
 /**

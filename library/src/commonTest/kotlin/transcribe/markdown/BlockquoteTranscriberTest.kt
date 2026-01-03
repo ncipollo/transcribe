@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.BlockquoteNode
 import data.atlassian.adf.BulletListNode
 import data.atlassian.adf.EmMark

@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.ExpandAttrs
 import data.atlassian.adf.ExpandNode
 import data.markdown.parser.MarkdownDocument

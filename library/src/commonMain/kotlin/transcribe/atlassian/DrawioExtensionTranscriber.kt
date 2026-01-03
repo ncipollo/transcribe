@@ -1,5 +1,6 @@
 package transcribe.atlassian
 
+import context.ADFTranscriberContext
 import data.atlassian.adf.ExtensionNode
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive

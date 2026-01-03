@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.EmMark
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.StrongMark

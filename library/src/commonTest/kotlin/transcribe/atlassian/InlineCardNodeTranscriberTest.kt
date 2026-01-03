@@ -1,5 +1,6 @@
 package transcribe.atlassian
 
+import context.ADFTranscriberContext
 import data.atlassian.adf.InlineCardAttrs
 import data.atlassian.adf.InlineCardNode
 import kotlin.test.Test

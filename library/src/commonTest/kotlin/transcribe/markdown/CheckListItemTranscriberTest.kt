@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.TaskItemAttrs
 import data.atlassian.adf.TaskItemNode
 import data.atlassian.adf.TaskState

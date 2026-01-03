@@ -1,5 +1,6 @@
 package transcribe.atlassian
 
+import context.ADFTranscriberContext
 import data.atlassian.adf.StatusAttrs
 import data.atlassian.adf.StatusColor
 import data.atlassian.adf.StatusNode

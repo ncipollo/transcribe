@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.LinkAttrs
 import data.atlassian.adf.LinkMark
 import data.atlassian.adf.TextNode

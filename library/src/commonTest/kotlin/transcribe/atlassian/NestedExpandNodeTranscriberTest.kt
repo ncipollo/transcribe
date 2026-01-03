@@ -1,5 +1,6 @@
 package transcribe.atlassian
 
+import context.ADFTranscriberContext
 import data.atlassian.adf.NestedExpandAttrs
 import data.atlassian.adf.NestedExpandNode
 import data.atlassian.adf.ParagraphNode

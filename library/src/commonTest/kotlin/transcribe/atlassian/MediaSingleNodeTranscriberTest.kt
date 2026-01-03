@@ -1,5 +1,6 @@
 package transcribe.atlassian
 
+import context.ADFTranscriberContext
 import data.atlassian.adf.MediaAttrs
 import data.atlassian.adf.MediaNode
 import data.atlassian.adf.MediaSingleNode

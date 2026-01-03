@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.ADFBlockNode
 import data.atlassian.adf.ADFInlineNode
 import data.atlassian.adf.HardBreakNode

@@ -1,5 +1,6 @@
 package transcribe.atlassian
 
+import context.ADFTranscriberContext
 import data.atlassian.adf.ExtensionAttrs
 import data.atlassian.adf.ExtensionNode
 import transcribe.TranscribeResult

@@ -1,5 +1,6 @@
 package transcribe.atlassian
 
+import context.ADFTranscriberContext
 import data.atlassian.adf.HeadingAttrs
 import data.atlassian.adf.HeadingNode
 import data.atlassian.adf.TextNode

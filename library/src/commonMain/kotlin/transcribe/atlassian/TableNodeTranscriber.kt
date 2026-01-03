@@ -1,5 +1,6 @@
 package transcribe.atlassian
 
+import context.ADFTranscriberContext
 import data.atlassian.adf.TableNode
 import data.atlassian.adf.TableRowNode
 import transcribe.TranscribeResult

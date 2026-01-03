@@ -1,5 +1,6 @@
 package transcribe.markdown
 
+import context.MarkdownContext
 import data.atlassian.adf.DocNode
 import org.intellij.markdown.ast.ASTNode
 import transcribe.TranscribeResult
