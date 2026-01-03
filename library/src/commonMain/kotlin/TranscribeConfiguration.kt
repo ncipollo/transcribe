@@ -1,14 +1,20 @@
 import api.atlassian.ConfluenceConfiguration
+import transcribe.atlassian.ADFTranscriberContext
 import transcribe.atlassian.ADFTranscriberMapBuildable
 import transcribe.atlassian.EmptyADFTranscriberMapBuilder
 import transcribe.markdown.EmptyMarkdownTranscriberMapBuilder
+import transcribe.markdown.MarkdownContext
 import transcribe.markdown.MarkdownTranscriberMapBuildable
+import transcribe.transformer.ADFTransformer
+import transcribe.transformer.IdentityADFTransformer
 import kotlin.jvm.JvmStatic
 
 data class TranscribeConfiguration(
     val confluenceConfiguration: ConfluenceConfiguration = ConfluenceConfiguration(),
     val adfCustomTranscribers: ADFTranscriberMapBuildable = EmptyADFTranscriberMapBuilder(),
     val markdownCustomTranscribers: MarkdownTranscriberMapBuildable = EmptyMarkdownTranscriberMapBuilder(),
+    val toMarkdownTransformer: ADFTransformer<ADFTranscriberContext> = IdentityADFTransformer(),
+    val toConfluenceTransformer: ADFTransformer<MarkdownContext> = IdentityADFTransformer(),
 ) {
     companion object {
         @JvmStatic
@@ -24,6 +30,8 @@ class TranscribeConfigurationBuilder {
     private var confluenceConfiguration: ConfluenceConfiguration = ConfluenceConfiguration()
     private var adfCustomTranscribers: ADFTranscriberMapBuildable = EmptyADFTranscriberMapBuilder()
     private var markdownCustomTranscribers: MarkdownTranscriberMapBuildable = EmptyMarkdownTranscriberMapBuilder()
+    private var toMarkdownTransformer: ADFTransformer<ADFTranscriberContext> = IdentityADFTransformer()
+    private var toConfluenceTransformer: ADFTransformer<MarkdownContext> = IdentityADFTransformer()
 
     /**
      * Set the Confluence configuration.
@@ -50,6 +58,24 @@ class TranscribeConfigurationBuilder {
     }
 
     /**
+     * Set the transformer to apply when converting from Confluence to Markdown.
+     * This transformer is applied after fetching ADF from Confluence, before transcribing to Markdown.
+     */
+    fun toMarkdownTransformer(toMarkdownTransformer: ADFTransformer<ADFTranscriberContext>): TranscribeConfigurationBuilder {
+        this.toMarkdownTransformer = toMarkdownTransformer
+        return this
+    }
+
+    /**
+     * Set the transformer to apply when converting from Markdown to Confluence.
+     * This transformer is applied after transcribing Markdown to ADF, before sending to Confluence.
+     */
+    fun toConfluenceTransformer(toConfluenceTransformer: ADFTransformer<MarkdownContext>): TranscribeConfigurationBuilder {
+        this.toConfluenceTransformer = toConfluenceTransformer
+        return this
+    }
+
+    /**
      * Build the TranscribeConfiguration instance.
      */
     fun build(): TranscribeConfiguration =
@@ -57,5 +83,7 @@ class TranscribeConfigurationBuilder {
             confluenceConfiguration = confluenceConfiguration,
             adfCustomTranscribers = adfCustomTranscribers,
             markdownCustomTranscribers = markdownCustomTranscribers,
+            toMarkdownTransformer = toMarkdownTransformer,
+            toConfluenceTransformer = toConfluenceTransformer,
         )
 }

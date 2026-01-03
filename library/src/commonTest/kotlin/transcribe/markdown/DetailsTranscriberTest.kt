@@ -8,7 +8,6 @@ import data.atlassian.adf.HeadingNode
 import data.atlassian.adf.ListItemNode
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
-import data.markdown.parser.printTree
 import org.intellij.markdown.MarkdownElementTypes
 import kotlin.test.Test
 import kotlin.test.assertEquals

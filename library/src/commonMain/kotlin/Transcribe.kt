@@ -70,7 +70,12 @@ class Transcribe(
             page.body?.atlasDocFormat?.docNode
                 ?: throw IllegalStateException("Page $pageId does not contain ADF body content")
 
-        val result = transcriber.transcribe(adfBody, ADFTranscriberContext())
+        // Apply toMarkdown transformer before transcribing
+        val context = ADFTranscriberContext()
+        val transformedContent = configuration.toMarkdownTransformer.transform(adfBody.content, context)
+        val transformedDocNode = adfBody.copy(content = transformedContent)
+
+        val result = transcriber.transcribe(transformedDocNode, context)
         return result.content
     }
 
@@ -96,13 +101,18 @@ class Transcribe(
 
         val currentPage = pageApiClient.getPage(pageId)
 
-        val result = markdownTranscriber.transcribe(markdown, MarkdownContext(markdownText = markdown))
+        val context = MarkdownContext(markdownText = markdown)
+        val result = markdownTranscriber.transcribe(markdown, context)
         val docNode = result.content
+
+        // Apply toConfluence transformer after transcribing
+        val transformedContent = configuration.toConfluenceTransformer.transform(docNode.content, context)
+        val transformedDocNode = docNode.copy(content = transformedContent)
 
         return pageApiClient.updatePage(
             pageId = pageId,
             title = currentPage.title,
-            docNode = docNode,
+            docNode = transformedDocNode,
             version = currentPage.version.number + 1,
             status = currentPage.status,
             message = message,
@@ -128,13 +138,18 @@ class Transcribe(
     ): TemplateResponse {
         val currentTemplate = templateApiClient.getTemplate(templateId)
 
-        val result = markdownTranscriber.transcribe(markdown, MarkdownContext(markdownText = markdown))
+        val context = MarkdownContext(markdownText = markdown)
+        val result = markdownTranscriber.transcribe(markdown, context)
         val docNode = result.content
+
+        // Apply toConfluence transformer after transcribing
+        val transformedContent = configuration.toConfluenceTransformer.transform(docNode.content, context)
+        val transformedDocNode = docNode.copy(content = transformedContent)
 
         return templateApiClient.updateTemplate(
             templateId = templateId,
             name = name,
-            docNode = docNode,
+            docNode = transformedDocNode,
             templateType = templateType,
             description = currentTemplate.description,
             labels = currentTemplate.labels,
