@@ -1,3 +1,4 @@
+import api.atlassian.AttachmentAPIClient
 import api.atlassian.ConfluenceHttpClientFactory
 import api.atlassian.ConfluenceUrlParser
 import api.atlassian.PageAPIClient
@@ -37,6 +38,10 @@ class Transcribe(
         PageAPIClient(httpClient)
     }
 
+    private val attachmentApiClient: AttachmentAPIClient by lazy {
+        AttachmentAPIClient(httpClient)
+    }
+
     private val templateApiClient: TemplateAPIClient by lazy {
         TemplateAPIClient(httpClientV1)
     }
@@ -67,6 +72,7 @@ class Transcribe(
                 ?: throw IllegalArgumentException("Unable to extract page ID from URL: $url")
 
         val page = pageApiClient.getPage(pageId)
+        val attachments = attachmentApiClient.getPageAttachments(pageId)
         val adfBody =
             page.body?.atlasDocFormat?.docNode
                 ?: throw IllegalStateException("Page $pageId does not contain ADF body content")
@@ -103,6 +109,7 @@ class Transcribe(
                 ?: throw IllegalArgumentException("Unable to extract page ID from URL: $url")
 
         val currentPage = pageApiClient.getPage(pageId)
+        val attachments = attachmentApiClient.getPageAttachments(pageId)
 
         val context = MarkdownContext(
             markdownText = markdown,
