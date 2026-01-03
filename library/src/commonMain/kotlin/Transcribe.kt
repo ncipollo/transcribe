@@ -6,6 +6,7 @@ import api.atlassian.TemplateAPIClient
 import api.atlassian.TemplateResponse
 import context.ADFTranscriberContext
 import context.MarkdownContext
+import context.PageContext
 import io.ktor.client.HttpClient
 import transcribe.atlassian.ConfluenceToMarkdownTranscriber
 import transcribe.markdown.MarkdownToConfluenceTranscriber
@@ -71,7 +72,9 @@ class Transcribe(
                 ?: throw IllegalStateException("Page $pageId does not contain ADF body content")
 
         // Apply toMarkdown transformer before transcribing
-        val context = ADFTranscriberContext()
+        val context = ADFTranscriberContext(
+            pageContext = PageContext.fromPageResponse(page),
+        )
         val transformedContent = configuration.toMarkdownTransformer.transform(adfBody.content, context)
         val transformedDocNode = adfBody.copy(content = transformedContent)
 
@@ -101,7 +104,10 @@ class Transcribe(
 
         val currentPage = pageApiClient.getPage(pageId)
 
-        val context = MarkdownContext(markdownText = markdown)
+        val context = MarkdownContext(
+            markdownText = markdown,
+            pageContext = PageContext.fromPageResponse(currentPage),
+        )
         val result = markdownTranscriber.transcribe(markdown, context)
         val docNode = result.content
 
@@ -138,7 +144,10 @@ class Transcribe(
     ): TemplateResponse {
         val currentTemplate = templateApiClient.getTemplate(templateId)
 
-        val context = MarkdownContext(markdownText = markdown)
+        val context = MarkdownContext(
+            markdownText = markdown,
+            pageContext = PageContext.fromTemplateResponse(currentTemplate),
+        )
         val result = markdownTranscriber.transcribe(markdown, context)
         val docNode = result.content
 

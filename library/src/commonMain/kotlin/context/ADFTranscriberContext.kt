@@ -1,3 +1,5 @@
 package context
 
-class ADFTranscriberContext
+data class ADFTranscriberContext(
+    val pageContext: PageContext = PageContext(),
+)
