@@ -6,6 +6,7 @@ import api.atlassian.PageResponse
 import api.atlassian.TemplateAPIClient
 import api.atlassian.TemplateResponse
 import context.ADFTranscriberContext
+import context.AttachmentContext
 import context.MarkdownContext
 import context.PageContext
 import io.ktor.client.HttpClient
@@ -80,6 +81,7 @@ class Transcribe(
         // Apply toMarkdown transformer before transcribing
         val context = ADFTranscriberContext(
             pageContext = PageContext.fromPageResponse(page),
+            attachmentContext = AttachmentContext.from(attachments),
         )
         val transformedContent = configuration.toMarkdownTransformer.transform(adfBody.content, context)
         val transformedDocNode = adfBody.copy(content = transformedContent)
@@ -114,6 +116,7 @@ class Transcribe(
         val context = MarkdownContext(
             markdownText = markdown,
             pageContext = PageContext.fromPageResponse(currentPage),
+            attachmentContext = AttachmentContext.from(attachments),
         )
         val result = markdownTranscriber.transcribe(markdown, context)
         val docNode = result.content

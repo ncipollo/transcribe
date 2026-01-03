@@ -49,4 +49,3 @@ data class AttachmentsLinks(
     val next: String? = null,
     val base: String? = null,
 )
-

@@ -25,4 +25,3 @@ class AttachmentAPIClient(private val httpClient: HttpClient) {
         return allAttachments
     }
 }
-
