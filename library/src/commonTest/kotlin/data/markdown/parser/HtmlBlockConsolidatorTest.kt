@@ -154,6 +154,21 @@ class HtmlBlockConsolidatorTest {
         assertEquals(expected, consolidated.toTranscribeNodeForComparison())
     }
 
+    @Test
+    fun consolidate_unescapedDetailsElement_unchanged() {
+        val markdown = "<details><summary>Summary</summary><p>Content without blank lines</p></details>"
+
+        val parser = defaultMarkdownParser()
+        val rootNode = parser.buildMarkdownTreeFromString(markdown)
+        val consolidated = HtmlBlockConsolidator.consolidate(rootNode, markdown)
+
+        // Since the details element is completely unescaped (no unclosed tags),
+        // the consolidator should bail out and return the tree unchanged
+        val expected = rootNode.toTranscribeNodeForComparison()
+
+        assertEquals(expected, consolidated.toTranscribeNodeForComparison())
+    }
+
     /**
      * Converts an ASTNode to TranscribeASTNode, excluding the parent field to enable comparison.
      */

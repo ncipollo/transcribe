@@ -28,18 +28,18 @@ object HtmlBlockConsolidator {
      */
     private fun consolidateChildren(children: List<ASTNode>, markdownText: String): List<ASTNode> {
         val result = mutableListOf<ASTNode>()
-        var i = 0
+        var currentIndex = 0
 
-        while (i < children.size) {
-            val child = children[i]
+        while (currentIndex < children.size) {
+            val child = children[currentIndex]
 
             // Check if this is an HTML_BLOCK that needs consolidation
             if (child.type == MarkdownElementTypes.HTML_BLOCK) {
-                val consolidation = tryConsolidate(child, children, i, markdownText)
+                val consolidation = tryConsolidate(child, children, currentIndex, markdownText)
                 if (consolidation != null) {
                     // Add the consolidated node and skip the folded siblings
                     result.add(consolidation.consolidatedNode)
-                    i += consolidation.skipCount + 1
+                    currentIndex += consolidation.skipCount + 1
                     continue
                 }
             }
@@ -52,7 +52,7 @@ object HtmlBlockConsolidator {
                 result.add(child)
             }
 
-            i++
+            currentIndex++
         }
 
         return result
@@ -74,12 +74,12 @@ object HtmlBlockConsolidator {
 
         // Look for the matching closing HTML_BLOCK
         var closingIndex = -1
-        for (j in (nodeIndex + 1) until siblings.size) {
-            val sibling = siblings[j]
+        for (siblingIndex in (nodeIndex + 1) until siblings.size) {
+            val sibling = siblings[siblingIndex]
             if (sibling.type == MarkdownElementTypes.HTML_BLOCK) {
                 val siblingText = sibling.getTextContent(markdownText).toString()
                 if (containsClosingTag(siblingText, unclosedTag)) {
-                    closingIndex = j
+                    closingIndex = siblingIndex
                     break
                 }
             }
@@ -109,7 +109,7 @@ object HtmlBlockConsolidator {
      * Returns the tag name if found, null otherwise.
      */
     private fun findUnclosedTag(htmlText: String): String? {
-        val blockElements = setOf("details", "div", "section", "article", "aside", "header", "footer", "nav")
+        val blockElements = setOf("details", "div", "section", "article", "header", "footer", "nav")
         val tagStack = mutableListOf<String>()
         val tagRegex = Regex("<(/?)([a-zA-Z][a-zA-Z0-9]*)[^>]*>", RegexOption.IGNORE_CASE)
 
