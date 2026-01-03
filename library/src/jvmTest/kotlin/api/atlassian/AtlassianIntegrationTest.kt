@@ -25,10 +25,10 @@ class AtlassianIntegrationTest {
             val configuration =
                 TranscribeConfiguration(
                     confluenceConfiguration =
-                        ConfluenceConfiguration(
-                            siteName = siteName,
-                            authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken),
-                        ),
+                    ConfluenceConfiguration(
+                        siteName = siteName,
+                        authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken),
+                    ),
                 )
             val transcribe = Transcribe(configuration)
 
@@ -59,10 +59,10 @@ class AtlassianIntegrationTest {
             val configuration =
                 TranscribeConfiguration(
                     confluenceConfiguration =
-                        ConfluenceConfiguration(
-                            siteName = siteName,
-                            authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken),
-                        ),
+                    ConfluenceConfiguration(
+                        siteName = siteName,
+                        authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken),
+                    ),
                 )
             val transcribe = Transcribe(configuration)
 
@@ -104,10 +104,10 @@ class AtlassianIntegrationTest {
             val configuration =
                 TranscribeConfiguration(
                     confluenceConfiguration =
-                        ConfluenceConfiguration(
-                            siteName = siteName,
-                            authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken),
-                        ),
+                    ConfluenceConfiguration(
+                        siteName = siteName,
+                        authMaterial = AtlassianAuthMaterial(email = email, apiToken = apiToken),
+                    ),
                 )
             val transcribe = Transcribe(configuration)
 

@@ -17,9 +17,9 @@ class NestedExpandNodeTranscriberTest {
             NestedExpandNode(
                 attrs = NestedExpandAttrs(title = "Nested Collapse"),
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Nested content which is hidden."))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Nested content which is hidden."))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Nested Collapse</summary>\nNested content which is hidden.\n</details>\n", result.content)
@@ -31,9 +31,9 @@ class NestedExpandNodeTranscriberTest {
             NestedExpandNode(
                 attrs = NestedExpandAttrs(title = null),
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Hidden nested content"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Hidden nested content"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Click to expand</summary>\nHidden nested content\n</details>\n", result.content)
@@ -56,10 +56,10 @@ class NestedExpandNodeTranscriberTest {
             NestedExpandNode(
                 attrs = NestedExpandAttrs(title = "Multiple nested items"),
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "First nested paragraph"))),
-                        ParagraphNode(content = listOf(TextNode(text = "Second nested paragraph"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "First nested paragraph"))),
+                    ParagraphNode(content = listOf(TextNode(text = "Second nested paragraph"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals(

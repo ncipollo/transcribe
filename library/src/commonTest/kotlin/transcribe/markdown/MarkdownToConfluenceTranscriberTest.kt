@@ -22,10 +22,10 @@ class MarkdownToConfluenceTranscriberTest {
             DocNode(
                 version = 1,
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Hello"))),
-                        ParagraphNode(content = listOf(TextNode(text = "World"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Hello"))),
+                    ParagraphNode(content = listOf(TextNode(text = "World"))),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -56,9 +56,9 @@ class MarkdownToConfluenceTranscriberTest {
             DocNode(
                 version = 1,
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "[CUSTOM]Hello"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "[CUSTOM]Hello"))),
+                ),
             )
         // Should use custom transcriber instead of default
         assertEquals(expected, result.content)

@@ -21,14 +21,14 @@ class ListItemTranscriberTest {
         val expected =
             ListItemNode(
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Item text"),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Item text"),
                         ),
                     ),
+                ),
             )
         assertEquals(expected, result.content)
     }

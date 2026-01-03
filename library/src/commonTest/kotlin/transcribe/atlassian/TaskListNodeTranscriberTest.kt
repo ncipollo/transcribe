@@ -19,16 +19,16 @@ class TaskListNodeTranscriberTest {
             TaskListNode(
                 attrs = TaskListAttrs(localId = "1"),
                 content =
-                    listOf(
-                        TaskItemNode(
-                            attrs = TaskItemAttrs(localId = "1", state = TaskState.TODO),
-                            content = listOf(TextNode(text = "Task 1")),
-                        ),
-                        TaskItemNode(
-                            attrs = TaskItemAttrs(localId = "2", state = TaskState.DONE),
-                            content = listOf(TextNode(text = "Task 2")),
-                        ),
+                listOf(
+                    TaskItemNode(
+                        attrs = TaskItemAttrs(localId = "1", state = TaskState.TODO),
+                        content = listOf(TextNode(text = "Task 1")),
                     ),
+                    TaskItemNode(
+                        attrs = TaskItemAttrs(localId = "2", state = TaskState.DONE),
+                        content = listOf(TextNode(text = "Task 2")),
+                    ),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("- [ ] Task 1\n- [x] Task 2\n", result.content)

@@ -92,11 +92,11 @@ class UnknownMarkSerializerTest {
             UnknownMark(
                 type = "customMark",
                 attrs =
-                    buildJsonObject {
-                        put("color", "#FF5733")
-                        put("weight", "bold")
-                        put("style", "dashed")
-                    },
+                buildJsonObject {
+                    put("color", "#FF5733")
+                    put("weight", "bold")
+                    put("style", "dashed")
+                },
             )
 
         assertEquals(expected, actual)

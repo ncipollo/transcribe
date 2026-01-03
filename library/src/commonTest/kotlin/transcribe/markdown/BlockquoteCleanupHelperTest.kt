@@ -33,12 +33,12 @@ class BlockquoteCleanupHelperTest {
             listOf(
                 ParagraphNode(
                     content =
-                        listOf(
-                            TextNode(text = "Text"),
-                            HardBreakNode(),
-                            TextNode(text = " "),
-                            TextNode(text = "More"),
-                        ),
+                    listOf(
+                        TextNode(text = "Text"),
+                        HardBreakNode(),
+                        TextNode(text = " "),
+                        TextNode(text = "More"),
+                    ),
                 ),
                 ParagraphNode(content = listOf(TextNode(text = "> "))),
             )
@@ -48,11 +48,11 @@ class BlockquoteCleanupHelperTest {
             listOf(
                 ParagraphNode(
                     content =
-                        listOf(
-                            TextNode(text = "Text"),
-                            HardBreakNode(),
-                            TextNode(text = "More"),
-                        ),
+                    listOf(
+                        TextNode(text = "Text"),
+                        HardBreakNode(),
+                        TextNode(text = "More"),
+                    ),
                 ),
             )
         assertEquals(expected, result)
@@ -65,14 +65,14 @@ class BlockquoteCleanupHelperTest {
                 ParagraphNode(content = listOf(TextNode(text = "Text"))),
                 BulletListNode(
                     content =
-                        listOf(
-                            ListItemNode(
-                                content =
-                                    listOf(
-                                        ParagraphNode(content = listOf(TextNode(text = "Item"))),
-                                    ),
+                    listOf(
+                        ListItemNode(
+                            content =
+                            listOf(
+                                ParagraphNode(content = listOf(TextNode(text = "Item"))),
                             ),
                         ),
+                    ),
                 ),
                 ParagraphNode(content = listOf(TextNode(text = ">"))),
             )
@@ -83,14 +83,14 @@ class BlockquoteCleanupHelperTest {
                 ParagraphNode(content = listOf(TextNode(text = "Text"))),
                 BulletListNode(
                     content =
-                        listOf(
-                            ListItemNode(
-                                content =
-                                    listOf(
-                                        ParagraphNode(content = listOf(TextNode(text = "Item"))),
-                                    ),
+                    listOf(
+                        ListItemNode(
+                            content =
+                            listOf(
+                                ParagraphNode(content = listOf(TextNode(text = "Item"))),
                             ),
                         ),
+                    ),
                 ),
             )
         assertEquals(expected, result)

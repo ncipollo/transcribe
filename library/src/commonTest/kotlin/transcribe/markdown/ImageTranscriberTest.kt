@@ -26,19 +26,19 @@ class ImageTranscriberTest {
             MediaSingleNode(
                 attrs = MediaSingleAttrs(layout = MediaSingleLayout.CENTER),
                 content =
-                    listOf(
-                        MediaNode(
-                            attrs =
-                                MediaAttrs(
-                                    type = MediaType.EXTERNAL,
-                                    url = "https://example.com/image.png",
-                                    alt = "alt text",
-                                ),
-                        ),
-                        CaptionNode(
-                            content = listOf(TextNode(text = "alt text")),
+                listOf(
+                    MediaNode(
+                        attrs =
+                        MediaAttrs(
+                            type = MediaType.EXTERNAL,
+                            url = "https://example.com/image.png",
+                            alt = "alt text",
                         ),
                     ),
+                    CaptionNode(
+                        content = listOf(TextNode(text = "alt text")),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -54,19 +54,19 @@ class ImageTranscriberTest {
             MediaSingleNode(
                 attrs = MediaSingleAttrs(layout = MediaSingleLayout.CENTER),
                 content =
-                    listOf(
-                        MediaNode(
-                            attrs =
-                                MediaAttrs(
-                                    type = MediaType.EXTERNAL,
-                                    url = "image.png",
-                                    alt = "alt text",
-                                ),
-                        ),
-                        CaptionNode(
-                            content = listOf(TextNode(text = "alt text")),
+                listOf(
+                    MediaNode(
+                        attrs =
+                        MediaAttrs(
+                            type = MediaType.EXTERNAL,
+                            url = "image.png",
+                            alt = "alt text",
                         ),
                     ),
+                    CaptionNode(
+                        content = listOf(TextNode(text = "alt text")),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -82,16 +82,16 @@ class ImageTranscriberTest {
             MediaSingleNode(
                 attrs = MediaSingleAttrs(layout = MediaSingleLayout.CENTER),
                 content =
-                    listOf(
-                        MediaNode(
-                            attrs =
-                                MediaAttrs(
-                                    type = MediaType.EXTERNAL,
-                                    url = "https://example.com/image.png",
-                                    alt = null,
-                                ),
+                listOf(
+                    MediaNode(
+                        attrs =
+                        MediaAttrs(
+                            type = MediaType.EXTERNAL,
+                            url = "https://example.com/image.png",
+                            alt = null,
                         ),
                     ),
+                ),
             )
         assertEquals(expected, result.content)
     }

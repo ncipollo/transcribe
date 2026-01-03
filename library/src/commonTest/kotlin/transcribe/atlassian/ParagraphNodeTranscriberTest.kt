@@ -14,10 +14,10 @@ class ParagraphNodeTranscriberTest {
         val node =
             ParagraphNode(
                 content =
-                    listOf(
-                        TextNode(text = "Hello"),
-                        TextNode(text = " world"),
-                    ),
+                listOf(
+                    TextNode(text = "Hello"),
+                    TextNode(text = " world"),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("Hello world\n", result.content)

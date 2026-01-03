@@ -26,14 +26,14 @@ class BlockquoteTranscriberTest {
         val expected =
             BlockquoteNode(
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Quote text"),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Quote text"),
                         ),
                     ),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -54,47 +54,47 @@ class BlockquoteTranscriberTest {
         val expected =
             BlockquoteNode(
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "This", marks = listOf(StrongMark)),
-                                    TextNode(text = " "),
-                                    TextNode(text = "and"),
-                                    TextNode(text = " "),
-                                    TextNode(text = "that.", marks = listOf(EmMark)),
-                                    HardBreakNode(),
-                                    TextNode(text = "Next line."),
-                                ),
-                        ),
-                        BulletListNode(
-                            content =
-                                listOf(
-                                    ListItemNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "Bullet 1"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                    ListItemNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "Bullet 2"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "This", marks = listOf(StrongMark)),
+                            TextNode(text = " "),
+                            TextNode(text = "and"),
+                            TextNode(text = " "),
+                            TextNode(text = "that.", marks = listOf(EmMark)),
+                            HardBreakNode(),
+                            TextNode(text = "Next line."),
                         ),
                     ),
+                    BulletListNode(
+                        content =
+                        listOf(
+                            ListItemNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "Bullet 1"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            ListItemNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "Bullet 2"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }

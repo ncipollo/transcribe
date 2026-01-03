@@ -35,13 +35,13 @@ class TemplateAPIClient(private val httpClient: HttpClient) {
                 name = name,
                 templateType = templateType,
                 body =
-                    TemplateUpdateBody(
-                        atlasDocFormat =
-                            TemplateBodyValue(
-                                value = adfJson,
-                                representation = "atlas_doc_format",
-                            ),
+                TemplateUpdateBody(
+                    atlasDocFormat =
+                    TemplateBodyValue(
+                        value = adfJson,
+                        representation = "atlas_doc_format",
                     ),
+                ),
                 description = description,
                 labels = labels,
                 space = space,

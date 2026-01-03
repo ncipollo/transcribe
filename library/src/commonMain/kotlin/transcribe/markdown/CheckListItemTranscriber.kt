@@ -31,15 +31,15 @@ class CheckListItemTranscriber(
         return TranscribeResult(
             TaskItemNode(
                 attrs =
-                    TaskItemAttrs(
-                        localId = "",
-                        state =
-                            if (checkBoxNode != null && isChecked(checkBoxNode, context)) {
-                                TaskState.DONE
-                            } else {
-                                TaskState.TODO
-                            },
-                    ),
+                TaskItemAttrs(
+                    localId = "",
+                    state =
+                    if (checkBoxNode != null && isChecked(checkBoxNode, context)) {
+                        TaskState.DONE
+                    } else {
+                        TaskState.TODO
+                    },
+                ),
                 content = (paragraphContent as? ParagraphNode)?.content,
             ),
         )

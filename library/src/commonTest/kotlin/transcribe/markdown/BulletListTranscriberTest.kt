@@ -22,30 +22,30 @@ class BulletListTranscriberTest {
         val expected =
             BulletListNode(
                 content =
-                    listOf(
-                        ListItemNode(
-                            content =
+                listOf(
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(
+                                content =
                                 listOf(
-                                    ParagraphNode(
-                                        content =
-                                            listOf(
-                                                TextNode(text = "Item 1"),
-                                            ),
-                                    ),
+                                    TextNode(text = "Item 1"),
                                 ),
-                        ),
-                        ListItemNode(
-                            content =
-                                listOf(
-                                    ParagraphNode(
-                                        content =
-                                            listOf(
-                                                TextNode(text = "Item 2"),
-                                            ),
-                                    ),
-                                ),
+                            ),
                         ),
                     ),
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(
+                                content =
+                                listOf(
+                                    TextNode(text = "Item 2"),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }

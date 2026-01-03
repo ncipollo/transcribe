@@ -18,10 +18,10 @@ class ConfluenceToMarkdownTranscriberTest {
         val node =
             DocNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Hello"))),
-                        ParagraphNode(content = listOf(TextNode(text = "World"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Hello"))),
+                    ParagraphNode(content = listOf(TextNode(text = "World"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("Hello\nWorld\n", result.content)
@@ -48,9 +48,9 @@ class ConfluenceToMarkdownTranscriberTest {
         val node =
             DocNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Hello"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Hello"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         // Should use custom transcriber instead of default

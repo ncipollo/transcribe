@@ -15,9 +15,9 @@ class TableHeaderNodeTranscriberTest {
         val node =
             TableHeaderNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Header"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Header"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("Header", result.content)

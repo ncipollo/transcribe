@@ -26,9 +26,9 @@ class CodeBlockTranscriberTest {
             CodeBlockNode(
                 attrs = CodeBlockAttrs(language = null),
                 content =
-                    listOf(
-                        TextNode(text = "val x = 1\nval y = 2\nval z = x + y"),
-                    ),
+                listOf(
+                    TextNode(text = "val x = 1\nval y = 2\nval z = x + y"),
+                ),
             )
         assertEquals(expected, result.content)
     }

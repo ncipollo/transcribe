@@ -35,11 +35,11 @@ class ImageTranscriber : MarkdownTranscriber<MediaSingleNode> {
         val mediaNode =
             MediaNode(
                 attrs =
-                    MediaAttrs(
-                        type = MediaType.EXTERNAL,
-                        url = url,
-                        alt = altText.takeIf { it.isNotEmpty() },
-                    ),
+                MediaAttrs(
+                    type = MediaType.EXTERNAL,
+                    url = url,
+                    alt = altText.takeIf { it.isNotEmpty() },
+                ),
             )
 
         // Optionally create caption from alt text

@@ -103,4 +103,3 @@ class DetailsHtmlParserTest {
         assertNull(result)
     }
 }
-

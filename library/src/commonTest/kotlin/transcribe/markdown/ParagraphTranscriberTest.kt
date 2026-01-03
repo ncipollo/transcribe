@@ -20,9 +20,9 @@ class ParagraphTranscriberTest {
         val expected =
             ParagraphNode(
                 content =
-                    listOf(
-                        TextNode(text = "Hello world"),
-                    ),
+                listOf(
+                    TextNode(text = "Hello world"),
+                ),
             )
         assertEquals(expected, result.content)
     }

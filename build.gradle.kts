@@ -13,7 +13,11 @@ subprojects {
         kotlin {
             target("**/*.kt")
             targetExclude("**/build/**")
-            ktlint()
+            ktlint().editorConfigOverride(
+                mapOf(
+                    "ktlint_standard_value-argument-comment" to "disabled"
+                )
+            )
             trimTrailingWhitespace()
             endWithNewline()
         }

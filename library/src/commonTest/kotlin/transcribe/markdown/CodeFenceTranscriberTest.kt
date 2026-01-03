@@ -21,9 +21,9 @@ class CodeFenceTranscriberTest {
             CodeBlockNode(
                 attrs = CodeBlockAttrs(language = "kotlin"),
                 content =
-                    listOf(
-                        TextNode(text = "val x = 1\nval y = 2"),
-                    ),
+                listOf(
+                    TextNode(text = "val x = 1\nval y = 2"),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -39,9 +39,9 @@ class CodeFenceTranscriberTest {
             CodeBlockNode(
                 attrs = CodeBlockAttrs(language = null),
                 content =
-                    listOf(
-                        TextNode(text = "some code"),
-                    ),
+                listOf(
+                    TextNode(text = "some code"),
+                ),
             )
         assertEquals(expected, result.content)
     }

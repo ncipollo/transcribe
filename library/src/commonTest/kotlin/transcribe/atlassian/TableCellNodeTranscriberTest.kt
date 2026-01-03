@@ -15,9 +15,9 @@ class TableCellNodeTranscriberTest {
         val node =
             TableCellNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Cell content"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Cell content"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("Cell content", result.content)

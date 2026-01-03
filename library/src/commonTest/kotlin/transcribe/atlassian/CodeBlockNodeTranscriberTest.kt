@@ -16,11 +16,11 @@ class CodeBlockNodeTranscriberTest {
             CodeBlockNode(
                 attrs = CodeBlockAttrs(language = "kotlin"),
                 content =
-                    listOf(
-                        TextNode(text = "fun main() {"),
-                        TextNode(text = "    println(\"Hello\")"),
-                        TextNode(text = "}"),
-                    ),
+                listOf(
+                    TextNode(text = "fun main() {"),
+                    TextNode(text = "    println(\"Hello\")"),
+                    TextNode(text = "}"),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("```kotlin\nfun main() {\n    println(\"Hello\")\n}\n```\n\n", result.content)

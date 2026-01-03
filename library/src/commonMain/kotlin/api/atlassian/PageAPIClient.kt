@@ -35,15 +35,15 @@ class PageAPIClient(private val httpClient: HttpClient) {
                 status = status,
                 title = title,
                 version =
-                    PageUpdateVersion(
-                        number = version,
-                        message = message,
-                    ),
+                PageUpdateVersion(
+                    number = version,
+                    message = message,
+                ),
                 body =
-                    PageUpdateBody(
-                        representation = "atlas_doc_format",
-                        value = adfJson,
-                    ),
+                PageUpdateBody(
+                    representation = "atlas_doc_format",
+                    value = adfJson,
+                ),
             )
         val response =
             httpClient.put("pages/$pageId") {

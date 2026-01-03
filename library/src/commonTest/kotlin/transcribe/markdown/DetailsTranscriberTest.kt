@@ -27,24 +27,24 @@ class DetailsTranscriberTest {
         val expected =
             ExpandNode(
                 content =
-                    listOf(
-                        BulletListNode(
-                            content =
+                listOf(
+                    BulletListNode(
+                        content =
+                        listOf(
+                            ListItemNode(
+                                content =
                                 listOf(
-                                    ListItemNode(
+                                    ParagraphNode(
                                         content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "Content which is kinda hidden."),
-                                                        ),
-                                                ),
-                                            ),
+                                        listOf(
+                                            TextNode(text = "Content which is kinda hidden."),
+                                        ),
                                     ),
                                 ),
+                            ),
                         ),
                     ),
+                ),
                 attrs = ExpandAttrs(title = "Collapse"),
             )
         assertEquals(expected, result.content)
@@ -62,49 +62,48 @@ class DetailsTranscriberTest {
             </details>
             """.trimIndent()
         val htmlBlockNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.HTML_BLOCK)
-        htmlBlockNode.parent?.printTree()
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(htmlBlockNode, context)
 
         val expected =
             ExpandNode(
                 content =
-                    listOf(
-                        HeadingNode(
-                            attrs = HeadingAttrs(level = 1),
-                            content =
-                                listOf(
-                                    TextNode(text = "Heading"),
-                                ),
-                        ),
-                        BulletListNode(
-                            content =
-                                listOf(
-                                    ListItemNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "List item 1"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                    ListItemNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "List item 2"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                ),
+                listOf(
+                    HeadingNode(
+                        attrs = HeadingAttrs(level = 1),
+                        content =
+                        listOf(
+                            TextNode(text = "Heading"),
                         ),
                     ),
+                    BulletListNode(
+                        content =
+                        listOf(
+                            ListItemNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "List item 1"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            ListItemNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "List item 2"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
                 attrs = ExpandAttrs(title = "Click to expand"),
             )
         assertEquals(expected, result.content)
@@ -133,7 +132,7 @@ class DetailsTranscriberTest {
             <details>
             <summary>Summary</summary>
             First paragraph.
-            
+
             Second paragraph.
             </details>
             """.trimIndent()
@@ -145,23 +144,22 @@ class DetailsTranscriberTest {
         val expected =
             ExpandNode(
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "First paragraph."),
-                                ),
-                        ),
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Second paragraph."),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "First paragraph."),
                         ),
                     ),
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Second paragraph."),
+                        ),
+                    ),
+                ),
                 attrs = ExpandAttrs(title = "Summary"),
             )
         assertEquals(expected, result.content)
     }
 }
-

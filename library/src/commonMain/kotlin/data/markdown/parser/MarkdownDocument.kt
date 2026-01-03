@@ -15,7 +15,8 @@ data class MarkdownDocument(
             markdownParser: MarkdownParser = defaultMarkdownParser(),
         ): MarkdownDocument {
             val rootNode = markdownParser.buildMarkdownTreeFromString(markdownText)
-            return MarkdownDocument(rootNode = rootNode, text = markdownText)
+            val consolidatedRoot = HtmlBlockConsolidator.consolidate(rootNode, markdownText)
+            return MarkdownDocument(rootNode = consolidatedRoot, text = markdownText)
         }
     }
 }

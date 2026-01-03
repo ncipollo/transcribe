@@ -22,9 +22,9 @@ class HeadingTranscriberTest {
             HeadingNode(
                 attrs = HeadingAttrs(level = 1),
                 content =
-                    listOf(
-                        TextNode(text = "Title"),
-                    ),
+                listOf(
+                    TextNode(text = "Title"),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -40,9 +40,9 @@ class HeadingTranscriberTest {
             HeadingNode(
                 attrs = HeadingAttrs(level = 3),
                 content =
-                    listOf(
-                        TextNode(text = "Subtitle"),
-                    ),
+                listOf(
+                    TextNode(text = "Subtitle"),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -58,9 +58,9 @@ class HeadingTranscriberTest {
             HeadingNode(
                 attrs = HeadingAttrs(level = 1),
                 content =
-                    listOf(
-                        TextNode(text = "Title"),
-                    ),
+                listOf(
+                    TextNode(text = "Title"),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -76,13 +76,13 @@ class HeadingTranscriberTest {
             HeadingNode(
                 attrs = HeadingAttrs(level = 1),
                 content =
-                    listOf(
-                        TextNode(text = "Title with"),
-                        TextNode(text = " "),
-                        TextNode(text = "bold", marks = listOf(data.atlassian.adf.StrongMark)),
-                        TextNode(text = " "),
-                        TextNode(text = "text"),
-                    ),
+                listOf(
+                    TextNode(text = "Title with"),
+                    TextNode(text = " "),
+                    TextNode(text = "bold", marks = listOf(data.atlassian.adf.StrongMark)),
+                    TextNode(text = " "),
+                    TextNode(text = "text"),
+                ),
             )
         assertEquals(expected, result.content)
     }

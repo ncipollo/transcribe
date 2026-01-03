@@ -16,20 +16,20 @@ class BulletListNodeTranscriberTest {
         val node =
             BulletListNode(
                 content =
-                    listOf(
-                        ListItemNode(
-                            content =
-                                listOf(
-                                    ParagraphNode(content = listOf(TextNode(text = "First item"))),
-                                ),
-                        ),
-                        ListItemNode(
-                            content =
-                                listOf(
-                                    ParagraphNode(content = listOf(TextNode(text = "Second item"))),
-                                ),
+                listOf(
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "First item"))),
                         ),
                     ),
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "Second item"))),
+                        ),
+                    ),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("- First item\n- Second item\n", result.content)

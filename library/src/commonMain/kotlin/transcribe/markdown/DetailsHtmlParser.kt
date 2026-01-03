@@ -21,7 +21,7 @@ object DetailsHtmlParser {
      */
     fun parse(htmlText: String): ParsedDetails? {
         val trimmed = htmlText.trim()
-        
+
         // Check if it starts with <details> (case-insensitive)
         if (!trimmed.startsWith("<details", ignoreCase = true)) {
             return null
@@ -55,4 +55,3 @@ object DetailsHtmlParser {
         )
     }
 }
-

@@ -25,11 +25,11 @@ class DrawioExtensionTranscriberTest {
         val node =
             ExtensionNode(
                 attrs =
-                    ExtensionAttrs(
-                        extensionKey = "drawio",
-                        extensionType = "com.atlassian.confluence.macro.core",
-                        parameters = parameters,
-                    ),
+                ExtensionAttrs(
+                    extensionKey = "drawio",
+                    extensionType = "com.atlassian.confluence.macro.core",
+                    parameters = parameters,
+                ),
             )
 
         val result = transcriber.transcribe(node, context)
@@ -49,11 +49,11 @@ class DrawioExtensionTranscriberTest {
         val node =
             ExtensionNode(
                 attrs =
-                    ExtensionAttrs(
-                        extensionKey = "drawio",
-                        extensionType = "com.atlassian.confluence.macro.core",
-                        parameters = parameters,
-                    ),
+                ExtensionAttrs(
+                    extensionKey = "drawio",
+                    extensionType = "com.atlassian.confluence.macro.core",
+                    parameters = parameters,
+                ),
             )
 
         val result = transcriber.transcribe(node, context)
@@ -66,11 +66,11 @@ class DrawioExtensionTranscriberTest {
         val node =
             ExtensionNode(
                 attrs =
-                    ExtensionAttrs(
-                        extensionKey = "drawio",
-                        extensionType = "com.atlassian.confluence.macro.core",
-                        parameters = null,
-                    ),
+                ExtensionAttrs(
+                    extensionKey = "drawio",
+                    extensionType = "com.atlassian.confluence.macro.core",
+                    parameters = null,
+                ),
             )
 
         val result = transcriber.transcribe(node, context)
@@ -87,11 +87,11 @@ class DrawioExtensionTranscriberTest {
         val node =
             ExtensionNode(
                 attrs =
-                    ExtensionAttrs(
-                        extensionKey = "drawio",
-                        extensionType = "com.atlassian.confluence.macro.core",
-                        parameters = parameters,
-                    ),
+                ExtensionAttrs(
+                    extensionKey = "drawio",
+                    extensionType = "com.atlassian.confluence.macro.core",
+                    parameters = parameters,
+                ),
             )
 
         val result = transcriber.transcribe(node, context)

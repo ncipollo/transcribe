@@ -15,10 +15,10 @@ class ADFDocumentTranscriberTest {
         val node =
             DocNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Hello"))),
-                        ParagraphNode(content = listOf(TextNode(text = "World"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Hello"))),
+                    ParagraphNode(content = listOf(TextNode(text = "World"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("Hello\nWorld\n", result.content)

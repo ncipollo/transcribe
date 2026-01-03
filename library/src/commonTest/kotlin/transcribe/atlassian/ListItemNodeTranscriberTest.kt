@@ -15,9 +15,9 @@ class ListItemNodeTranscriberTest {
         val node =
             ListItemNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Item text"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Item text"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("Item text\n", result.content)
@@ -35,10 +35,10 @@ class ListItemNodeTranscriberTest {
         val node =
             ListItemNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "First"))),
-                        ParagraphNode(content = listOf(TextNode(text = "Second"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "First"))),
+                    ParagraphNode(content = listOf(TextNode(text = "Second"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("First\nSecond\n", result.content)

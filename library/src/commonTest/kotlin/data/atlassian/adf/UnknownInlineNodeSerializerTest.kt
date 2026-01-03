@@ -78,11 +78,11 @@ class UnknownInlineNodeSerializerTest {
             UnknownInlineNode(
                 type = "fake_mention",
                 attrs =
-                    buildJsonObject {
-                        put("id", "user-123")
-                        put("displayName", "John Doe")
-                        put("accessLevel", "CONTAINER")
-                    },
+                buildJsonObject {
+                    put("id", "user-123")
+                    put("displayName", "John Doe")
+                    put("accessLevel", "CONTAINER")
+                },
             )
 
         assertEquals(expected, actual)

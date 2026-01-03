@@ -46,10 +46,10 @@ class UnknownBlockNodeSerializerTest {
             UnknownBlockNode(
                 type = "customBlock",
                 attrs =
-                    buildJsonObject {
-                        put("customId", "123")
-                        put("enabled", true)
-                    },
+                buildJsonObject {
+                    put("customId", "123")
+                    put("enabled", true)
+                },
                 content = null,
             )
 
@@ -83,14 +83,14 @@ class UnknownBlockNodeSerializerTest {
                 type = "nestedBlock",
                 attrs = null,
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Nested content"),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Nested content"),
                         ),
                     ),
+                ),
             )
 
         assertEquals(expected, actual)
@@ -138,26 +138,26 @@ class UnknownBlockNodeSerializerTest {
             UnknownBlockNode(
                 type = "fullBlock",
                 attrs =
-                    buildJsonObject {
-                        put("id", "block-1")
-                        put("metadata", "test")
-                    },
+                buildJsonObject {
+                    put("id", "block-1")
+                    put("metadata", "test")
+                },
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Content here"),
-                                ),
-                        ),
-                        HeadingNode(
-                            attrs = HeadingAttrs(level = 2),
-                            content =
-                                listOf(
-                                    TextNode(text = "Subheading"),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Content here"),
                         ),
                     ),
+                    HeadingNode(
+                        attrs = HeadingAttrs(level = 2),
+                        content =
+                        listOf(
+                            TextNode(text = "Subheading"),
+                        ),
+                    ),
+                ),
             )
 
         assertEquals(expected, actual)

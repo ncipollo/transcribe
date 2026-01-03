@@ -15,9 +15,9 @@ class BlockquoteNodeTranscriberTest {
         val node =
             BlockquoteNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Quoted text"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Quoted text"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("> Quoted text", result.content)
@@ -35,10 +35,10 @@ class BlockquoteNodeTranscriberTest {
         val node =
             BlockquoteNode(
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "First"))),
-                        ParagraphNode(content = listOf(TextNode(text = "Second"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "First"))),
+                    ParagraphNode(content = listOf(TextNode(text = "Second"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("> First\n> Second", result.content)

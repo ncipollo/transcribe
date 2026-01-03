@@ -18,42 +18,42 @@ class TableNodeTranscriberTest {
         val node =
             TableNode(
                 content =
-                    listOf(
-                        TableRowNode(
-                            content =
+                listOf(
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableHeaderNode(
+                                content =
                                 listOf(
-                                    TableHeaderNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(content = listOf(TextNode(text = "Header 1"))),
-                                            ),
-                                    ),
-                                    TableHeaderNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(content = listOf(TextNode(text = "Header 2"))),
-                                            ),
-                                    ),
+                                    ParagraphNode(content = listOf(TextNode(text = "Header 1"))),
                                 ),
-                        ),
-                        TableRowNode(
-                            content =
+                            ),
+                            TableHeaderNode(
+                                content =
                                 listOf(
-                                    TableCellNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(content = listOf(TextNode(text = "Cell 1"))),
-                                            ),
-                                    ),
-                                    TableCellNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(content = listOf(TextNode(text = "Cell 2"))),
-                                            ),
-                                    ),
+                                    ParagraphNode(content = listOf(TextNode(text = "Header 2"))),
                                 ),
+                            ),
                         ),
                     ),
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableCellNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(content = listOf(TextNode(text = "Cell 1"))),
+                                ),
+                            ),
+                            TableCellNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(content = listOf(TextNode(text = "Cell 2"))),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |", result.content)
@@ -64,19 +64,19 @@ class TableNodeTranscriberTest {
         val node =
             TableNode(
                 content =
-                    listOf(
-                        TableRowNode(
-                            content =
+                listOf(
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableCellNode(
+                                content =
                                 listOf(
-                                    TableCellNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(content = listOf(TextNode(text = "Cell 1"))),
-                                            ),
-                                    ),
+                                    ParagraphNode(content = listOf(TextNode(text = "Cell 1"))),
                                 ),
+                            ),
                         ),
                     ),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("| Cell 1 |", result.content)

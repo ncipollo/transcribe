@@ -61,22 +61,22 @@ class TaskListTranscriberTest {
             TaskListNode(
                 attrs = TaskListAttrs(localId = ""),
                 content =
-                    listOf(
-                        TaskItemNode(
-                            attrs = TaskItemAttrs(localId = "", state = TaskState.TODO),
-                            content =
-                                listOf(
-                                    TextNode(text = "Unchecked task"),
-                                ),
-                        ),
-                        TaskItemNode(
-                            attrs = TaskItemAttrs(localId = "", state = TaskState.DONE),
-                            content =
-                                listOf(
-                                    TextNode(text = "Checked task"),
-                                ),
+                listOf(
+                    TaskItemNode(
+                        attrs = TaskItemAttrs(localId = "", state = TaskState.TODO),
+                        content =
+                        listOf(
+                            TextNode(text = "Unchecked task"),
                         ),
                     ),
+                    TaskItemNode(
+                        attrs = TaskItemAttrs(localId = "", state = TaskState.DONE),
+                        content =
+                        listOf(
+                            TextNode(text = "Checked task"),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -92,22 +92,22 @@ class TaskListTranscriberTest {
             TaskListNode(
                 attrs = TaskListAttrs(localId = ""),
                 content =
-                    listOf(
-                        TaskItemNode(
-                            attrs = TaskItemAttrs(localId = "", state = TaskState.TODO),
-                            content =
-                                listOf(
-                                    TextNode(text = "First task"),
-                                ),
-                        ),
-                        TaskItemNode(
-                            attrs = TaskItemAttrs(localId = "", state = TaskState.DONE),
-                            content =
-                                listOf(
-                                    TextNode(text = "Second task"),
-                                ),
+                listOf(
+                    TaskItemNode(
+                        attrs = TaskItemAttrs(localId = "", state = TaskState.TODO),
+                        content =
+                        listOf(
+                            TextNode(text = "First task"),
                         ),
                     ),
+                    TaskItemNode(
+                        attrs = TaskItemAttrs(localId = "", state = TaskState.DONE),
+                        content =
+                        listOf(
+                            TextNode(text = "Second task"),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }

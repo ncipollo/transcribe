@@ -42,20 +42,20 @@ object SimpleADFDocumentFixture {
             DocNode(
                 version = 1,
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Hello, world!"),
-                                ),
-                        ),
-                        HeadingNode(
-                            attrs = HeadingAttrs(level = 1),
-                            content =
-                                listOf(
-                                    TextNode(text = "Test Heading"),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Hello, world!"),
                         ),
                     ),
+                    HeadingNode(
+                        attrs = HeadingAttrs(level = 1),
+                        content =
+                        listOf(
+                            TextNode(text = "Test Heading"),
+                        ),
+                    ),
+                ),
             )
 }

@@ -17,20 +17,20 @@ class OrderedListNodeTranscriberTest {
         val node =
             OrderedListNode(
                 content =
-                    listOf(
-                        ListItemNode(
-                            content =
-                                listOf(
-                                    ParagraphNode(content = listOf(TextNode(text = "First"))),
-                                ),
-                        ),
-                        ListItemNode(
-                            content =
-                                listOf(
-                                    ParagraphNode(content = listOf(TextNode(text = "Second"))),
-                                ),
+                listOf(
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "First"))),
                         ),
                     ),
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "Second"))),
+                        ),
+                    ),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("1. First\n2. Second\n", result.content)
@@ -42,14 +42,14 @@ class OrderedListNodeTranscriberTest {
             OrderedListNode(
                 attrs = OrderedListAttrs(order = 5),
                 content =
-                    listOf(
-                        ListItemNode(
-                            content =
-                                listOf(
-                                    ParagraphNode(content = listOf(TextNode(text = "Item"))),
-                                ),
+                listOf(
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "Item"))),
                         ),
                     ),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("5. Item\n", result.content)

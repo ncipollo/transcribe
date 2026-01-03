@@ -24,14 +24,14 @@ class MarkdownDocumentTranscriberTest {
             DocNode(
                 version = 1,
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Hello world"),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Hello world"),
                         ),
                     ),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -52,20 +52,20 @@ class MarkdownDocumentTranscriberTest {
             DocNode(
                 version = 1,
                 content =
-                    listOf(
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "First paragraph"),
-                                ),
-                        ),
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Second paragraph"),
-                                ),
+                listOf(
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "First paragraph"),
                         ),
                     ),
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Second paragraph"),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -86,21 +86,21 @@ class MarkdownDocumentTranscriberTest {
             DocNode(
                 version = 1,
                 content =
-                    listOf(
-                        HeadingNode(
-                            attrs = HeadingAttrs(level = 1),
-                            content =
-                                listOf(
-                                    TextNode(text = "Title"),
-                                ),
-                        ),
-                        ParagraphNode(
-                            content =
-                                listOf(
-                                    TextNode(text = "Some content"),
-                                ),
+                listOf(
+                    HeadingNode(
+                        attrs = HeadingAttrs(level = 1),
+                        content =
+                        listOf(
+                            TextNode(text = "Title"),
                         ),
                     ),
+                    ParagraphNode(
+                        content =
+                        listOf(
+                            TextNode(text = "Some content"),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }

@@ -26,40 +26,40 @@ class TableTranscriberTest {
         val expected =
             TableNode(
                 content =
-                    listOf(
-                        TableRowNode(
-                            content =
+                listOf(
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableHeaderNode(
+                                content =
                                 listOf(
-                                    TableHeaderNode(
+                                    ParagraphNode(
                                         content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "Header"),
-                                                        ),
-                                                ),
-                                            ),
+                                        listOf(
+                                            TextNode(text = "Header"),
+                                        ),
                                     ),
                                 ),
-                        ),
-                        TableRowNode(
-                            content =
-                                listOf(
-                                    TableCellNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "Cell"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                ),
+                            ),
                         ),
                     ),
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableCellNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "Cell"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -74,44 +74,44 @@ class TableTranscriberTest {
         val expected =
             TableNode(
                 content =
-                    listOf(
-                        TableRowNode(
-                            content =
+                listOf(
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableHeaderNode(
+                                content =
                                 listOf(
-                                    TableHeaderNode(
+                                    ParagraphNode(
                                         content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "Header"),
-                                                        ),
-                                                ),
-                                            ),
+                                        listOf(
+                                            TextNode(text = "Header"),
+                                        ),
                                     ),
                                 ),
-                        ),
-                        TableRowNode(
-                            content =
-                                listOf(
-                                    TableCellNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "bold", marks = listOf(StrongMark)),
-                                                            TextNode(text = " "),
-                                                            TextNode(text = "italic", marks = listOf(EmMark)),
-                                                            TextNode(text = " "),
-                                                            TextNode(text = "normal"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                ),
+                            ),
                         ),
                     ),
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableCellNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "bold", marks = listOf(StrongMark)),
+                                            TextNode(text = " "),
+                                            TextNode(text = "italic", marks = listOf(EmMark)),
+                                            TextNode(text = " "),
+                                            TextNode(text = "normal"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -126,89 +126,89 @@ class TableTranscriberTest {
         val expected =
             TableNode(
                 content =
-                    listOf(
-                        TableRowNode(
-                            content =
+                listOf(
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableHeaderNode(
+                                content =
                                 listOf(
-                                    TableHeaderNode(
+                                    ParagraphNode(
                                         content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "Col1"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                    TableHeaderNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "Col2"),
-                                                        ),
-                                                ),
-                                            ),
+                                        listOf(
+                                            TextNode(text = "Col1"),
+                                        ),
                                     ),
                                 ),
-                        ),
-                        TableRowNode(
-                            content =
+                            ),
+                            TableHeaderNode(
+                                content =
                                 listOf(
-                                    TableCellNode(
+                                    ParagraphNode(
                                         content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "A"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                    TableCellNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "B"),
-                                                        ),
-                                                ),
-                                            ),
+                                        listOf(
+                                            TextNode(text = "Col2"),
+                                        ),
                                     ),
                                 ),
-                        ),
-                        TableRowNode(
-                            content =
-                                listOf(
-                                    TableCellNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "C"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                    TableCellNode(
-                                        content =
-                                            listOf(
-                                                ParagraphNode(
-                                                    content =
-                                                        listOf(
-                                                            TextNode(text = "D"),
-                                                        ),
-                                                ),
-                                            ),
-                                    ),
-                                ),
+                            ),
                         ),
                     ),
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableCellNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "A"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            TableCellNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "B"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    TableRowNode(
+                        content =
+                        listOf(
+                            TableCellNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "C"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            TableCellNode(
+                                content =
+                                listOf(
+                                    ParagraphNode(
+                                        content =
+                                        listOf(
+                                            TextNode(text = "D"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             )
         assertEquals(expected, result.content)
     }

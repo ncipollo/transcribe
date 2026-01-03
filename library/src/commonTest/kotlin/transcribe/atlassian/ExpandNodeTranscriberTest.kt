@@ -17,9 +17,9 @@ class ExpandNodeTranscriberTest {
             ExpandNode(
                 attrs = ExpandAttrs(title = "Collapse"),
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Content which is kinda hidden."))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Content which is kinda hidden."))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Collapse</summary>\nContent which is kinda hidden.\n</details>\n", result.content)
@@ -31,9 +31,9 @@ class ExpandNodeTranscriberTest {
             ExpandNode(
                 attrs = null,
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "Hidden content"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Hidden content"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Click to expand</summary>\nHidden content\n</details>\n", result.content)
@@ -56,10 +56,10 @@ class ExpandNodeTranscriberTest {
             ExpandNode(
                 attrs = ExpandAttrs(title = "Multiple items"),
                 content =
-                    listOf(
-                        ParagraphNode(content = listOf(TextNode(text = "First paragraph"))),
-                        ParagraphNode(content = listOf(TextNode(text = "Second paragraph"))),
-                    ),
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "First paragraph"))),
+                    ParagraphNode(content = listOf(TextNode(text = "Second paragraph"))),
+                ),
             )
         val result = transcriber.transcribe(node, context)
         assertEquals("<details>\n<summary>Multiple items</summary>\nFirst paragraph\nSecond paragraph\n</details>\n", result.content)

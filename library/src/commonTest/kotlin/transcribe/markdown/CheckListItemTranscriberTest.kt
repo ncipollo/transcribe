@@ -23,9 +23,9 @@ class CheckListItemTranscriberTest {
             TaskItemNode(
                 attrs = TaskItemAttrs(localId = "", state = TaskState.TODO),
                 content =
-                    listOf(
-                        TextNode(text = "Task item"),
-                    ),
+                listOf(
+                    TextNode(text = "Task item"),
+                ),
             )
         assertEquals(expected, result.content)
     }
@@ -41,9 +41,9 @@ class CheckListItemTranscriberTest {
             TaskItemNode(
                 attrs = TaskItemAttrs(localId = "", state = TaskState.DONE),
                 content =
-                    listOf(
-                        TextNode(text = "Completed task"),
-                    ),
+                listOf(
+                    TextNode(text = "Completed task"),
+                ),
             )
         assertEquals(expected, result.content)
     }
