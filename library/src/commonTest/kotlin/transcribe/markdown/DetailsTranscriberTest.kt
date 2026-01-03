@@ -137,7 +137,6 @@ class DetailsTranscriberTest {
             </details>
             """.trimIndent()
         val htmlBlockNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.HTML_BLOCK)
-        htmlBlockNode.parent?.printTree()
         val context = MarkdownContext(markdownText = markdown)
         val result = transcriber.transcribe(htmlBlockNode, context)
 
