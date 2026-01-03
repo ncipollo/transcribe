@@ -5,7 +5,6 @@ import api.atlassian.PageVersion
 import api.atlassian.TemplateResponse
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 class PageContextTest {
     @Test
@@ -24,38 +23,30 @@ class PageContextTest {
                 authorId = "user123",
             ),
         )
+        val expected = PageContext(
+            title = "Test Page",
+            createdAt = "2024-01-01T00:00:00Z",
+        )
 
         val result = PageContext.fromPageResponse(pageResponse)
 
-        assertEquals("Test Page", result.title)
-        assertEquals("2024-01-01T00:00:00Z", result.createdAt)
+        assertEquals(expected, result)
     }
 
     @Test
-    fun fromTemplateResponse_extractsNameAsTitle() {
+    fun fromTemplateResponse_extractsNameAsTitleWithNullCreatedAt() {
         val templateResponse = TemplateResponse(
             templateId = "template123",
             name = "Test Template",
             templateType = "page",
         )
-
-        val result = PageContext.fromTemplateResponse(templateResponse)
-
-        assertEquals("Test Template", result.title)
-        assertNull(result.createdAt)
-    }
-
-    @Test
-    fun fromTemplateResponse_setsCreatedAtToNull() {
-        val templateResponse = TemplateResponse(
-            templateId = "template456",
-            name = "Another Template",
-            templateType = "page",
+        val expected = PageContext(
+            title = "Test Template",
+            createdAt = null,
         )
 
         val result = PageContext.fromTemplateResponse(templateResponse)
 
-        assertEquals("Another Template", result.title)
-        assertNull(result.createdAt)
+        assertEquals(expected, result)
     }
 }

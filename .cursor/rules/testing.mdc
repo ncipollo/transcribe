@@ -1,0 +1,24 @@
+---
+description: When creating or updating tests
+alwaysApply: false
+---
+# Test Assertions
+
+- When testing functions that return objects, define a single `expected` object and use one `assertEquals(expected, result)` rather than multiple property-level assertions.
+- This leverages data class equality and provides clearer test failure messages.
+
+Example:
+```kotlin
+@Test
+fun fromResponse_mapsFields() {
+    val response = SomeResponse(...)
+
+    val result = SomeMapper.fromResponse(response)
+    
+    val expected = SomeResult(
+        field1 = "value1",
+        field2 = "value2",
+    )
+    assertEquals(expected, result)
+}
+```
