@@ -10,7 +10,9 @@ data class AttachmentContext(
         fun from(attachments: List<Attachment>): AttachmentContext =
             AttachmentContext(
                 attachments = attachments,
-                attachmentsById = attachments.associateBy { it.id },
+                attachmentsById = attachments
+                    .filter { it.fileId != null }
+                    .associateBy { it.fileId!! },
             )
     }
 }

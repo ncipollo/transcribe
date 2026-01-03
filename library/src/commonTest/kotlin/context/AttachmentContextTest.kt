@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 
 class AttachmentContextTest {
     @Test
-    fun from_createsContextWithAttachmentsAndMap() {
+    fun from_createsContextWithAttachmentsAndMapByFileId() {
         val attachments = listOf(
             Attachment(
                 id = "att1",
@@ -15,6 +15,7 @@ class AttachmentContextTest {
                 createdAt = "2024-01-01T00:00:00Z",
                 mediaType = "application/pdf",
                 fileSize = 1024L,
+                fileId = "file1",
             ),
             Attachment(
                 id = "att2",
@@ -23,13 +24,14 @@ class AttachmentContextTest {
                 createdAt = "2024-01-02T00:00:00Z",
                 mediaType = "image/png",
                 fileSize = 2048L,
+                fileId = "file2",
             ),
         )
         val expected = AttachmentContext(
             attachments = attachments,
             attachmentsById = mapOf(
-                "att1" to attachments[0],
-                "att2" to attachments[1],
+                "file1" to attachments[0],
+                "file2" to attachments[1],
             ),
         )
 
@@ -44,6 +46,50 @@ class AttachmentContextTest {
         val expected = AttachmentContext(
             attachments = emptyList(),
             attachmentsById = emptyMap(),
+        )
+
+        val result = AttachmentContext.from(attachments)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun from_filtersOutAttachmentsWithNullFileId() {
+        val attachments = listOf(
+            Attachment(
+                id = "att1",
+                status = "current",
+                title = "file1.pdf",
+                createdAt = "2024-01-01T00:00:00Z",
+                mediaType = "application/pdf",
+                fileSize = 1024L,
+                fileId = "file1",
+            ),
+            Attachment(
+                id = "att2",
+                status = "current",
+                title = "no-file.txt",
+                createdAt = "2024-01-02T00:00:00Z",
+                mediaType = "text/plain",
+                fileSize = 512L,
+                fileId = null,
+            ),
+            Attachment(
+                id = "att3",
+                status = "current",
+                title = "image.png",
+                createdAt = "2024-01-03T00:00:00Z",
+                mediaType = "image/png",
+                fileSize = 2048L,
+                fileId = "file3",
+            ),
+        )
+        val expected = AttachmentContext(
+            attachments = attachments,
+            attachmentsById = mapOf(
+                "file1" to attachments[0],
+                "file3" to attachments[2],
+            ),
         )
 
         val result = AttachmentContext.from(attachments)
