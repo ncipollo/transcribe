@@ -29,7 +29,7 @@ class AttachmentContextTest {
         )
         val expected = AttachmentContext(
             attachments = attachments,
-            attachmentsById = mapOf(
+            attachmentsByFileId = mapOf(
                 "file1" to attachments[0],
                 "file2" to attachments[1],
             ),
@@ -45,7 +45,7 @@ class AttachmentContextTest {
         val attachments = emptyList<Attachment>()
         val expected = AttachmentContext(
             attachments = emptyList(),
-            attachmentsById = emptyMap(),
+            attachmentsByFileId = emptyMap(),
         )
 
         val result = AttachmentContext.from(attachments)
@@ -86,7 +86,7 @@ class AttachmentContextTest {
         )
         val expected = AttachmentContext(
             attachments = attachments,
-            attachmentsById = mapOf(
+            attachmentsByFileId = mapOf(
                 "file1" to attachments[0],
                 "file3" to attachments[2],
             ),
