@@ -73,4 +73,54 @@ class FileNameTransformerTest {
 
         assertEquals(expected, result)
     }
+
+    @Test
+    fun dropExtension_withSimpleExtension() {
+        val input = "file.txt"
+        val expected = "file"
+
+        val result = input.dropExtension()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun dropExtension_withMultipleDots() {
+        val input = "file.name.txt"
+        val expected = "file.name"
+
+        val result = input.dropExtension()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun dropExtension_withNoExtension() {
+        val input = "no_extension"
+        val expected = "no_extension"
+
+        val result = input.dropExtension()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun dropExtension_withEmptyString() {
+        val input = ""
+        val expected = ""
+
+        val result = input.dropExtension()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun dropExtension_withImageFile() {
+        val input = "Test Image.PNG"
+        val expected = "Test Image"
+
+        val result = input.dropExtension()
+
+        assertEquals(expected, result)
+    }
 }

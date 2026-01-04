@@ -37,3 +37,20 @@ fun String.toSnakeCase(): String {
 
     return if (trimmed.isEmpty()) extension else "$trimmed$extension"
 }
+
+/**
+ * Drops the file extension from a string (everything after the last dot).
+ *
+ * Examples:
+ * - "file.txt" -> "file"
+ * - "document.pdf" -> "document"
+ * - "no_extension" -> "no_extension"
+ */
+fun String.dropExtension(): String {
+    val lastDotIndex = lastIndexOf('.')
+    return if (lastDotIndex >= 0) {
+        substring(0, lastDotIndex)
+    } else {
+        this
+    }
+}
