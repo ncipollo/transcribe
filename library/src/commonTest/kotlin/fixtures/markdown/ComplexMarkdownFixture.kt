@@ -28,7 +28,7 @@ And here's a task list:
 | Row 2, Column 1 | Row 2, Column 2 | Row 2, Column 3 |
 
 # Section 4
-![Tony](images/image.png)
+![Test](images/att1_test_image.png)
 
 # Section 5
 This will have subsections.

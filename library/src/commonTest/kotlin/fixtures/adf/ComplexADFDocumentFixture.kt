@@ -558,7 +558,7 @@ object ComplexADFDocumentFixture {
                     "type": "media",
                     "attrs": {
                         "width": 1024,
-                        "alt": "Tony",
+                        "alt": "Test",
                         "id": "8dfdd993-f45f-48ea-bde6-ac89319cbc37",
                         "collection": "contentId-5385126043",
                         "type": "file",

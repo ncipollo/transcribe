@@ -1,6 +1,8 @@
 package transcribe.atlassian
 
+import api.atlassian.Attachment
 import context.ADFTranscriberContext
+import context.AttachmentContext
 import data.atlassian.adf.MediaAttrs
 import data.atlassian.adf.MediaNode
 import data.atlassian.adf.MediaSingleNode
@@ -10,7 +12,20 @@ import kotlin.test.assertEquals
 
 class MediaSingleNodeTranscriberTest {
     private val transcriber = MediaSingleNodeTranscriber()
-    private val context = ADFTranscriberContext()
+
+    private val testAttachment = Attachment(
+        id = "att1",
+        status = "current",
+        title = "Test Image.PNG",
+        createdAt = "2024-01-01T00:00:00Z",
+        mediaType = "image/png",
+        fileSize = 1024L,
+        fileId = "8dfdd993-f45f-48ea-bde6-ac89319cbc37",
+    )
+
+    private val context = ADFTranscriberContext(
+        attachmentContext = AttachmentContext.from(listOf(testAttachment)),
+    )
 
     @Test
     fun transcribe_withAltText() {
@@ -22,7 +37,7 @@ class MediaSingleNodeTranscriberTest {
                         attrs =
                         MediaAttrs(
                             type = MediaType.FILE,
-                            alt = "Tony",
+                            alt = "Test",
                             id = "8dfdd993-f45f-48ea-bde6-ac89319cbc37",
                             collection = "contentId-5385126043",
                         ),
@@ -30,7 +45,7 @@ class MediaSingleNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("![Tony](images/image.png)\n", result.content)
+        assertEquals("![Test](images/att1_test_image.png)\n", result.content)
     }
 
     @Test
@@ -50,13 +65,37 @@ class MediaSingleNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("![](images/image.png)\n", result.content)
+        assertEquals("![](images/att1_test_image.png)\n", result.content)
     }
 
     @Test
     fun transcribe_emptyContent() {
         val node = MediaSingleNode(content = emptyList())
         val result = transcriber.transcribe(node, context)
-        assertEquals("![](images/image.png)\n", result.content)
+        assertEquals("", result.content)
+    }
+
+    @Test
+    fun transcribe_missingAttachment() {
+        val emptyContext = ADFTranscriberContext(
+            attachmentContext = AttachmentContext.from(emptyList()),
+        )
+        val node =
+            MediaSingleNode(
+                content =
+                listOf(
+                    MediaNode(
+                        attrs =
+                        MediaAttrs(
+                            type = MediaType.FILE,
+                            alt = "Test",
+                            id = "8dfdd993-f45f-48ea-bde6-ac89319cbc37",
+                            collection = "contentId-5385126043",
+                        ),
+                    ),
+                ),
+            )
+        val result = transcriber.transcribe(node, emptyContext)
+        assertEquals("", result.content)
     }
 }
