@@ -56,7 +56,7 @@ use(thing)
 - 🔴 Status 2 text after
 
 # Section 7
-![draw.io Diagram](images/image.png)
+![Untitled Diagram-1766526257160.drawio](images/untitled_diagram-1766526257160.drawio)
 
 # Section 8
 *This text has* `lots` *of* ***marks*** *applied to it.*
