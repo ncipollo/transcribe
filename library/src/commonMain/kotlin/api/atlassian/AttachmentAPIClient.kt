@@ -24,4 +24,14 @@ class AttachmentAPIClient(private val httpClient: HttpClient) {
 
         return allAttachments
     }
+
+    /**
+     * Fetches the binary data for an attachment/image asset from the given URL path.
+     *
+     * @param urlPath The URL path to fetch the attachment data from
+     * @return The binary data as a ByteArray
+     */
+    suspend fun getAttachmentData(urlPath: String): ByteArray {
+        return httpClient.get(urlPath).body<ByteArray>()
+    }
 }
