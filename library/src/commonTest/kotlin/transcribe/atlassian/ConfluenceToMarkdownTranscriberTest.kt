@@ -9,6 +9,8 @@ import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
 import fixtures.adf.ComplexADFDocumentFixture
 import fixtures.markdown.ComplexMarkdownFixture
+import transcribe.TranscribeResult
+import transcribe.action.AttachmentDownload
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -21,6 +23,7 @@ class ConfluenceToMarkdownTranscriberTest {
         mediaType = "image/png",
         fileSize = 1024L,
         fileId = "8dfdd993-f45f-48ea-bde6-ac89319cbc37",
+        downloadLink = "some/path/to/image.png",
     )
 
     private val context = ADFTranscriberContext(
@@ -84,7 +87,16 @@ class ConfluenceToMarkdownTranscriberTest {
     fun transcribe_complexFixtureDocument() {
         val transcriber = ConfluenceToMarkdownTranscriber(EmptyADFTranscriberMapBuilder())
         val node = ADFSerializer.fromJson(ComplexADFDocumentFixture.COMPLEX_DOCUMENT)
+        val expected = TranscribeResult(
+            content = ComplexMarkdownFixture.COMPLEX_MARKDOWN,
+            actions = listOf(
+                AttachmentDownload(
+                    downloadPath = "some/path/to/image.png",
+                    localRelativePath = "images/att1_test_image.png",
+                ),
+            ),
+        )
         val result = transcriber.transcribe(node, context)
-        assertEquals(ComplexMarkdownFixture.COMPLEX_MARKDOWN, result.content)
+        assertEquals(expected, result)
     }
 }

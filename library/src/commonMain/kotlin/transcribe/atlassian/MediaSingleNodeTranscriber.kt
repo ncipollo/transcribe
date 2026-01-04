@@ -6,6 +6,7 @@ import data.atlassian.adf.MediaNode
 import data.atlassian.adf.MediaSingleNode
 import files.toSnakeCase
 import transcribe.TranscribeResult
+import transcribe.action.AttachmentDownload
 
 /**
  * Transcriber for MediaSingleNode that converts ADF media to markdown image link.
@@ -23,14 +24,21 @@ class MediaSingleNodeTranscriber : ADFTranscriber<MediaSingleNode> {
         val attachment = context.attachmentContext.attachmentsByFileId[fileId]
             ?: return TranscribeResult("")
 
+        val downloadLink = attachment.downloadLink ?: return TranscribeResult("")
+
         val altText = mediaNode.attrs.alt ?: ""
         val imagePath = imagePath(context, attachment)
+        val action = downloadAction(imagePath, downloadLink)
 
-        return TranscribeResult("![$altText]($imagePath)\n")
+        return TranscribeResult("![$altText]($imagePath)\n", listOf(action))
     }
 
     private fun imagePath(context: ADFTranscriberContext, attachment: Attachment): String {
         val folder = context.suggestedImageFolder
         return "$folder/${attachment.id}_${attachment.title.toSnakeCase()}"
+    }
+
+    private fun downloadAction(imagePath: String, downloadLink: String): AttachmentDownload {
+        return AttachmentDownload(downloadPath = downloadLink, localRelativePath = imagePath)
     }
 }
