@@ -24,12 +24,13 @@ class MediaSingleNodeTranscriber : ADFTranscriber<MediaSingleNode> {
             ?: return TranscribeResult("")
 
         val altText = mediaNode.attrs.alt ?: ""
-        val imagePath = imagePath(attachment)
+        val imagePath = imagePath(context, attachment)
 
         return TranscribeResult("![$altText]($imagePath)\n")
     }
 
-    private fun imagePath(attachment: Attachment): String {
-        return "images/${attachment.id}_${attachment.title.toSnakeCase()}"
+    private fun imagePath(context: ADFTranscriberContext, attachment: Attachment): String {
+        val folder = context.suggestedImageFolder
+        return "$folder/${attachment.id}_${attachment.title.toSnakeCase()}"
     }
 }

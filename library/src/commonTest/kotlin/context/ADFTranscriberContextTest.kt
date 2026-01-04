@@ -12,7 +12,7 @@ class ADFTranscriberContextTest {
 
         val result = context.suggestedImageFolder
 
-        assertEquals("", result)
+        assertEquals("images", result)
     }
 
     @Test
@@ -35,5 +35,16 @@ class ADFTranscriberContextTest {
         val result = context.suggestedImageFolder
 
         assertEquals("test_title", result)
+    }
+
+    @Test
+    fun suggestedImageFolder_blankTitle() {
+        val context = ADFTranscriberContext(
+            pageContext = PageContext(title = "   "),
+        )
+
+        val result = context.suggestedImageFolder
+
+        assertEquals("images", result)
     }
 }

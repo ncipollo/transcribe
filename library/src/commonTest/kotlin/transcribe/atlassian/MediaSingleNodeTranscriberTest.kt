@@ -3,6 +3,7 @@ package transcribe.atlassian
 import api.atlassian.Attachment
 import context.ADFTranscriberContext
 import context.AttachmentContext
+import context.PageContext
 import data.atlassian.adf.MediaAttrs
 import data.atlassian.adf.MediaNode
 import data.atlassian.adf.MediaSingleNode
@@ -13,6 +14,7 @@ import kotlin.test.assertEquals
 class MediaSingleNodeTranscriberTest {
     private val transcriber = MediaSingleNodeTranscriber()
 
+    private val pageContext = PageContext(title = "Test Page")
     private val testAttachment = Attachment(
         id = "att1",
         status = "current",
@@ -25,6 +27,7 @@ class MediaSingleNodeTranscriberTest {
 
     private val context = ADFTranscriberContext(
         attachmentContext = AttachmentContext.from(listOf(testAttachment)),
+        pageContext = pageContext,
     )
 
     @Test
@@ -45,7 +48,7 @@ class MediaSingleNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("![Test](images/att1_test_image.png)\n", result.content)
+        assertEquals("![Test](test_page/att1_test_image.png)\n", result.content)
     }
 
     @Test
@@ -65,7 +68,7 @@ class MediaSingleNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("![](images/att1_test_image.png)\n", result.content)
+        assertEquals("![](test_page/att1_test_image.png)\n", result.content)
     }
 
     @Test
