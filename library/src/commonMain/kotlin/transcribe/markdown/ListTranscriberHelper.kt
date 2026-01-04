@@ -34,14 +34,16 @@ object ListTranscriberHelper {
         }
 
         // Extract all LIST_ITEM children
-        val listItems =
+        val results =
             input.children
                 .filter { it.type == MarkdownElementTypes.LIST_ITEM }
                 .map { itemNode ->
                     val listItemTranscriber = ListItemTranscriber(nodeMapper)
-                    listItemTranscriber.transcribe(itemNode, context).content
+                    listItemTranscriber.transcribe(itemNode, context)
                 }
+        val listItems = results.map { it.content }
+        val actions = results.flatMap { it.actions }
 
-        return TranscribeResult(listNodeFactory(listItems))
+        return TranscribeResult(listNodeFactory(listItems), actions)
     }
 }

@@ -15,12 +15,13 @@ class BlockquoteTranscriber(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<BlockquoteNode> {
-        val blockContent = nodeMapper.transcribeBlockChildren(input, context)
-        val cleanedContent = BlockquoteCleanupHelper.cleanupBlockContent(blockContent)
+        val blockResult = nodeMapper.transcribeBlockChildren(input, context)
+        val cleanedContent = BlockquoteCleanupHelper.cleanupBlockContent(blockResult.content)
         return TranscribeResult(
             BlockquoteNode(
                 content = cleanedContent,
             ),
+            blockResult.actions,
         )
     }
 }

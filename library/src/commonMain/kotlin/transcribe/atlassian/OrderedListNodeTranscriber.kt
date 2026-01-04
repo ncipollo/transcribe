@@ -22,13 +22,12 @@ class OrderedListNodeTranscriber(
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val startOrder = input.attrs?.order ?: 1
-        val markdown =
-            content.mapIndexed { index, item ->
-                val itemNumber = startOrder + index
-                val itemContent = nodeTranscriber.transcribe(item, context).content
-                "$itemNumber. $itemContent"
-            }.joinToString("")
-
-        return TranscribeResult(markdown)
+        val results = content.map { item -> nodeTranscriber.transcribe(item, context) }
+        val markdown = results.mapIndexed { index, result ->
+            val itemNumber = startOrder + index
+            "$itemNumber. ${result.content}"
+        }.joinToString("")
+        val actions = results.flatMap { it.actions }
+        return TranscribeResult(markdown, actions)
     }
 }

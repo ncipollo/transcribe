@@ -8,6 +8,8 @@ import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
 import org.intellij.markdown.IElementType
 import org.intellij.markdown.ast.ASTNode
+import transcribe.TranscribeResult
+import transcribe.action.TranscriberAction
 
 /**
  * Mapper that provides transcribers for markdown element types using factory functions.
@@ -24,19 +26,22 @@ class MarkdownNodeMapper(
 
     /**
      * Transcribes block-level children of the given AST node using the appropriate transcribers.
-     * Returns a list of ADF block nodes representing the transcribed children.
+     * Returns a TranscribeResult containing a list of ADF block nodes representing the transcribed children and aggregated actions.
      */
     fun transcribeBlockChildren(
         parent: ASTNode,
         context: MarkdownContext,
-    ): List<ADFBlockNode> {
+    ): TranscribeResult<List<ADFBlockNode>> {
         val result = mutableListOf<ADFBlockNode>()
+        val actions = mutableListOf<TranscriberAction>()
 
         // Process children in order
         for (child in parent.children) {
             val transcriber = transcriberFor(child.type)
             if (transcriber != null) {
-                when (val transcribedNode = transcriber.transcribe(child, context).content) {
+                val transcribeResult = transcriber.transcribe(child, context)
+                actions.addAll(transcribeResult.actions)
+                when (val transcribedNode = transcribeResult.content) {
                     is ADFBlockNode -> result.add(transcribedNode)
                     is ADFInlineNode -> {
                         // Skip wrapping newline-only elements
@@ -48,7 +53,7 @@ class MarkdownNodeMapper(
             }
         }
 
-        return result
+        return TranscribeResult(result, actions)
     }
 
     /**
@@ -64,37 +69,40 @@ class MarkdownNodeMapper(
 
     /**
      * Transcribes inline-level children of the given AST node using the appropriate transcribers.
-     * Returns a list of ADF inline nodes representing the transcribed children.
+     * Returns a TranscribeResult containing a list of ADF inline nodes representing the transcribed children and aggregated actions.
      */
     fun transcribeInlineChildren(
         parent: ASTNode,
         context: MarkdownContext,
-    ): List<ADFInlineNode> {
+    ): TranscribeResult<List<ADFInlineNode>> {
         return transcribeInlineChildren(parent.children, context)
     }
 
     /**
      * Transcribes a list of AST nodes as inline-level content using the appropriate transcribers.
-     * Returns a list of ADF inline nodes representing the transcribed children.
+     * Returns a TranscribeResult containing a list of ADF inline nodes representing the transcribed children and aggregated actions.
      */
     fun transcribeInlineChildren(
         children: List<ASTNode>,
         context: MarkdownContext,
-    ): List<ADFInlineNode> {
+    ): TranscribeResult<List<ADFInlineNode>> {
         val result = mutableListOf<ADFInlineNode>()
+        val actions = mutableListOf<TranscriberAction>()
 
         // Process children in order
         for (child in children) {
             val transcriber = transcriberFor(child.type)
             if (transcriber != null) {
-                val transcribedNode = transcriber.transcribe(child, context)?.content
+                val transcribeResult = transcriber.transcribe(child, context)
+                actions.addAll(transcribeResult.actions)
+                val transcribedNode = transcribeResult.content
                 if (transcribedNode is ADFInlineNode) {
                     result.add(transcribedNode)
                 }
             }
         }
 
-        return result
+        return TranscribeResult(result, actions)
     }
 
     operator fun plus(mapper: MarkdownNodeMapper): MarkdownNodeMapper =

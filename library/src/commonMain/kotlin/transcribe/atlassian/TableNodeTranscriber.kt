@@ -22,10 +22,9 @@ class TableNodeTranscriber(
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdownRows =
-            rows.map { row ->
-                nodeTranscriber.transcribe(row, context).content
-            }
+        val results = rows.map { row -> nodeTranscriber.transcribe(row, context) }
+        val markdownRows = results.map { it.content }
+        val actions = results.flatMap { it.actions }
 
         // Check if first row contains headers
         val firstRow = rows.firstOrNull()
@@ -41,6 +40,6 @@ class TableNodeTranscriber(
                 markdownRows
             }
 
-        return TranscribeResult(table.joinToString("\n"))
+        return TranscribeResult(table.joinToString("\n"), actions)
     }
 }

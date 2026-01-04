@@ -21,11 +21,9 @@ class TableHeaderNodeTranscriber(
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown =
-            content.joinToString("") { block ->
-                nodeTranscriber.transcribe(block, context).content
-            }
-
-        return TranscribeResult(markdown.trim())
+        val results = content.map { block -> nodeTranscriber.transcribe(block, context) }
+        val markdown = results.joinToString("") { it.content }
+        val actions = results.flatMap { it.actions }
+        return TranscribeResult(markdown.trim(), actions)
     }
 }

@@ -6,6 +6,7 @@ import data.atlassian.adf.OrderedListAttrs
 import data.atlassian.adf.OrderedListNode
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
+import transcribe.TranscribeResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -34,7 +35,8 @@ class OrderedListNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("1. First\n2. Second\n", result.content)
+        val expected = TranscribeResult("1. First\n2. Second\n")
+        assertEquals(expected, result)
     }
 
     @Test
@@ -53,13 +55,15 @@ class OrderedListNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("5. Item\n", result.content)
+        val expected = TranscribeResult("5. Item\n")
+        assertEquals(expected, result)
     }
 
     @Test
     fun transcribe_emptyList() {
         val node = OrderedListNode(content = emptyList())
         val result = transcriber.transcribe(node, context)
-        assertEquals("", result.content)
+        val expected = TranscribeResult("")
+        assertEquals(expected, result)
     }
 }

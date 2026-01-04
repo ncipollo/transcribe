@@ -23,11 +23,11 @@ class TableCellTranscriber(
     ): TranscribeResult<ADFBlockNode> {
         // Table cells contain inline content (text, formatting, etc.)
         // Wrap in a paragraph
-        val inlineContent = nodeMapper.transcribeInlineChildren(input, context)
+        val inlineResult = nodeMapper.transcribeInlineChildren(input, context)
 
         // Drop leading and trailing whitespace nodes
         val trimmedContent =
-            inlineContent
+            inlineResult.content
                 .dropWhile { it is TextNode && it.text.isBlank() }
                 .dropLastWhile { it is TextNode && it.text.isBlank() }
 
@@ -38,12 +38,14 @@ class TableCellTranscriber(
                 TableHeaderNode(
                     content = resultContent,
                 ),
+                inlineResult.actions,
             )
         } else {
             TranscribeResult(
                 TableCellNode(
                     content = resultContent,
                 ),
+                inlineResult.actions,
             )
         }
     }

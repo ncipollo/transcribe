@@ -1,3 +1,8 @@
 package transcribe
 
-data class TranscribeResult<T>(val content: T)
+import transcribe.action.TranscriberAction
+
+data class TranscribeResult<T>(
+    val content: T,
+    val actions: List<TranscriberAction> = emptyList(),
+)

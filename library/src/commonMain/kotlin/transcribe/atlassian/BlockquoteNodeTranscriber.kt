@@ -21,19 +21,19 @@ class BlockquoteNodeTranscriber(
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown =
-            content.joinToString("\n") { block ->
-                val blockContent = nodeTranscriber.transcribe(block, context).content
-                // Prefix each line with >
-                blockContent.trimEnd('\n').lines().joinToString("\n") { line ->
-                    if (line.isBlank()) {
-                        ">"
-                    } else {
-                        "> $line"
-                    }
+        val results = content.map { block -> nodeTranscriber.transcribe(block, context) }
+        val markdown = results.joinToString("\n") { result ->
+            val blockContent = result.content
+            // Prefix each line with >
+            blockContent.trimEnd('\n').lines().joinToString("\n") { line ->
+                if (line.isBlank()) {
+                    ">"
+                } else {
+                    "> $line"
                 }
             }
-
-        return TranscribeResult(markdown)
+        }
+        val actions = results.flatMap { it.actions }
+        return TranscribeResult(markdown, actions)
     }
 }

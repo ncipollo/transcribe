@@ -12,10 +12,9 @@ class ADFDocumentTranscriber(
         context: ADFTranscriberContext,
     ): TranscribeResult<String> {
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown =
-            input.content.joinToString("") { node ->
-                nodeTranscriber.transcribe(node, context).content
-            }
-        return TranscribeResult(markdown)
+        val results = input.content.map { node -> nodeTranscriber.transcribe(node, context) }
+        val markdown = results.joinToString("") { it.content }
+        val actions = results.flatMap { it.actions }
+        return TranscribeResult(markdown, actions)
     }
 }

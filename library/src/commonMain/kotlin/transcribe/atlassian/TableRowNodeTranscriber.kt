@@ -23,16 +23,17 @@ class TableRowNodeTranscriber(
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val cells =
-            content.map { cell ->
-                when (cell) {
-                    is TableCellNode -> nodeTranscriber.transcribe(cell, context).content
-                    is TableHeaderNode -> nodeTranscriber.transcribe(cell, context).content
-                    else -> ""
-                }
+        val results = content.map { cell ->
+            when (cell) {
+                is TableCellNode -> nodeTranscriber.transcribe(cell, context)
+                is TableHeaderNode -> nodeTranscriber.transcribe(cell, context)
+                else -> TranscribeResult("")
             }
+        }
+        val cells = results.map { it.content }
+        val actions = results.flatMap { it.actions }
 
         val row = "| " + cells.joinToString(" | ") + " |"
-        return TranscribeResult(row)
+        return TranscribeResult(row, actions)
     }
 }

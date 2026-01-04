@@ -12,7 +12,7 @@ class MarkdownDocumentTranscriber(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<DocNode> {
-        val blockNodes = mapper.transcribeBlockChildren(input, context)
-        return TranscribeResult(DocNode(version = 1, content = blockNodes))
+        val blockResult = mapper.transcribeBlockChildren(input, context)
+        return TranscribeResult(DocNode(version = 1, content = blockResult.content), blockResult.actions)
     }
 }

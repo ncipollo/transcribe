@@ -7,6 +7,7 @@ import data.atlassian.adf.HeadingNode
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
 import data.markdown.parser.MarkdownDocument
+import transcribe.TranscribeResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -34,7 +35,7 @@ class MarkdownDocumentTranscriberTest {
                     ),
                 ),
             )
-        assertEquals(expected, result.content)
+        assertEquals(TranscribeResult(expected), result)
     }
 
     @Test
@@ -68,7 +69,7 @@ class MarkdownDocumentTranscriberTest {
                     ),
                 ),
             )
-        assertEquals(expected, result.content)
+        assertEquals(TranscribeResult(expected), result)
     }
 
     @Test
@@ -103,7 +104,7 @@ class MarkdownDocumentTranscriberTest {
                     ),
                 ),
             )
-        assertEquals(expected, result.content)
+        assertEquals(TranscribeResult(expected), result)
     }
 
     @Test
@@ -118,6 +119,6 @@ class MarkdownDocumentTranscriberTest {
                 version = 1,
                 content = emptyList(),
             )
-        assertEquals(expected, result.content)
+        assertEquals(TranscribeResult(expected), result)
     }
 }

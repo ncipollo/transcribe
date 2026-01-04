@@ -24,16 +24,18 @@ class TaskItemNodeTranscriber(
             }
 
         val content = input.content
-        val markdown =
-            if (content.isNullOrEmpty()) {
-                ""
-            } else {
-                val nodeTranscriber = ADFNodeTranscriber(mapper)
-                content.joinToString("") { node ->
-                    nodeTranscriber.transcribe(node, context).content
-                }
-            }
+        val markdown: String
+        val actions: List<transcribe.action.TranscriberAction>
+        if (content.isNullOrEmpty()) {
+            markdown = ""
+            actions = emptyList()
+        } else {
+            val nodeTranscriber = ADFNodeTranscriber(mapper)
+            val results = content.map { node -> nodeTranscriber.transcribe(node, context) }
+            markdown = results.joinToString("") { it.content }
+            actions = results.flatMap { it.actions }
+        }
 
-        return TranscribeResult("$checkbox $markdown")
+        return TranscribeResult("$checkbox $markdown", actions)
     }
 }

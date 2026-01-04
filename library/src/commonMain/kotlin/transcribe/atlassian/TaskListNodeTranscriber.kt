@@ -21,11 +21,9 @@ class TaskListNodeTranscriber(
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown =
-            content.joinToString("\n") { node ->
-                nodeTranscriber.transcribe(node, context).content
-            }
-
-        return TranscribeResult("$markdown\n")
+        val results = content.map { node -> nodeTranscriber.transcribe(node, context) }
+        val markdown = results.joinToString("\n") { it.content }
+        val actions = results.flatMap { it.actions }
+        return TranscribeResult("$markdown\n", actions)
     }
 }

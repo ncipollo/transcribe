@@ -23,11 +23,9 @@ class ExpandNodeTranscriber(
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown =
-            content.joinToString("") { block ->
-                nodeTranscriber.transcribe(block, context).content
-            }
-
-        return TranscribeResult("<details>\n<summary>$summaryText</summary>\n$markdown</details>\n")
+        val results = content.map { block -> nodeTranscriber.transcribe(block, context) }
+        val markdown = results.joinToString("") { it.content }
+        val actions = results.flatMap { it.actions }
+        return TranscribeResult("<details>\n<summary>$summaryText</summary>\n$markdown</details>\n", actions)
     }
 }

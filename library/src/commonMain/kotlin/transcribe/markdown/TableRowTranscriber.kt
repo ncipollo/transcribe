@@ -18,18 +18,21 @@ class TableRowTranscriber(
         context: MarkdownContext,
     ): TranscribeResult<TableRowNode> {
         // Extract CELL children
-        val cells =
+        val results =
             input.children
                 .filter { it.type == GFMTokenTypes.CELL }
                 .map { cellNode ->
                     val tableCellTranscriber = TableCellTranscriber(nodeMapper, isHeader)
-                    tableCellTranscriber.transcribe(cellNode, context).content
+                    tableCellTranscriber.transcribe(cellNode, context)
                 }
+        val cells = results.map { it.content }
+        val actions = results.flatMap { it.actions }
 
         return TranscribeResult(
             TableRowNode(
                 content = cells,
             ),
+            actions,
         )
     }
 }

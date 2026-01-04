@@ -5,6 +5,7 @@ import data.atlassian.adf.BulletListNode
 import data.atlassian.adf.ListItemNode
 import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TextNode
+import transcribe.TranscribeResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,13 +34,15 @@ class BulletListNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("- First item\n- Second item\n", result.content)
+        val expected = TranscribeResult("- First item\n- Second item\n")
+        assertEquals(expected, result)
     }
 
     @Test
     fun transcribe_emptyList() {
         val node = BulletListNode(content = emptyList())
         val result = transcriber.transcribe(node, context)
-        assertEquals("", result.content)
+        val expected = TranscribeResult("")
+        assertEquals(expected, result)
     }
 }

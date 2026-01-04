@@ -21,12 +21,9 @@ class BulletListNodeTranscriber(
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val markdown =
-            content.joinToString("") { item ->
-                val itemContent = nodeTranscriber.transcribe(item, context).content
-                "- $itemContent"
-            }
-
-        return TranscribeResult(markdown)
+        val results = content.map { item -> nodeTranscriber.transcribe(item, context) }
+        val markdown = results.joinToString("") { "- ${it.content}" }
+        val actions = results.flatMap { it.actions }
+        return TranscribeResult(markdown, actions)
     }
 }

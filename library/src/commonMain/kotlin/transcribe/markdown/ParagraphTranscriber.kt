@@ -15,12 +15,13 @@ class ParagraphTranscriber(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<ParagraphNode> {
-        val inlineContent = mapper.transcribeInlineChildren(input, context)
+        val inlineResult = mapper.transcribeInlineChildren(input, context)
 
         return TranscribeResult(
             ParagraphNode(
-                content = inlineContent,
+                content = inlineResult.content,
             ),
+            inlineResult.actions,
         )
     }
 }

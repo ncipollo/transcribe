@@ -16,15 +16,17 @@ class ParagraphNodeTranscriber(
         context: ADFTranscriberContext,
     ): TranscribeResult<String> {
         val content = input.content
-        val markdown =
-            if (content.isNullOrEmpty()) {
-                ""
-            } else {
-                val nodeTranscriber = ADFNodeTranscriber(mapper)
-                content.joinToString("") { node ->
-                    nodeTranscriber.transcribe(node, context).content
-                }
-            }
-        return TranscribeResult("$markdown\n")
+        val markdown: String
+        val actions: List<transcribe.action.TranscriberAction>
+        if (content.isNullOrEmpty()) {
+            markdown = ""
+            actions = emptyList()
+        } else {
+            val nodeTranscriber = ADFNodeTranscriber(mapper)
+            val results = content.map { node -> nodeTranscriber.transcribe(node, context) }
+            markdown = results.joinToString("") { it.content }
+            actions = results.flatMap { it.actions }
+        }
+        return TranscribeResult("$markdown\n", actions)
     }
 }

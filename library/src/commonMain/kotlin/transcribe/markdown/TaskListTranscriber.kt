@@ -42,19 +42,22 @@ class TaskListTranscriber(
         context: MarkdownContext,
     ): TranscribeResult<ADFBlockNode> {
         // Extract all LIST_ITEM children and transcribe them using CheckListItemTranscriber
-        val taskItems =
+        val results =
             input.children
                 .filter { it.type == MarkdownElementTypes.LIST_ITEM }
                 .map { itemNode ->
                     val checkListItemTranscriber = CheckListItemTranscriber(nodeMapper)
-                    checkListItemTranscriber.transcribe(itemNode, context).content
+                    checkListItemTranscriber.transcribe(itemNode, context)
                 }
+        val taskItems = results.map { it.content }
+        val actions = results.flatMap { it.actions }
 
         return TranscribeResult(
             TaskListNode(
                 attrs = TaskListAttrs(localId = ""),
                 content = taskItems,
             ),
+            actions,
         )
     }
 }

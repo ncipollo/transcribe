@@ -37,13 +37,14 @@ class DetailsTranscriber(
         val innerContext = context.copy(markdownText = parsed.content)
 
         // Transcribe the inner content using the mapper
-        val innerContent = nodeMapper.transcribeBlockChildren(innerDocument.rootNode, innerContext)
+        val innerResult = nodeMapper.transcribeBlockChildren(innerDocument.rootNode, innerContext)
 
         return TranscribeResult(
             ExpandNode(
-                content = innerContent,
+                content = innerResult.content,
                 attrs = ExpandAttrs(title = parsed.summary),
             ),
+            innerResult.actions,
         )
     }
 }

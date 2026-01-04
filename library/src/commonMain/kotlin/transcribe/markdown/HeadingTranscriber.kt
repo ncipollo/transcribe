@@ -25,7 +25,7 @@ class HeadingTranscriber(
         val atxContentNode = input.findChildOfType(MarkdownTokenTypes.ATX_CONTENT)
         val setextContentNode = input.findChildOfType(MarkdownTokenTypes.SETEXT_CONTENT)
         val contentNode = atxContentNode ?: setextContentNode
-        val inlineContent =
+        val inlineResult =
             if (contentNode != null) {
                 // Skip the first child if it's whitespace (space after # in ATX headings)
                 val childrenToProcess =
@@ -45,8 +45,9 @@ class HeadingTranscriber(
         return TranscribeResult(
             HeadingNode(
                 attrs = HeadingAttrs(level = level),
-                content = inlineContent,
+                content = inlineResult.content,
             ),
+            inlineResult.actions,
         )
     }
 

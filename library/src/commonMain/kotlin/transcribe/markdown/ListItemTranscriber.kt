@@ -17,12 +17,14 @@ class ListItemTranscriber(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<ListItemNode> {
-        val paragraphContent =
+        val result =
             findParagraphNode(input)?.let {
                 val transcriber = nodeMapper.transcriberFor(it.type)
-                transcriber?.transcribe(it, context)?.content
+                transcriber?.transcribe(it, context)
             }
-        return TranscribeResult(ListItemNode(content = listOfNotNull(paragraphContent)))
+        val paragraphContent = result?.content
+        val actions = result?.actions ?: emptyList()
+        return TranscribeResult(ListItemNode(content = listOfNotNull(paragraphContent)), actions)
     }
 
     private fun findParagraphNode(input: ASTNode): ASTNode? = input.findChildOfType(MarkdownElementTypes.PARAGRAPH)

@@ -10,6 +10,7 @@ import data.atlassian.adf.TableNode
 import data.atlassian.adf.TableRowNode
 import data.atlassian.adf.TextNode
 import org.intellij.markdown.flavours.gfm.GFMElementTypes
+import transcribe.TranscribeResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -62,7 +63,7 @@ class TableTranscriberTest {
                     ),
                 ),
             )
-        assertEquals(expected, result.content)
+        assertEquals(TranscribeResult(expected), result)
     }
 
     @Test
@@ -114,7 +115,7 @@ class TableTranscriberTest {
                     ),
                 ),
             )
-        assertEquals(expected, result.content)
+        assertEquals(TranscribeResult(expected), result)
     }
 
     @Test
@@ -211,6 +212,6 @@ class TableTranscriberTest {
                     ),
                 ),
             )
-        assertEquals(expected, result.content)
+        assertEquals(TranscribeResult(expected), result)
     }
 }

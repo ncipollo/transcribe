@@ -7,6 +7,7 @@ import data.atlassian.adf.TableHeaderNode
 import data.atlassian.adf.TableNode
 import data.atlassian.adf.TableRowNode
 import data.atlassian.adf.TextNode
+import transcribe.TranscribeResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -57,7 +58,8 @@ class TableNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |", result.content)
+        val expected = TranscribeResult("| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |")
+        assertEquals(expected, result)
     }
 
     @Test
@@ -80,13 +82,15 @@ class TableNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("| Cell 1 |", result.content)
+        val expected = TranscribeResult("| Cell 1 |")
+        assertEquals(expected, result)
     }
 
     @Test
     fun transcribe_emptyContent() {
         val node = TableNode(content = emptyList())
         val result = transcriber.transcribe(node, context)
-        assertEquals("", result.content)
+        val expected = TranscribeResult("")
+        assertEquals(expected, result)
     }
 }

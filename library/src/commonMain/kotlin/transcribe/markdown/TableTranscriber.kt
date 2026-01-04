@@ -17,19 +17,22 @@ class TableTranscriber(
         context: MarkdownContext,
     ): TranscribeResult<TableNode> {
         // Extract HEADER and ROW children
-        val rows =
+        val results =
             input.children
                 .filter { it.type == GFMElementTypes.HEADER || it.type == GFMElementTypes.ROW }
                 .map { rowNode ->
                     val isHeader = rowNode.type == GFMElementTypes.HEADER
                     val tableRowTranscriber = TableRowTranscriber(nodeMapper, isHeader)
-                    tableRowTranscriber.transcribe(rowNode, context).content
+                    tableRowTranscriber.transcribe(rowNode, context)
                 }
+        val rows = results.map { it.content }
+        val actions = results.flatMap { it.actions }
 
         return TranscribeResult(
             TableNode(
                 content = rows,
             ),
+            actions,
         )
     }
 }
