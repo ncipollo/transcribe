@@ -59,6 +59,10 @@ class Transcribe(
         )
     }
 
+    private val actionHandler: transcribe.action.ActionHandler by lazy {
+        transcribe.action.ActionHandler(attachmentApiClient)
+    }
+
     /**
      * Fetches a Confluence page by URL and returns its content as Markdown.
      *
@@ -87,6 +91,11 @@ class Transcribe(
         val transformedDocNode = adfBody.copy(content = transformedContent)
 
         val result = transcriber.transcribe(transformedDocNode, context)
+        
+        // Handle actions from transcription result
+        val actionResults = actionHandler.handleActions(result.actions)
+        println("Action results: $actionResults")
+        
         return result.content
     }
 
