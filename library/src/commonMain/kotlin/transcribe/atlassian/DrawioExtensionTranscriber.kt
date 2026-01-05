@@ -4,9 +4,11 @@ import context.ADFTranscriberContext
 import data.atlassian.adf.ExtensionNode
 import files.toSnakeCase
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import transcribe.TranscribeResult
+import transcribe.action.AttachmentDownload
 
 /**
  * Transcriber for Draw.io extension nodes.
@@ -19,9 +21,11 @@ class DrawioExtensionTranscriber : ADFTranscriber<ExtensionNode> {
     ): TranscribeResult<String> {
         val altText = extractAltText(input.attrs.parameters)
         val diagramName = extractDiagramName(input.attrs.parameters) ?: return TranscribeResult("")
+        val downloadUrl = extractDownloadUrl(input.attrs.parameters) ?: return TranscribeResult("")
 
         val imagePath = imagePath(context, diagramName)
-        return TranscribeResult("![$altText]($imagePath)\n")
+        val action = downloadAction(imagePath, downloadUrl)
+        return TranscribeResult("![$altText]($imagePath)\n", listOf(action))
     }
 
     private fun extractAltText(parameters: JsonObject?): String {
@@ -43,8 +47,24 @@ class DrawioExtensionTranscriber : ADFTranscriber<ExtensionNode> {
         return diagramName["value"]?.jsonPrimitive?.content
     }
 
+    private fun extractDownloadUrl(parameters: JsonObject?): String? {
+        if (parameters == null) return null
+
+        val macroMetadata = parameters["macroMetadata"]?.jsonObject ?: return null
+        val placeholder = macroMetadata["placeholder"]?.jsonArray ?: return null
+        if (placeholder.isEmpty()) return null
+
+        val firstPlaceholder = placeholder[0] as? JsonObject ?: return null
+        val data = firstPlaceholder["data"]?.jsonObject ?: return null
+        return data["url"]?.jsonPrimitive?.content
+    }
+
     private fun imagePath(context: ADFTranscriberContext, diagramName: String): String {
         val folder = context.suggestedImageFolder
         return "$folder/${diagramName.toSnakeCase()}"
+    }
+
+    private fun downloadAction(imagePath: String, downloadUrl: String): AttachmentDownload {
+        return AttachmentDownload(downloadPath = downloadUrl, localRelativePath = imagePath)
     }
 }

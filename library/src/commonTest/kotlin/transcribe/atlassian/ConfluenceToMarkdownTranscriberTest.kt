@@ -94,6 +94,10 @@ class ConfluenceToMarkdownTranscriberTest {
                     downloadPath = "some/path/to/image.png",
                     localRelativePath = "images/att1_test_image.png",
                 ),
+                AttachmentDownload(
+                    downloadPath = "https://ac.draw.io/connectImage?mVer=2&zoom=1&simple=0&inComment=0&custContentId=5384339671&pageId=5385126043&lbox=1&diagramDisplayName=Untitled+Diagram-1766526257160.drawio&contentVer=1&revision=1&baseUrl=https%3A%2F%transcribe.atlassian.net%2Fwiki&diagramName=Untitled+Diagram-1766526257160.drawio&pCenter=0&width=281&links=&tbstyle=&height=391",
+                    localRelativePath = "images/untitled_diagram-1766526257160.drawio",
+                ),
             ),
         )
         val result = transcriber.transcribe(node, context)

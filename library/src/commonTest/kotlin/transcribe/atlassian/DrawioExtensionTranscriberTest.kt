@@ -4,8 +4,11 @@ import context.ADFTranscriberContext
 import context.PageContext
 import data.atlassian.adf.ExtensionAttrs
 import data.atlassian.adf.ExtensionNode
+import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import transcribe.TranscribeResult
+import transcribe.action.AttachmentDownload
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -37,6 +40,26 @@ class DrawioExtensionTranscriberTest {
                         )
                     },
                 )
+                put(
+                    "macroMetadata",
+                    buildJsonObject {
+                        put(
+                            "placeholder",
+                            buildJsonArray {
+                                add(
+                                    buildJsonObject {
+                                        put(
+                                            "data",
+                                            buildJsonObject {
+                                                put("url", "https://example.com/diagram.drawio")
+                                            },
+                                        )
+                                    },
+                                )
+                            },
+                        )
+                    },
+                )
             }
         val node =
             ExtensionNode(
@@ -47,10 +70,17 @@ class DrawioExtensionTranscriberTest {
                     parameters = parameters,
                 ),
             )
-
+        val expected = TranscribeResult(
+            content = "![draw.io Diagram](test_page/diagram_name.drawio)\n",
+            actions = listOf(
+                AttachmentDownload(
+                    downloadPath = "https://example.com/diagram.drawio",
+                    localRelativePath = "test_page/diagram_name.drawio",
+                ),
+            ),
+        )
         val result = transcriber.transcribe(node, context)
-
-        assertEquals("![draw.io Diagram](test_page/diagram_name.drawio)\n", result.content)
+        assertEquals(expected, result)
     }
 
     @Test
@@ -68,6 +98,26 @@ class DrawioExtensionTranscriberTest {
                         )
                     },
                 )
+                put(
+                    "macroMetadata",
+                    buildJsonObject {
+                        put(
+                            "placeholder",
+                            buildJsonArray {
+                                add(
+                                    buildJsonObject {
+                                        put(
+                                            "data",
+                                            buildJsonObject {
+                                                put("url", "https://example.com/my_diagram.drawio")
+                                            },
+                                        )
+                                    },
+                                )
+                            },
+                        )
+                    },
+                )
             }
         val node =
             ExtensionNode(
@@ -78,10 +128,17 @@ class DrawioExtensionTranscriberTest {
                     parameters = parameters,
                 ),
             )
-
+        val expected = TranscribeResult(
+            content = "![](test_page/my_diagram.drawio)\n",
+            actions = listOf(
+                AttachmentDownload(
+                    downloadPath = "https://example.com/my_diagram.drawio",
+                    localRelativePath = "test_page/my_diagram.drawio",
+                ),
+            ),
+        )
         val result = transcriber.transcribe(node, context)
-
-        assertEquals("![](test_page/my_diagram.drawio)\n", result.content)
+        assertEquals(expected, result)
     }
 
     @Test
@@ -95,10 +152,9 @@ class DrawioExtensionTranscriberTest {
                     parameters = null,
                 ),
             )
-
+        val expected = TranscribeResult("")
         val result = transcriber.transcribe(node, context)
-
-        assertEquals("", result.content)
+        assertEquals(expected, result)
     }
 
     @Test
@@ -116,9 +172,50 @@ class DrawioExtensionTranscriberTest {
                     parameters = parameters,
                 ),
             )
-
+        val expected = TranscribeResult("")
         val result = transcriber.transcribe(node, context)
+        assertEquals(expected, result)
+    }
 
-        assertEquals("", result.content)
+    @Test
+    fun transcribe_missingDownloadUrl() {
+        val parameters =
+            buildJsonObject {
+                put(
+                    "macroParams",
+                    buildJsonObject {
+                        put(
+                            "diagramName",
+                            buildJsonObject {
+                                put("value", "Diagram Name.drawio")
+                            },
+                        )
+                        put(
+                            "diagramDisplayName",
+                            buildJsonObject {
+                                put("value", "draw.io Diagram")
+                            },
+                        )
+                    },
+                )
+                put(
+                    "macroMetadata",
+                    buildJsonObject {
+                        put("placeholder", buildJsonArray { })
+                    },
+                )
+            }
+        val node =
+            ExtensionNode(
+                attrs =
+                ExtensionAttrs(
+                    extensionKey = "drawio",
+                    extensionType = "com.atlassian.confluence.macro.core",
+                    parameters = parameters,
+                ),
+            )
+        val expected = TranscribeResult("")
+        val result = transcriber.transcribe(node, context)
+        assertEquals(expected, result)
     }
 }
