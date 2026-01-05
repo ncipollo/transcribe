@@ -99,9 +99,9 @@ mavenPublishing {
         url = "https://github.com/ncipollo/transcribe"
         licenses {
             license {
-                name = "XXX"
-                url = "YYY"
-                distribution = "ZZZ"
+                name = "MIT License"
+                url = "https://opensource.org/licenses/MIT"
+                distribution = "repo"
             }
         }
         developers {

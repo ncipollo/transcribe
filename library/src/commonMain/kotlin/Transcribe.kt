@@ -91,10 +91,10 @@ class Transcribe(
         val transformedDocNode = adfBody.copy(content = transformedContent)
 
         val result = transcriber.transcribe(transformedDocNode, context)
-        
+
         // Handle actions from transcription result
         val actionResults = actionHandler.handleActions(result.actions)
-        
+
         return PageMarkdownResult(
             markdown = result.content,
             attachmentResults = actionResults,
