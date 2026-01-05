@@ -67,11 +67,11 @@ class Transcribe(
      * Fetches a Confluence page by URL and returns its content as Markdown.
      *
      * @param url The full Confluence page URL
-     * @return The page content as Markdown string
+     * @return PageMarkdownResult containing the markdown content and any attachment results
      * @throws IllegalArgumentException if the URL cannot be parsed to extract a page ID
      * @throws Exception if the page cannot be fetched or transcribed
      */
-    suspend fun getPageMarkdown(url: String): String {
+    suspend fun getPageMarkdown(url: String): PageMarkdownResult {
         val pageId =
             ConfluenceUrlParser.extractPageId(url)
                 ?: throw IllegalArgumentException("Unable to extract page ID from URL: $url")
@@ -94,9 +94,11 @@ class Transcribe(
         
         // Handle actions from transcription result
         val actionResults = actionHandler.handleActions(result.actions)
-        println("Action results: $actionResults")
         
-        return result.content
+        return PageMarkdownResult(
+            markdown = result.content,
+            attachmentResults = actionResults,
+        )
     }
 
     /**

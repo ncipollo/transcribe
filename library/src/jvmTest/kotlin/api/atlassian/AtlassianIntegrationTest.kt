@@ -32,13 +32,14 @@ class AtlassianIntegrationTest {
                 )
             val transcribe = Transcribe(configuration)
 
-            val markdown = transcribe.getPageMarkdown(pageUrl)
+            val result = transcribe.getPageMarkdown(pageUrl)
 
-            assertNotNull(markdown)
-            assertTrue(markdown.isNotEmpty())
+            assertNotNull(result)
+            assertNotNull(result.markdown)
+            assertTrue(result.markdown.isNotEmpty())
 
             println("-----------")
-            println(markdown)
+            println(result.markdown)
 
             transcribe.close()
         }
