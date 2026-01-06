@@ -7,7 +7,7 @@ Supported use cases:
 - Update a Confluence page with Markdown.
 - Update a Confluence template with Markdown.
 
-# Basic Setup
+## Basic Setup
 
 Configure Transcribe with a `TranscribeConfiguration`. You will typically provide:
 - **Site Name**: The subdomain from your Confluence URL (e.g., `your-site` from `https://your-site.atlassian.net/wiki/...`)
@@ -29,3 +29,33 @@ val configuration = TranscribeConfiguration.builder()
 
 val transcribe = Transcribe(configuration)
 ```
+
+## Fetch a Confluence Page
+
+```kotlin
+val result = transcribe.getPageMarkdown(pageUrl)
+val markdown = result.markdown
+val attachments = result.attachmentResults
+```
+
+This returns a `PageMarkdownResult` containing:
+- **markdown**: The page body as Markdown. Image elements reference the original Confluence attachment URLs.
+- **attachmentResults**: A list of `AttachmentResult` objects with downloaded image data. These will typically represent visual elements from the confluence page and are translated into image elements in the markdown body.
+
+Each `AttachmentResult` provides:
+- **data**: The raw image bytes
+- **localRelativePath**: A suggested relative path for saving locally
+
+This allows you to optionally save images to disk and the recommended path to save them relative to the markdown (the image elements in markdown will reference these relative paths.)
+
+For example, the returned markdown might look like:
+
+```markdown
+# My Page
+
+Here is some content with an image:
+
+![screenshot](images/screenshot.png)
+```
+
+The corresponding `AttachmentResult` would have `localRelativePath = "images/screenshot.png"` and contain the image bytes in `data`.
