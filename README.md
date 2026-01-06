@@ -59,3 +59,39 @@ Here is some content with an image:
 ```
 
 The corresponding `AttachmentResult` would have `localRelativePath = "images/screenshot.png"` and contain the image bytes in `data`.
+
+## Update a Confluence Page
+
+```kotlin
+val markdown = """
+# My Page
+
+Updated content goes here.
+""".trimIndent()
+
+val updatedPage = transcribe.updatePageMarkdown(
+    url = pageUrl,
+    markdown = markdown,
+    message = "Updated via Transcribe"  // optional version message
+)
+```
+
+This converts the Markdown to ADF and updates the page. Returns a `PageResponse` with the updated page metadata.
+
+## Update a Confluence Template
+
+```kotlin
+val markdown = """
+# Template Title
+
+Template content goes here.
+""".trimIndent()
+
+val updatedTemplate = transcribe.updateTemplateMarkdown(
+    templateId = "template-id",
+    markdown = markdown,
+    name = "My Template"
+)
+```
+
+This converts the Markdown to ADF and updates the template. Returns a `TemplateResponse` with the updated template metadata.
