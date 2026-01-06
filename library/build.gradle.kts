@@ -93,28 +93,25 @@ mavenPublishing {
     coordinates(group.toString(), "library", version.toString())
 
     pom {
-        name = "My library"
-        description = "A library."
-        inceptionYear = "2024"
+        name = "Transcribe"
+        description = "Kotlin MPP library for interacting with Confluence, converting between Atlassian Document Format and Markdown."
+        inceptionYear = "2026"
         url = "https://github.com/ncipollo/transcribe"
         licenses {
             license {
-                name = "MIT License"
+                name = "MIT"
                 url = "https://opensource.org/licenses/MIT"
-                distribution = "repo"
             }
         }
         developers {
             developer {
-                id = "XXX"
-                name = "YYY"
-                url = "ZZZ"
+                id = "ncipollo"
+                name = "Nick Cipollo"
+                email = "njc115@gmail.com"
             }
         }
         scm {
-            url = "XXX"
-            connection = "YYY"
-            developerConnection = "ZZZ"
+            url = "https://github.com/ncipollo/transcribe.git"
         }
     }
 }
