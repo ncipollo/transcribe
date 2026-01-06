@@ -95,3 +95,73 @@ val updatedTemplate = transcribe.updateTemplateMarkdown(
 ```
 
 This converts the Markdown to ADF and updates the template. Returns a `TemplateResponse` with the updated template metadata.
+
+## Customization
+
+There are two mechanisms for customizing transcription between Confluence and Markdown.
+
+### Transforming ADF Nodes
+
+You can transform ADF nodes at two points in the pipeline using the `ADFTransformer` interface:
+- **toMarkdownTransformer**: Applied after fetching ADF from Confluence, before converting to Markdown
+- **toConfluenceTransformer**: Applied after converting Markdown to ADF, before sending to Confluence
+
+```kotlin
+// Example transformer that filters out specific node types
+class FilteringTransformer<Context> : ADFTransformer<Context> {
+    override fun transform(
+        nodes: List<ADFBlockNode>,
+        context: Context
+    ): List<ADFBlockNode> {
+        return nodes.filter { node ->
+            // Filter out table nodes, for example
+            node !is TableNode
+        }
+    }
+}
+
+// Apply transformers in configuration
+val configuration = TranscribeConfiguration.builder()
+    .confluenceConfiguration(confluenceConfig)
+    .toMarkdownTransformer(FilteringTransformer())
+    .toConfluenceTransformer(FilteringTransformer())
+    .build()
+```
+
+### Overriding Transcribers
+
+Translation between ADF and Markdown nodes is handled by Transcribers. You can override the default transcriber for any element type in either direction.
+
+**ADF to Markdown** — Use `adfCustomTranscribers` to override how ADF nodes are converted to Markdown:
+
+```kotlin
+val customAdfTranscribers = adfNodeMapper {
+    // Override the paragraph transcriber
+    add<ParagraphNode> { mapper -> CustomParagraphNodeTranscriber(mapper) }
+    // Override the heading transcriber
+    add<HeadingNode> { mapper -> CustomHeadingNodeTranscriber(mapper) }
+}
+
+val configuration = TranscribeConfiguration.builder()
+    .confluenceConfiguration(confluenceConfig)
+    .adfCustomTranscribers(customAdfTranscribers)
+    .build()
+```
+
+**Markdown to ADF** — Use `markdownCustomTranscribers` to override how Markdown elements are converted to ADF:
+
+```kotlin
+val customMarkdownTranscribers = markdownNodeMapper {
+    // Override the paragraph transcriber
+    add(MarkdownElementTypes.PARAGRAPH) { mapper -> CustomParagraphTranscriber(mapper) }
+    // Override the code fence transcriber
+    add(MarkdownElementTypes.CODE_FENCE) { CustomCodeFenceTranscriber() }
+}
+
+val configuration = TranscribeConfiguration.builder()
+    .confluenceConfiguration(confluenceConfig)
+    .markdownCustomTranscribers(customMarkdownTranscribers)
+    .build()
+```
+
+See [DefaultADFNodeMap.kt](https://github.com/ncipollo/transcribe/blob/main/library/src/commonMain/kotlin/transcribe/atlassian/DefaultADFNodeMap.kt) and [DefaultMarkdownNodeMap.kt](https://github.com/ncipollo/transcribe/blob/main/library/src/commonMain/kotlin/transcribe/markdown/DefaultMarkdownNodeMap.kt) for the full list of default transcriber mappings.
