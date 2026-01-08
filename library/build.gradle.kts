@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.vanniktech.mavenPublish)
 }
 
-group = "io.github.ncipollo"
+group = "io.github.ncipollo.transcribe"
 version = if (System.getenv("TRANSCRIBE_SNAPSHOT") != null) "1.0.0-SNAPSHOT" else "0.1.0"
 
 kotlin {
