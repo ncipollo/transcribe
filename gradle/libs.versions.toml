@@ -7,7 +7,7 @@ markdown = "0.7.3"
 android-minSdk = "24"
 android-compileSdk = "36"
 vanniktechMavenPublish = "0.34.0"
-spotless = "6.25.0"
+spotless = "8.1.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
