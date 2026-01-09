@@ -6,7 +6,7 @@ on:
       - '*'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   publish:
@@ -31,5 +31,10 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
-        run: ./gradlew publishToMavenCentral
-
+        run: ./gradlew publishAndReleaseToMavenCentral
+      - name: Github Publish
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          draft: false
+          generateReleaseNotes: true
