@@ -6,7 +6,7 @@ ktor = "3.3.3"
 markdown = "0.7.3"
 android-minSdk = "24"
 android-compileSdk = "36"
-vanniktechMavenPublish = "0.34.0"
+vanniktechMavenPublish = "0.35.0"
 spotless = "8.1.0"
 
 [libraries]
