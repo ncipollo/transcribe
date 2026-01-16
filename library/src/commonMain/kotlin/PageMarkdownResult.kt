@@ -1,8 +1,8 @@
 import transcribe.action.AttachmentResult
-import transcribe.comment.Comment
+import transcribe.comment.CommentResult
 
 data class PageMarkdownResult(
     val markdown: String = "",
     val attachmentResults: List<AttachmentResult> = emptyList(),
-    val comments: List<Comment> = emptyList(),
+    val commentResult: CommentResult = CommentResult(),
 )

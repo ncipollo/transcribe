@@ -36,15 +36,29 @@ val transcribe = Transcribe(configuration)
 val result = transcribe.getPageMarkdown(pageUrl)
 val markdown = result.markdown
 val attachments = result.attachmentResults
+val comments = result.commentResult
 ```
 
 This returns a `PageMarkdownResult` containing:
 - **markdown**: The page body as Markdown. Image elements reference the original Confluence attachment URLs.
 - **attachmentResults**: A list of `AttachmentResult` objects with downloaded image data. These will typically represent visual elements from the confluence page and are translated into image elements in the markdown body.
+- **commentResult**: A `CommentResult` object containing inline comments and footer comments from the page, with each comment converted to Markdown format.
 
 Each `AttachmentResult` provides:
 - **data**: The raw image bytes
 - **localRelativePath**: A suggested relative path for saving locally
+
+Each `CommentResult` provides:
+- **inlineComments**: A list of inline comments from the page
+- **footerComments**: A list of footer (page-level) comments
+
+Each `Comment` includes:
+- **id**: The comment identifier
+- **authorId**: The author's Atlassian account ID
+- **createdAt**: ISO 8601 timestamp of comment creation
+- **content**: The comment content as Markdown
+- **commentType**: The type of comment (INLINE or FOOTER)
+- **parentCommentId**: Optional ID of the parent comment if this is a reply
 
 This allows you to optionally save images to disk and the recommended path to save them relative to the markdown (the image elements in markdown will reference these relative paths.)
 
