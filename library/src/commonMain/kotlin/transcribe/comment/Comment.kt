@@ -19,3 +19,15 @@ enum class CommentType {
     INLINE,
     FOOTER,
 }
+
+/**
+ * Calculates the total count of all comments, including nested children.
+ */
+fun CommentResult.totalCommentCount(): Int {
+    return inlineComments.sumOf { it.totalCount() } +
+        footerComments.sumOf { it.totalCount() }
+}
+
+private fun Comment.totalCount(): Int {
+    return 1 + children.sumOf { it.totalCount() }
+}

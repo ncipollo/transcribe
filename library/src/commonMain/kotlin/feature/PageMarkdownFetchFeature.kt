@@ -1,6 +1,7 @@
 package feature
 
 import PageMarkdownResult
+import PageMetadata
 import api.atlassian.AttachmentAPIClient
 import api.atlassian.CommentAPIClient
 import api.atlassian.FooterComment
@@ -18,6 +19,7 @@ import transcribe.atlassian.ConfluenceToMarkdownTranscriber
 import transcribe.comment.CommentChildrenMapper
 import transcribe.comment.CommentResult
 import transcribe.comment.CommentTransformer
+import transcribe.comment.totalCommentCount
 import transcribe.transformer.ADFTransformer
 
 /**
@@ -79,6 +81,10 @@ class PageMarkdownFetchFeature(
             markdown = result.content,
             attachmentResults = actionResults,
             commentResult = commentResult,
+            metadata = PageMetadata(
+                createdAt = page.createdAt,
+                totalCommentCount = commentResult.totalCommentCount(),
+            ),
         )
     }
 
