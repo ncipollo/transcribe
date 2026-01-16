@@ -81,6 +81,7 @@ kotlin {
 
         jvmTest.dependencies {
             implementation(libs.serialization.json)
+            implementation(libs.mockk)
         }
     }
 }
