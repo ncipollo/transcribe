@@ -118,6 +118,17 @@ class Transcribe(
     }
 
     /**
+     * Fetches a Confluence page by page ID and returns its content as Markdown.
+     *
+     * @param pageId The Confluence page ID
+     * @return PageMarkdownResult containing the markdown content and any attachment results
+     * @throws Exception if the page cannot be fetched or transcribed
+     */
+    suspend fun getPageMarkdownByPageId(pageId: String): PageMarkdownResult {
+        return pageMarkdownFetchFeature.fetch(pageId)
+    }
+
+    /**
      * Updates a Confluence page with markdown content.
      * Converts the markdown to ADF format and updates the page.
      *
