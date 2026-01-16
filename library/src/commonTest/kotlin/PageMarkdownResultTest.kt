@@ -14,6 +14,28 @@ class PageMarkdownResultTest {
             markdown = "",
             attachmentResults = emptyList(),
             commentResult = CommentResult(),
+            metadata = PageMetadata(),
+        )
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun constructor_withMetadata() {
+        val metadata = PageMetadata(
+            createdAt = "2024-01-01T00:00:00Z",
+            totalCommentCount = 5,
+        )
+
+        val result = PageMarkdownResult(
+            markdown = "# Test",
+            metadata = metadata,
+        )
+
+        val expected = PageMarkdownResult(
+            markdown = "# Test",
+            attachmentResults = emptyList(),
+            commentResult = CommentResult(),
+            metadata = metadata,
         )
         assertEquals(expected, result)
     }
@@ -48,6 +70,7 @@ class PageMarkdownResultTest {
             markdown = "# Test",
             attachmentResults = emptyList(),
             commentResult = commentResult,
+            metadata = PageMetadata(),
         )
         assertEquals(expected, result)
     }
