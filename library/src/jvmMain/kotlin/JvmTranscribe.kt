@@ -8,8 +8,8 @@ import kotlinx.coroutines.runBlocking
  */
 class JvmTranscribe(
     configuration: TranscribeConfiguration = TranscribeConfiguration(),
+    private val transcribe: Transcribe = Transcribe(configuration),
 ) {
-    private val transcribe = Transcribe(configuration)
 
     /**
      * Fetches a Confluence page by URL and returns its content as Markdown.
