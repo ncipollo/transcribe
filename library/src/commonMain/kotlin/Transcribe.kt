@@ -1,7 +1,10 @@
+import api.atlassian.Attachment
 import api.atlassian.AttachmentAPIClient
 import api.atlassian.CommentAPIClient
 import api.atlassian.ConfluenceHttpClientFactory
 import api.atlassian.ConfluenceUrlParser
+import api.atlassian.FooterComment
+import api.atlassian.InlineComment
 import api.atlassian.PageAPIClient
 import api.atlassian.PageResponse
 import api.atlassian.TemplateAPIClient
@@ -10,8 +13,14 @@ import context.ADFTranscriberContext
 import context.AttachmentContext
 import context.MarkdownContext
 import context.PageContext
+import fetch.PageFetchResult
 import io.ktor.client.HttpClient
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import transcribe.atlassian.ConfluenceToMarkdownTranscriber
+import transcribe.comment.CommentChildrenMapper
+import transcribe.comment.CommentResult
 import transcribe.comment.CommentTransformer
 import transcribe.markdown.MarkdownToConfluenceTranscriber
 
@@ -86,10 +95,21 @@ class Transcribe(
             ConfluenceUrlParser.extractPageId(url)
                 ?: throw IllegalArgumentException("Unable to extract page ID from URL: $url")
 
-        val page = pageApiClient.getPage(pageId)
-        val attachments = attachmentApiClient.getPageAttachments(pageId)
-        val footerComments = commentApiClient.getPageFooterComments(pageId)
-        val inlineComments = commentApiClient.getPageInlineComments(pageId)
+        // Fetch page, attachments, and comments in parallel
+        val (page, attachments, footerComments, inlineComments) = coroutineScope {
+            val pageDeferred = async { pageApiClient.getPage(pageId) }
+            val attachmentsDeferred = async { attachmentApiClient.getPageAttachments(pageId) }
+            val footerCommentsDeferred = async { commentApiClient.getPageFooterComments(pageId) }
+            val inlineCommentsDeferred = async { commentApiClient.getPageInlineComments(pageId) }
+
+            PageFetchResult(
+                page = pageDeferred.await(),
+                attachments = attachmentsDeferred.await(),
+                footerComments = footerCommentsDeferred.await(),
+                inlineComments = inlineCommentsDeferred.await(),
+            )
+        }
+
         val adfBody =
             page.body?.atlasDocFormat?.docNode
                 ?: throw IllegalStateException("Page $pageId does not contain ADF body content")
@@ -108,13 +128,12 @@ class Transcribe(
         val actionResults = actionHandler.handleActions(result.actions)
 
         // Transform comments using CommentTransformer
-        val comments = footerComments.map { commentTransformer.transformFooterComment(it, context) } +
-                       inlineComments.map { commentTransformer.transformInlineComment(it, context) }
+        val commentResult = transformComments(footerComments, inlineComments, context)
 
         return PageMarkdownResult(
             markdown = result.content,
             attachmentResults = actionResults,
-            comments = comments,
+            commentResult = commentResult,
         )
     }
 
@@ -211,5 +230,61 @@ class Transcribe(
     fun close() {
         httpClient.close()
         httpClientV1.close()
+    }
+
+    private suspend fun transformComments(
+        footerComments: List<FooterComment>,
+        inlineComments: List<InlineComment>,
+        context: ADFTranscriberContext,
+    ): CommentResult {
+        // Fetch children for all comments in parallel
+        val (footerChildrenMap, inlineChildrenMap) = coroutineScope {
+            val footerDeferred = async { fetchFooterCommentChildren(footerComments) }
+            val inlineDeferred = async { fetchInlineCommentChildren(inlineComments) }
+            Pair(footerDeferred.await(), inlineDeferred.await())
+        }
+
+        // Build the children lookup map
+        val childrenMap = CommentChildrenMapper.buildChildrenMap(
+            footerChildrenMap,
+            inlineChildrenMap,
+            commentTransformer,
+            context,
+        )
+
+        // Transform with children
+        val transformedFooterComments = footerComments.map {
+            commentTransformer.transformFooterComment(it, context, childrenMap)
+        }
+        val transformedInlineComments = inlineComments.map {
+            commentTransformer.transformInlineComment(it, context, childrenMap)
+        }
+
+        return CommentResult(
+            inlineComments = transformedInlineComments,
+            footerComments = transformedFooterComments,
+        )
+    }
+
+    private suspend fun fetchFooterCommentChildren(
+        comments: List<FooterComment>,
+    ): Map<String, List<FooterComment>> = coroutineScope {
+        comments
+            .map { comment ->
+                async { comment.id to commentApiClient.getFooterCommentChildren(comment.id) }
+            }
+            .awaitAll()
+            .toMap()
+    }
+
+    private suspend fun fetchInlineCommentChildren(
+        comments: List<InlineComment>,
+    ): Map<String, List<InlineComment>> = coroutineScope {
+        comments
+            .map { comment ->
+                async { comment.id to commentApiClient.getInlineCommentChildren(comment.id) }
+            }
+            .awaitAll()
+            .toMap()
     }
 }

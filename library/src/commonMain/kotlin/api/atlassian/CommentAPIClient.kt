@@ -44,4 +44,44 @@ class CommentAPIClient(private val httpClient: HttpClient) {
 
         return allComments
     }
+
+    /**
+     * Fetches all child comments for a given footer comment ID.
+     * Handles pagination automatically by following the `_links.next` URL until all pages are retrieved.
+     *
+     * @param commentId The parent comment ID to fetch children for
+     * @return A list of all child footer comments
+     */
+    suspend fun getFooterCommentChildren(commentId: String): List<FooterComment> {
+        val allComments = mutableListOf<FooterComment>()
+        var nextUrl: String? = "footer-comments/$commentId/children?body-format=atlas_doc_format"
+
+        while (nextUrl != null) {
+            val response = httpClient.get(nextUrl).body<FooterCommentsResponse>()
+            allComments.addAll(response.results)
+            nextUrl = response.links?.next
+        }
+
+        return allComments
+    }
+
+    /**
+     * Fetches all child comments for a given inline comment ID.
+     * Handles pagination automatically by following the `_links.next` URL until all pages are retrieved.
+     *
+     * @param commentId The parent comment ID to fetch children for
+     * @return A list of all child inline comments
+     */
+    suspend fun getInlineCommentChildren(commentId: String): List<InlineComment> {
+        val allComments = mutableListOf<InlineComment>()
+        var nextUrl: String? = "inline-comments/$commentId/children?body-format=atlas_doc_format"
+
+        while (nextUrl != null) {
+            val response = httpClient.get(nextUrl).body<InlineCommentsResponse>()
+            allComments.addAll(response.results)
+            nextUrl = response.links?.next
+        }
+
+        return allComments
+    }
 }

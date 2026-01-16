@@ -66,6 +66,74 @@ class CommentTransformerTest {
             content = "This is a footer comment\n",
             commentType = CommentType.FOOTER,
             parentCommentId = null,
+            children = emptyList(),
+        )
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun transformFooterComment_withChildren_populatesChildren() {
+        val adfJson = """
+            {
+                "type": "doc",
+                "version": 1,
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Parent comment"
+                            }
+                        ]
+                    }
+                ]
+            }
+        """.trimIndent()
+
+        val footerComment = FooterComment(
+            id = "parent1",
+            status = "current",
+            pageId = "page123",
+            parentCommentId = null,
+            version = CommentVersion(
+                createdAt = "2024-01-01T00:00:00Z",
+                number = 1,
+                minorEdit = false,
+                authorId = "author1"
+            ),
+            body = CommentBody(
+                atlasDocFormat = CommentBodyADF(value = adfJson)
+            )
+        )
+
+        val context = ADFTranscriberContext(
+            pageContext = PageContext(
+                title = "Test Page"
+            )
+        )
+
+        val childComment = Comment(
+            id = "child1",
+            authorId = "author2",
+            createdAt = "2024-01-02T00:00:00Z",
+            content = "Child comment",
+            commentType = CommentType.FOOTER,
+            parentCommentId = "parent1",
+            children = emptyList(),
+        )
+        val childrenMap = mapOf("parent1" to listOf(childComment))
+
+        val result = transformer.transformFooterComment(footerComment, context, childrenMap)
+
+        val expected = Comment(
+            id = "parent1",
+            authorId = "author1",
+            createdAt = "2024-01-01T00:00:00Z",
+            content = "Parent comment\n",
+            commentType = CommentType.FOOTER,
+            parentCommentId = null,
+            children = listOf(childComment),
         )
         assertEquals(expected, result)
     }
@@ -121,6 +189,74 @@ class CommentTransformerTest {
             content = "This is an inline comment\n",
             commentType = CommentType.INLINE,
             parentCommentId = null,
+            children = emptyList(),
+        )
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun transformInlineComment_withChildren_populatesChildren() {
+        val adfJson = """
+            {
+                "type": "doc",
+                "version": 1,
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Parent inline comment"
+                            }
+                        ]
+                    }
+                ]
+            }
+        """.trimIndent()
+
+        val inlineComment = InlineComment(
+            id = "parent2",
+            status = "current",
+            pageId = "page123",
+            version = CommentVersion(
+                createdAt = "2024-01-02T00:00:00Z",
+                number = 1,
+                minorEdit = false,
+                authorId = "author2"
+            ),
+            body = CommentBody(
+                atlasDocFormat = CommentBodyADF(value = adfJson)
+            ),
+            resolutionStatus = "open"
+        )
+
+        val context = ADFTranscriberContext(
+            pageContext = PageContext(
+                title = "Test Page"
+            )
+        )
+
+        val childComment = Comment(
+            id = "child2",
+            authorId = "author3",
+            createdAt = "2024-01-03T00:00:00Z",
+            content = "Child inline comment",
+            commentType = CommentType.INLINE,
+            parentCommentId = null,
+            children = emptyList(),
+        )
+        val childrenMap = mapOf("parent2" to listOf(childComment))
+
+        val result = transformer.transformInlineComment(inlineComment, context, childrenMap)
+
+        val expected = Comment(
+            id = "parent2",
+            authorId = "author2",
+            createdAt = "2024-01-02T00:00:00Z",
+            content = "Parent inline comment\n",
+            commentType = CommentType.INLINE,
+            parentCommentId = null,
+            children = listOf(childComment),
         )
         assertEquals(expected, result)
     }
