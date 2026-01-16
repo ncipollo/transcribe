@@ -1,4 +1,5 @@
 import api.atlassian.AttachmentAPIClient
+import api.atlassian.CommentAPIClient
 import api.atlassian.ConfluenceHttpClientFactory
 import api.atlassian.ConfluenceUrlParser
 import api.atlassian.PageAPIClient
@@ -11,6 +12,7 @@ import context.MarkdownContext
 import context.PageContext
 import io.ktor.client.HttpClient
 import transcribe.atlassian.ConfluenceToMarkdownTranscriber
+import transcribe.comment.CommentTransformer
 import transcribe.markdown.MarkdownToConfluenceTranscriber
 
 /**
@@ -43,6 +45,10 @@ class Transcribe(
         AttachmentAPIClient(httpClient)
     }
 
+    private val commentApiClient: CommentAPIClient by lazy {
+        CommentAPIClient(httpClient)
+    }
+
     private val templateApiClient: TemplateAPIClient by lazy {
         TemplateAPIClient(httpClientV1)
     }
@@ -57,6 +63,10 @@ class Transcribe(
         MarkdownToConfluenceTranscriber(
             customTranscribers = configuration.markdownCustomTranscribers,
         )
+    }
+
+    private val commentTransformer: CommentTransformer by lazy {
+        CommentTransformer(transcriber)
     }
 
     private val actionHandler: transcribe.action.ActionHandler by lazy {
@@ -78,6 +88,8 @@ class Transcribe(
 
         val page = pageApiClient.getPage(pageId)
         val attachments = attachmentApiClient.getPageAttachments(pageId)
+        val footerComments = commentApiClient.getPageFooterComments(pageId)
+        val inlineComments = commentApiClient.getPageInlineComments(pageId)
         val adfBody =
             page.body?.atlasDocFormat?.docNode
                 ?: throw IllegalStateException("Page $pageId does not contain ADF body content")
@@ -95,9 +107,14 @@ class Transcribe(
         // Handle actions from transcription result
         val actionResults = actionHandler.handleActions(result.actions)
 
+        // Transform comments using CommentTransformer
+        val comments = footerComments.map { commentTransformer.transformFooterComment(it, context) } +
+                       inlineComments.map { commentTransformer.transformInlineComment(it, context) }
+
         return PageMarkdownResult(
             markdown = result.content,
             attachmentResults = actionResults,
+            comments = comments,
         )
     }
 
