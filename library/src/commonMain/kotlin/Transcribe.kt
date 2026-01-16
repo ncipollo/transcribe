@@ -1,26 +1,16 @@
-import api.atlassian.Attachment
 import api.atlassian.AttachmentAPIClient
 import api.atlassian.CommentAPIClient
 import api.atlassian.ConfluenceHttpClientFactory
 import api.atlassian.ConfluenceUrlParser
-import api.atlassian.FooterComment
-import api.atlassian.InlineComment
 import api.atlassian.PageAPIClient
 import api.atlassian.PageResponse
 import api.atlassian.TemplateAPIClient
 import api.atlassian.TemplateResponse
-import context.ADFTranscriberContext
-import context.AttachmentContext
-import context.MarkdownContext
-import context.PageContext
-import fetch.PageFetchResult
+import feature.PageMarkdownFetchFeature
+import feature.PageMarkdownUpdateFeature
+import feature.TemplateMarkdownUpdateFeature
 import io.ktor.client.HttpClient
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import transcribe.atlassian.ConfluenceToMarkdownTranscriber
-import transcribe.comment.CommentChildrenMapper
-import transcribe.comment.CommentResult
 import transcribe.comment.CommentTransformer
 import transcribe.markdown.MarkdownToConfluenceTranscriber
 
@@ -82,6 +72,35 @@ class Transcribe(
         transcribe.action.ActionHandler(attachmentApiClient)
     }
 
+    private val pageMarkdownFetchFeature: PageMarkdownFetchFeature by lazy {
+        PageMarkdownFetchFeature(
+            pageApiClient = pageApiClient,
+            attachmentApiClient = attachmentApiClient,
+            commentApiClient = commentApiClient,
+            transcriber = transcriber,
+            commentTransformer = commentTransformer,
+            actionHandler = actionHandler,
+            toMarkdownTransformer = configuration.toMarkdownTransformer,
+        )
+    }
+
+    private val pageMarkdownUpdateFeature: PageMarkdownUpdateFeature by lazy {
+        PageMarkdownUpdateFeature(
+            pageApiClient = pageApiClient,
+            attachmentApiClient = attachmentApiClient,
+            markdownTranscriber = markdownTranscriber,
+            toConfluenceTransformer = configuration.toConfluenceTransformer,
+        )
+    }
+
+    private val templateMarkdownUpdateFeature: TemplateMarkdownUpdateFeature by lazy {
+        TemplateMarkdownUpdateFeature(
+            templateApiClient = templateApiClient,
+            markdownTranscriber = markdownTranscriber,
+            toConfluenceTransformer = configuration.toConfluenceTransformer,
+        )
+    }
+
     /**
      * Fetches a Confluence page by URL and returns its content as Markdown.
      *
@@ -95,46 +114,7 @@ class Transcribe(
             ConfluenceUrlParser.extractPageId(url)
                 ?: throw IllegalArgumentException("Unable to extract page ID from URL: $url")
 
-        // Fetch page, attachments, and comments in parallel
-        val (page, attachments, footerComments, inlineComments) = coroutineScope {
-            val pageDeferred = async { pageApiClient.getPage(pageId) }
-            val attachmentsDeferred = async { attachmentApiClient.getPageAttachments(pageId) }
-            val footerCommentsDeferred = async { commentApiClient.getPageFooterComments(pageId) }
-            val inlineCommentsDeferred = async { commentApiClient.getPageInlineComments(pageId) }
-
-            PageFetchResult(
-                page = pageDeferred.await(),
-                attachments = attachmentsDeferred.await(),
-                footerComments = footerCommentsDeferred.await(),
-                inlineComments = inlineCommentsDeferred.await(),
-            )
-        }
-
-        val adfBody =
-            page.body?.atlasDocFormat?.docNode
-                ?: throw IllegalStateException("Page $pageId does not contain ADF body content")
-
-        // Apply toMarkdown transformer before transcribing
-        val context = ADFTranscriberContext(
-            pageContext = PageContext.fromPageResponse(page),
-            attachmentContext = AttachmentContext.from(attachments),
-        )
-        val transformedContent = configuration.toMarkdownTransformer.transform(adfBody.content, context)
-        val transformedDocNode = adfBody.copy(content = transformedContent)
-
-        val result = transcriber.transcribe(transformedDocNode, context)
-
-        // Handle actions from transcription result
-        val actionResults = actionHandler.handleActions(result.actions)
-
-        // Transform comments using CommentTransformer
-        val commentResult = transformComments(footerComments, inlineComments, context)
-
-        return PageMarkdownResult(
-            markdown = result.content,
-            attachmentResults = actionResults,
-            commentResult = commentResult,
-        )
+        return pageMarkdownFetchFeature.fetch(pageId)
     }
 
     /**
@@ -157,29 +137,7 @@ class Transcribe(
             ConfluenceUrlParser.extractPageId(url)
                 ?: throw IllegalArgumentException("Unable to extract page ID from URL: $url")
 
-        val currentPage = pageApiClient.getPage(pageId)
-        val attachments = attachmentApiClient.getPageAttachments(pageId)
-
-        val context = MarkdownContext(
-            markdownText = markdown,
-            pageContext = PageContext.fromPageResponse(currentPage),
-            attachmentContext = AttachmentContext.from(attachments),
-        )
-        val result = markdownTranscriber.transcribe(markdown, context)
-        val docNode = result.content
-
-        // Apply toConfluence transformer after transcribing
-        val transformedContent = configuration.toConfluenceTransformer.transform(docNode.content, context)
-        val transformedDocNode = docNode.copy(content = transformedContent)
-
-        return pageApiClient.updatePage(
-            pageId = pageId,
-            title = currentPage.title,
-            docNode = transformedDocNode,
-            version = currentPage.version.number + 1,
-            status = currentPage.status,
-            message = message,
-        )
+        return pageMarkdownUpdateFeature.update(pageId, markdown, message)
     }
 
     /**
@@ -199,28 +157,7 @@ class Transcribe(
         name: String,
         templateType: String = "page",
     ): TemplateResponse {
-        val currentTemplate = templateApiClient.getTemplate(templateId)
-
-        val context = MarkdownContext(
-            markdownText = markdown,
-            pageContext = PageContext.fromTemplateResponse(currentTemplate),
-        )
-        val result = markdownTranscriber.transcribe(markdown, context)
-        val docNode = result.content
-
-        // Apply toConfluence transformer after transcribing
-        val transformedContent = configuration.toConfluenceTransformer.transform(docNode.content, context)
-        val transformedDocNode = docNode.copy(content = transformedContent)
-
-        return templateApiClient.updateTemplate(
-            templateId = templateId,
-            name = name,
-            docNode = transformedDocNode,
-            templateType = templateType,
-            description = currentTemplate.description,
-            labels = currentTemplate.labels,
-            space = currentTemplate.space,
-        )
+        return templateMarkdownUpdateFeature.update(templateId, markdown, name, templateType)
     }
 
     /**
@@ -230,61 +167,5 @@ class Transcribe(
     fun close() {
         httpClient.close()
         httpClientV1.close()
-    }
-
-    private suspend fun transformComments(
-        footerComments: List<FooterComment>,
-        inlineComments: List<InlineComment>,
-        context: ADFTranscriberContext,
-    ): CommentResult {
-        // Fetch children for all comments in parallel
-        val (footerChildrenMap, inlineChildrenMap) = coroutineScope {
-            val footerDeferred = async { fetchFooterCommentChildren(footerComments) }
-            val inlineDeferred = async { fetchInlineCommentChildren(inlineComments) }
-            Pair(footerDeferred.await(), inlineDeferred.await())
-        }
-
-        // Build the children lookup map
-        val childrenMap = CommentChildrenMapper.buildChildrenMap(
-            footerChildrenMap,
-            inlineChildrenMap,
-            commentTransformer,
-            context,
-        )
-
-        // Transform with children
-        val transformedFooterComments = footerComments.map {
-            commentTransformer.transformFooterComment(it, context, childrenMap)
-        }
-        val transformedInlineComments = inlineComments.map {
-            commentTransformer.transformInlineComment(it, context, childrenMap)
-        }
-
-        return CommentResult(
-            inlineComments = transformedInlineComments,
-            footerComments = transformedFooterComments,
-        )
-    }
-
-    private suspend fun fetchFooterCommentChildren(
-        comments: List<FooterComment>,
-    ): Map<String, List<FooterComment>> = coroutineScope {
-        comments
-            .map { comment ->
-                async { comment.id to commentApiClient.getFooterCommentChildren(comment.id) }
-            }
-            .awaitAll()
-            .toMap()
-    }
-
-    private suspend fun fetchInlineCommentChildren(
-        comments: List<InlineComment>,
-    ): Map<String, List<InlineComment>> = coroutineScope {
-        comments
-            .map { comment ->
-                async { comment.id to commentApiClient.getInlineCommentChildren(comment.id) }
-            }
-            .awaitAll()
-            .toMap()
     }
 }
