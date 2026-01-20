@@ -22,6 +22,8 @@ And here's a task list:
 - [ ] Action 1
 - [ ] Action 2
 - [x] Checked
+    - [ ] Sub 1
+    - [x] Sub 2
 
 # Section 3
 | **Column 1** | **Column 2** | **Column 3** |
