@@ -1,6 +1,10 @@
 package transcribe.markdown
 
 import context.MarkdownContext
+import data.atlassian.adf.BlockTaskItemNode
+import data.atlassian.adf.BulletListNode
+import data.atlassian.adf.ListItemNode
+import data.atlassian.adf.ParagraphNode
 import data.atlassian.adf.TaskItemAttrs
 import data.atlassian.adf.TaskItemNode
 import data.atlassian.adf.TaskListAttrs
@@ -106,6 +110,107 @@ class TaskListTranscriberTest {
                         content =
                         listOf(
                             TextNode(text = "Second task"),
+                        ),
+                    ),
+                ),
+            )
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_taskListWithNestedTaskList() {
+        val markdown = "- [ ] Task 1\n  - [ ] Subtask 1a\n  - [x] Subtask 1b\n- [x] Task 2"
+        val listNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.UNORDERED_LIST)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(listNode, context)
+
+        val expected =
+            TaskListNode(
+                attrs = TaskListAttrs(localId = ""),
+                content =
+                listOf(
+                    BlockTaskItemNode(
+                        attrs = TaskItemAttrs(localId = "", state = TaskState.TODO),
+                        content =
+                        listOf(
+                            ParagraphNode(
+                                content =
+                                listOf(
+                                    TextNode(text = "Task 1"),
+                                ),
+                            ),
+                            TaskListNode(
+                                attrs = TaskListAttrs(localId = ""),
+                                content =
+                                listOf(
+                                    TaskItemNode(
+                                        attrs = TaskItemAttrs(localId = "", state = TaskState.TODO),
+                                        content =
+                                        listOf(
+                                            TextNode(text = "Subtask 1a"),
+                                        ),
+                                    ),
+                                    TaskItemNode(
+                                        attrs = TaskItemAttrs(localId = "", state = TaskState.DONE),
+                                        content =
+                                        listOf(
+                                            TextNode(text = "Subtask 1b"),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    TaskItemNode(
+                        attrs = TaskItemAttrs(localId = "", state = TaskState.DONE),
+                        content =
+                        listOf(
+                            TextNode(text = "Task 2"),
+                        ),
+                    ),
+                ),
+            )
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_taskListWithMixedNesting() {
+        val markdown = "- [ ] Task 1\n  - Regular nested item"
+        val listNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.UNORDERED_LIST)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(listNode, context)
+
+        val expected =
+            TaskListNode(
+                attrs = TaskListAttrs(localId = ""),
+                content =
+                listOf(
+                    BlockTaskItemNode(
+                        attrs = TaskItemAttrs(localId = "", state = TaskState.TODO),
+                        content =
+                        listOf(
+                            ParagraphNode(
+                                content =
+                                listOf(
+                                    TextNode(text = "Task 1"),
+                                ),
+                            ),
+                            BulletListNode(
+                                content =
+                                listOf(
+                                    ListItemNode(
+                                        content =
+                                        listOf(
+                                            ParagraphNode(
+                                                content =
+                                                listOf(
+                                                    TextNode(text = "Regular nested item"),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),

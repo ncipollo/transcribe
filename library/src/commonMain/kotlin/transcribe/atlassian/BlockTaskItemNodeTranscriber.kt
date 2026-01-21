@@ -1,26 +1,34 @@
 package transcribe.atlassian
 
 import context.ADFTranscriberContext
+import data.atlassian.adf.BlockTaskItemNode
 import data.atlassian.adf.BulletListNode
-import data.atlassian.adf.ListItemNode
 import data.atlassian.adf.OrderedListNode
 import data.atlassian.adf.TaskListNode
+import data.atlassian.adf.TaskState
 import transcribe.TranscribeResult
 
 /**
- * Transcriber for ListItemNode that converts ADF list item to markdown.
- * Handles item content and nesting. The prefix (- or number) is added by parent list.
+ * Transcriber for BlockTaskItemNode that converts ADF block task item to markdown checkbox.
+ * Handles block content including nested lists. The checkbox prefix is added by parent TaskList.
  */
-class ListItemNodeTranscriber(
+class BlockTaskItemNodeTranscriber(
     private val mapper: ADFNodeMapper,
-) : ADFTranscriber<ListItemNode> {
+) : ADFTranscriber<BlockTaskItemNode> {
     override fun transcribe(
-        input: ListItemNode,
+        input: BlockTaskItemNode,
         context: ADFTranscriberContext,
     ): TranscribeResult<String> {
+        val checkbox =
+            if (input.attrs.state == TaskState.DONE) {
+                "- [x] "
+            } else {
+                "- [ ] "
+            }
+
         val content = input.content
         if (content.isEmpty()) {
-            return TranscribeResult("")
+            return TranscribeResult("$checkbox\n")
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
@@ -34,6 +42,6 @@ class ListItemNodeTranscriber(
         }
         val markdown = results.joinToString("") { it.content }
         val actions = results.flatMap { it.actions }
-        return TranscribeResult(markdown, actions)
+        return TranscribeResult("$checkbox$markdown", actions)
     }
 }

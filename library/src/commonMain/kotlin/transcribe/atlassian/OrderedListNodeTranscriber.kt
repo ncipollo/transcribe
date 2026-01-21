@@ -23,9 +23,19 @@ class OrderedListNodeTranscriber(
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val startOrder = input.attrs?.order ?: 1
         val results = content.map { item -> nodeTranscriber.transcribe(item, context) }
+        val indent = "    ".repeat(context.listLevel)
         val markdown = results.mapIndexed { index, result ->
             val itemNumber = startOrder + index
-            "$itemNumber. ${result.content}"
+            val lines = result.content.trimEnd('\n').lines()
+            lines.mapIndexed { lineIndex, line ->
+                if (lineIndex == 0) {
+                    // First line: add indentation and number marker
+                    "$indent$itemNumber. $line\n"
+                } else {
+                    // Continuation lines: already have proper indentation
+                    "$line\n"
+                }
+            }.joinToString("")
         }.joinToString("")
         val actions = results.flatMap { it.actions }
         return TranscribeResult(markdown, actions)

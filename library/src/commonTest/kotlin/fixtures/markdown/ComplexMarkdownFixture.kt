@@ -11,15 +11,19 @@ The following are bullets:
 - Bullet 1
 - Bullet 2
 - Bullet 3
+    - Sub-bullet 1
+    - Sub-bullet 2
 
 And here we have numeric bullets:
 1. The number one.
 2. The number two
+    1. Sub-bullet
 
 And here's a task list:
 - [ ] Action 1
 - [ ] Action 2
 - [x] Checked
+    - [ ] Sub
 
 # Section 3
 | **Column 1** | **Column 2** | **Column 3** |

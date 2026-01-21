@@ -21,9 +21,28 @@ class TaskListNodeTranscriber(
         }
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
-        val results = content.map { node -> nodeTranscriber.transcribe(node, context) }
-        val markdown = results.joinToString("\n") { it.content }
+        val results = content.map { node ->
+            // Increment level for nested task lists
+            val childContext = when (node) {
+                is TaskListNode -> context.copy(listLevel = context.listLevel + 1)
+                else -> context
+            }
+            nodeTranscriber.transcribe(node, childContext)
+        }
+        val indent = "    ".repeat(context.listLevel)
+        val markdown = results.map { result ->
+            val lines = result.content.trimEnd('\n').lines()
+            lines.mapIndexed { index, line ->
+                if (index == 0) {
+                    // First line: already has checkbox from TaskItemNodeTranscriber, add indentation
+                    "$indent$line\n"
+                } else {
+                    // Continuation lines: already have proper indentation
+                    "$line\n"
+                }
+            }.joinToString("")
+        }.joinToString("")
         val actions = results.flatMap { it.actions }
-        return TranscribeResult("$markdown\n", actions)
+        return TranscribeResult(markdown, actions)
     }
 }
