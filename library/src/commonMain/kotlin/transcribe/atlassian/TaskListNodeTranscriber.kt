@@ -22,7 +22,7 @@ class TaskListNodeTranscriber(
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val results = content.map { node -> nodeTranscriber.transcribe(node, context) }
-        val indent = "    ".repeat(context.level)
+        val indent = "    ".repeat(context.listLevel)
         val markdown = results.map { result ->
             val lines = result.content.trimEnd('\n').lines()
             lines.mapIndexed { index, line ->

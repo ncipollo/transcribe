@@ -27,7 +27,7 @@ class ListItemNodeTranscriber(
         val results = content.map { node ->
             // Increment level for nested lists
             val childContext = when (node) {
-                is BulletListNode, is OrderedListNode, is TaskListNode -> context.copy(level = context.level + 1)
+                is BulletListNode, is OrderedListNode, is TaskListNode -> context.copy(listLevel = context.listLevel + 1)
                 else -> context
             }
             nodeTranscriber.transcribe(node, childContext)

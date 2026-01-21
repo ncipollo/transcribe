@@ -22,7 +22,7 @@ class BulletListNodeTranscriber(
 
         val nodeTranscriber = ADFNodeTranscriber(mapper)
         val results = content.map { item -> nodeTranscriber.transcribe(item, context) }
-        val indent = "    ".repeat(context.level)
+        val indent = "    ".repeat(context.listLevel)
         val markdown = results.joinToString("") { result ->
             val lines = result.content.trimEnd('\n').lines()
             lines.mapIndexed { index, line ->
