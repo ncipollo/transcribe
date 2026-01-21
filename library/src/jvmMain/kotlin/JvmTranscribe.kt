@@ -32,6 +32,18 @@ class JvmTranscribe(
     }
 
     /**
+     * Updates a Confluence page with markdown content by page ID.
+     * Blocks the current thread until the operation completes.
+     */
+    fun updatePageMarkdownByPageId(
+        pageId: String,
+        markdown: String,
+        message: String? = null,
+    ): PageResponse = runBlocking {
+        transcribe.updatePageMarkdownByPageId(pageId, markdown, message)
+    }
+
+    /**
      * Updates a Confluence template with markdown content.
      * Blocks the current thread until the operation completes.
      */

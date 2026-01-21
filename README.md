@@ -92,6 +92,16 @@ val updatedPage = transcribe.updatePageMarkdown(
 
 This converts the Markdown to ADF and updates the page. Returns a `PageResponse` with the updated page metadata.
 
+Alternatively, if you already have the page ID, you can use `updatePageMarkdownByPageId`:
+
+```kotlin
+val updatedPage = transcribe.updatePageMarkdownByPageId(
+    pageId = "123456",
+    markdown = markdown,
+    message = "Updated via Transcribe"  // optional version message
+)
+```
+
 ## Update a Confluence Template
 
 ```kotlin

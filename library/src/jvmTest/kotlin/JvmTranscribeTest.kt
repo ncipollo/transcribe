@@ -92,6 +92,61 @@ class JvmTranscribeTest {
     }
 
     @Test
+    fun updatePageMarkdownByPageId_delegatesToTranscribe() {
+        val pageId = "123"
+        val markdown = "# Updated"
+        val message = "Update message"
+        val expectedResponse = PageResponse(
+            id = "123",
+            status = "current",
+            title = "Test",
+            spaceId = "space-1",
+            authorId = "author-1",
+            createdAt = "2024-01-01T00:00:00Z",
+            version = PageVersion(
+                createdAt = "2024-01-01T00:00:00Z",
+                number = 2,
+                minorEdit = false,
+                authorId = "author-1",
+            ),
+        )
+
+        coEvery { mockTranscribe.updatePageMarkdownByPageId(pageId, markdown, message) } returns expectedResponse
+
+        val result = jvmTranscribe.updatePageMarkdownByPageId(pageId, markdown, message)
+
+        assertEquals(expectedResponse, result)
+        coVerify { mockTranscribe.updatePageMarkdownByPageId(pageId, markdown, message) }
+    }
+
+    @Test
+    fun updatePageMarkdownByPageId_withNullMessage_delegatesToTranscribe() {
+        val pageId = "123"
+        val markdown = "# Updated"
+        val expectedResponse = PageResponse(
+            id = "123",
+            status = "current",
+            title = "Test",
+            spaceId = "space-1",
+            authorId = "author-1",
+            createdAt = "2024-01-01T00:00:00Z",
+            version = PageVersion(
+                createdAt = "2024-01-01T00:00:00Z",
+                number = 2,
+                minorEdit = false,
+                authorId = "author-1",
+            ),
+        )
+
+        coEvery { mockTranscribe.updatePageMarkdownByPageId(pageId, markdown, null) } returns expectedResponse
+
+        val result = jvmTranscribe.updatePageMarkdownByPageId(pageId, markdown)
+
+        assertEquals(expectedResponse, result)
+        coVerify { mockTranscribe.updatePageMarkdownByPageId(pageId, markdown, null) }
+    }
+
+    @Test
     fun updateTemplateMarkdown_delegatesToTranscribe() {
         val templateId = "template-123"
         val markdown = "# Template"

@@ -152,6 +152,24 @@ class Transcribe(
     }
 
     /**
+     * Updates a Confluence page with markdown content by page ID.
+     * Converts the markdown to ADF format and updates the page.
+     *
+     * @param pageId The Confluence page ID
+     * @param markdown The markdown content to update the page with
+     * @param message Optional version message for the update
+     * @return The updated page response
+     * @throws IllegalStateException if markdown transcription fails or page cannot be updated
+     */
+    suspend fun updatePageMarkdownByPageId(
+        pageId: String,
+        markdown: String,
+        message: String? = null,
+    ): PageResponse {
+        return pageMarkdownUpdateFeature.update(pageId, markdown, message)
+    }
+
+    /**
      * Updates a Confluence template with markdown content.
      * Converts the markdown to ADF format and updates the template.
      *
