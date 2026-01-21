@@ -12,7 +12,24 @@ object ComplexADFDocumentFixture {
             },
             "content": [
                 {
-                    "text": "This content exists outside of a section.",
+                    "text": "This content exists outside of a ",
+                    "type": "text"
+                },
+                {
+                    "text": "section",
+                    "type": "text",
+                    "marks": [
+                        {
+                            "type": "annotation",
+                            "attrs": {
+                                "annotationType": "inlineComment",
+                                "id": "b92adc36-7017-49ec-8123-70cb348e8867"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "text": ".",
                     "type": "text"
                 }
             ]
@@ -116,7 +133,7 @@ object ComplexADFDocumentFixture {
                 {
                     "type": "listItem",
                     "attrs": {
-                        "localId": "08b6caa8-f214-4ff0-9031-a9440c18115a"
+                        "localId": "5c54aa3c-3505-4b8a-a5e7-2eb91dd24b05"
                     },
                     "content": [
                         {
@@ -126,7 +143,20 @@ object ComplexADFDocumentFixture {
                             },
                             "content": [
                                 {
-                                    "text": "Bullet 3",
+                                    "text": "Bullet",
+                                    "type": "text",
+                                    "marks": [
+                                        {
+                                            "type": "annotation",
+                                            "attrs": {
+                                                "annotationType": "inlineComment",
+                                                "id": "028f6fa8-d4ed-463f-8264-87ec9d84ddb4"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "text": " 3",
                                     "type": "text"
                                 }
                             ]
@@ -134,19 +164,19 @@ object ComplexADFDocumentFixture {
                         {
                             "type": "bulletList",
                             "attrs": {
-                                "localId": "nested-bullet-1"
+                                "localId": "1692ac72-1448-49d6-a088-a4a928bd885e"
                             },
                             "content": [
                                 {
                                     "type": "listItem",
                                     "attrs": {
-                                        "localId": "nested-bullet-1-item-1"
+                                        "localId": "08b6caa8-f214-4ff0-9031-a9440c18115a"
                                     },
                                     "content": [
                                         {
                                             "type": "paragraph",
                                             "attrs": {
-                                                "localId": "nested-bullet-1-para-1"
+                                                "localId": "d88bc47d-c7af-45b7-920c-4682dd95cc21"
                                             },
                                             "content": [
                                                 {
@@ -160,13 +190,13 @@ object ComplexADFDocumentFixture {
                                 {
                                     "type": "listItem",
                                     "attrs": {
-                                        "localId": "nested-bullet-1-item-2"
+                                        "localId": "2c086b4b-7fea-4ed5-b809-4733f889a089"
                                     },
                                     "content": [
                                         {
                                             "type": "paragraph",
                                             "attrs": {
-                                                "localId": "nested-bullet-1-para-2"
+                                                "localId": "7fecab11-d1a8-4163-8ddc-9a1ac822732d"
                                             },
                                             "content": [
                                                 {
@@ -245,6 +275,35 @@ object ComplexADFDocumentFixture {
                                     "type": "text"
                                 }
                             ]
+                        },
+                        {
+                            "type": "orderedList",
+                            "attrs": {
+                                "localId": "dc17f419-8cdd-43a8-af22-dc524df2a0a9",
+                                "order": 1
+                            },
+                            "content": [
+                                {
+                                    "type": "listItem",
+                                    "attrs": {
+                                        "localId": "970b0466-0bb3-4f9c-a1f8-6c68bd0c3953"
+                                    },
+                                    "content": [
+                                        {
+                                            "type": "paragraph",
+                                            "attrs": {
+                                                "localId": "c62e7c3e-d4dd-4400-b27d-1cd8eff5d199"
+                                            },
+                                            "content": [
+                                                {
+                                                    "text": "Sub-bullet",
+                                                    "type": "text"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 }
@@ -301,55 +360,34 @@ object ComplexADFDocumentFixture {
                     ]
                 },
                 {
-                    "type": "blockTaskItem",
+                    "type": "taskItem",
                     "attrs": {
                         "state": "DONE",
                         "localId": "b4542707-b290-444b-8257-b912e2a73163"
                     },
                     "content": [
                         {
-                            "type": "paragraph",
-                            "attrs": {
-                                "localId": "checked-para"
-                            },
-                            "content": [
-                                {
-                                    "text": "Checked",
-                                    "type": "text"
-                                }
-                            ]
-                        },
+                            "text": "Checked",
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "type": "taskList",
+                    "attrs": {
+                        "localId": "28c928cb-1be2-490c-9594-ebcb7e2d9473"
+                    },
+                    "content": [
                         {
-                            "type": "taskList",
+                            "type": "taskItem",
                             "attrs": {
-                                "localId": "nested-task-1"
+                                "state": "TODO",
+                                "localId": "28f9003a-67f3-45bb-9b37-a248a0020f7b"
                             },
                             "content": [
                                 {
-                                    "type": "taskItem",
-                                    "attrs": {
-                                        "state": "TODO",
-                                        "localId": "nested-task-1-item-1"
-                                    },
-                                    "content": [
-                                        {
-                                            "text": "Sub 1",
-                                            "type": "text"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "taskItem",
-                                    "attrs": {
-                                        "state": "DONE",
-                                        "localId": "nested-task-1-item-2"
-                                    },
-                                    "content": [
-                                        {
-                                            "text": "Sub 2",
-                                            "type": "text"
-                                        }
-                                    ]
+                                    "text": "Sub",
+                                    "type": "text"
                                 }
                             ]
                         }
@@ -799,6 +837,15 @@ object ComplexADFDocumentFixture {
                 "language": "swift",
                 "localId": "1a7bc7ab-a7c5-4716-abb5-301837c37ca3"
             },
+            "marks": [
+                {
+                    "type": "breakout",
+                    "attrs": {
+                        "mode": "wide",
+                        "width": 760
+                    }
+                }
+            ],
             "content": [
                 {
                     "text": "let thing = MyThing()\nuse(thing)",
@@ -812,6 +859,15 @@ object ComplexADFDocumentFixture {
                 "title": "Collapse",
                 "localId": "a6f8b8b1-de19-4669-a51b-9bf0d6e26b57"
             },
+            "marks": [
+                {
+                    "type": "breakout",
+                    "attrs": {
+                        "mode": "wide",
+                        "width": 760
+                    }
+                }
+            ],
             "content": [
                 {
                     "type": "bulletList",

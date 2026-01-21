@@ -17,13 +17,13 @@ The following are bullets:
 And here we have numeric bullets:
 1. The number one.
 2. The number two
+    1. Sub-bullet
 
 And here's a task list:
 - [ ] Action 1
 - [ ] Action 2
 - [x] Checked
-    - [ ] Sub 1
-    - [x] Sub 2
+    - [ ] Sub
 
 # Section 3
 | **Column 1** | **Column 2** | **Column 3** |
