@@ -130,6 +130,54 @@ object ComplexADFDocumentFixture {
                                     "type": "text"
                                 }
                             ]
+                        },
+                        {
+                            "type": "bulletList",
+                            "attrs": {
+                                "localId": "nested-bullet-1"
+                            },
+                            "content": [
+                                {
+                                    "type": "listItem",
+                                    "attrs": {
+                                        "localId": "nested-bullet-1-item-1"
+                                    },
+                                    "content": [
+                                        {
+                                            "type": "paragraph",
+                                            "attrs": {
+                                                "localId": "nested-bullet-1-para-1"
+                                            },
+                                            "content": [
+                                                {
+                                                    "text": "Sub-bullet 1",
+                                                    "type": "text"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "listItem",
+                                    "attrs": {
+                                        "localId": "nested-bullet-1-item-2"
+                                    },
+                                    "content": [
+                                        {
+                                            "type": "paragraph",
+                                            "attrs": {
+                                                "localId": "nested-bullet-1-para-2"
+                                            },
+                                            "content": [
+                                                {
+                                                    "text": "Sub-bullet 2",
+                                                    "type": "text"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 }
@@ -253,15 +301,57 @@ object ComplexADFDocumentFixture {
                     ]
                 },
                 {
-                    "type": "taskItem",
+                    "type": "blockTaskItem",
                     "attrs": {
                         "state": "DONE",
                         "localId": "b4542707-b290-444b-8257-b912e2a73163"
                     },
                     "content": [
                         {
-                            "text": "Checked",
-                            "type": "text"
+                            "type": "paragraph",
+                            "attrs": {
+                                "localId": "checked-para"
+                            },
+                            "content": [
+                                {
+                                    "text": "Checked",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "taskList",
+                            "attrs": {
+                                "localId": "nested-task-1"
+                            },
+                            "content": [
+                                {
+                                    "type": "taskItem",
+                                    "attrs": {
+                                        "state": "TODO",
+                                        "localId": "nested-task-1-item-1"
+                                    },
+                                    "content": [
+                                        {
+                                            "text": "Sub 1",
+                                            "type": "text"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "taskItem",
+                                    "attrs": {
+                                        "state": "DONE",
+                                        "localId": "nested-task-1-item-2"
+                                    },
+                                    "content": [
+                                        {
+                                            "text": "Sub 2",
+                                            "type": "text"
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 }

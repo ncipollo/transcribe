@@ -1,6 +1,7 @@
 package transcribe.atlassian
 
 import context.ADFTranscriberContext
+import data.atlassian.adf.BulletListNode
 import data.atlassian.adf.ListItemNode
 import data.atlassian.adf.OrderedListAttrs
 import data.atlassian.adf.OrderedListNode
@@ -64,6 +65,76 @@ class OrderedListNodeTranscriberTest {
         val node = OrderedListNode(content = emptyList())
         val result = transcriber.transcribe(node, context)
         val expected = TranscribeResult("")
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun transcribe_withNestedOrderedList() {
+        val node =
+            OrderedListNode(
+                content =
+                listOf(
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "First"))),
+                            OrderedListNode(
+                                content =
+                                listOf(
+                                    ListItemNode(
+                                        content =
+                                        listOf(
+                                            ParagraphNode(content = listOf(TextNode(text = "Sub-first"))),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            )
+        val result = transcriber.transcribe(node, context)
+
+        val expected =
+            TranscribeResult(
+                "1. First\n" +
+                    "    1. Sub-first\n",
+            )
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun transcribe_withMixedNestedLists() {
+        val node =
+            OrderedListNode(
+                content =
+                listOf(
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "Ordered item"))),
+                            BulletListNode(
+                                content =
+                                listOf(
+                                    ListItemNode(
+                                        content =
+                                        listOf(
+                                            ParagraphNode(content = listOf(TextNode(text = "Bullet subitem"))),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            )
+        val result = transcriber.transcribe(node, context)
+
+        val expected =
+            TranscribeResult(
+                "1. Ordered item\n" +
+                    "    - Bullet subitem\n",
+            )
         assertEquals(expected, result)
     }
 }

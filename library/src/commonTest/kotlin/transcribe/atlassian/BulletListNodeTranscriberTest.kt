@@ -45,4 +45,100 @@ class BulletListNodeTranscriberTest {
         val expected = TranscribeResult("")
         assertEquals(expected, result)
     }
+
+    @Test
+    fun transcribe_withNestedList() {
+        val node =
+            BulletListNode(
+                content =
+                listOf(
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "Item 1"))),
+                            BulletListNode(
+                                content =
+                                listOf(
+                                    ListItemNode(
+                                        content =
+                                        listOf(
+                                            ParagraphNode(content = listOf(TextNode(text = "Subitem 1a"))),
+                                        ),
+                                    ),
+                                    ListItemNode(
+                                        content =
+                                        listOf(
+                                            ParagraphNode(content = listOf(TextNode(text = "Subitem 1b"))),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "Item 2"))),
+                        ),
+                    ),
+                ),
+            )
+        val result = transcriber.transcribe(node, context)
+
+        val expected =
+            TranscribeResult(
+                "- Item 1\n" +
+                    "    - Subitem 1a\n" +
+                    "    - Subitem 1b\n" +
+                    "- Item 2\n",
+            )
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun transcribe_withDeeplyNestedLists() {
+        val node =
+            BulletListNode(
+                content =
+                listOf(
+                    ListItemNode(
+                        content =
+                        listOf(
+                            ParagraphNode(content = listOf(TextNode(text = "Level 0"))),
+                            BulletListNode(
+                                content =
+                                listOf(
+                                    ListItemNode(
+                                        content =
+                                        listOf(
+                                            ParagraphNode(content = listOf(TextNode(text = "Level 1"))),
+                                            BulletListNode(
+                                                content =
+                                                listOf(
+                                                    ListItemNode(
+                                                        content =
+                                                        listOf(
+                                                            ParagraphNode(content = listOf(TextNode(text = "Level 2"))),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            )
+        val result = transcriber.transcribe(node, context)
+
+        val expected =
+            TranscribeResult(
+                "- Level 0\n" +
+                    "    - Level 1\n" +
+                    "        - Level 2\n",
+            )
+        assertEquals(expected, result)
+    }
 }
