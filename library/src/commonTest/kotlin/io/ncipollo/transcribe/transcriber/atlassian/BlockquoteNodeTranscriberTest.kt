@@ -1,0 +1,47 @@
+package io.ncipollo.transcribe.transcriber.atlassian
+
+import io.ncipollo.transcribe.context.ADFTranscriberContext
+import io.ncipollo.transcribe.data.atlassian.adf.BlockquoteNode
+import io.ncipollo.transcribe.data.atlassian.adf.ParagraphNode
+import io.ncipollo.transcribe.data.atlassian.adf.TextNode
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class BlockquoteNodeTranscriberTest {
+    private val transcriber = BlockquoteNodeTranscriber(defaultADFNodeMapper())
+    private val context = ADFTranscriberContext()
+
+    @Test
+    fun transcribe_withContent() {
+        val node =
+            BlockquoteNode(
+                content =
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "Quoted text"))),
+                ),
+            )
+        val result = transcriber.transcribe(node, context)
+        assertEquals("> Quoted text", result.content)
+    }
+
+    @Test
+    fun transcribe_emptyContent() {
+        val node = BlockquoteNode(content = emptyList())
+        val result = transcriber.transcribe(node, context)
+        assertEquals("", result.content)
+    }
+
+    @Test
+    fun transcribe_multipleParagraphs() {
+        val node =
+            BlockquoteNode(
+                content =
+                listOf(
+                    ParagraphNode(content = listOf(TextNode(text = "First"))),
+                    ParagraphNode(content = listOf(TextNode(text = "Second"))),
+                ),
+            )
+        val result = transcriber.transcribe(node, context)
+        assertEquals("> First\n> Second", result.content)
+    }
+}

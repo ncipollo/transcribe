@@ -1,0 +1,43 @@
+package io.ncipollo.transcribe.transcriber.atlassian
+
+import io.ncipollo.transcribe.context.ADFTranscriberContext
+import io.ncipollo.transcribe.data.atlassian.adf.OrderedListNode
+import io.ncipollo.transcribe.transcriber.TranscribeResult
+
+/**
+ * Transcriber for OrderedListNode that converts ADF ordered list to markdown.
+ * Outputs numbered items (1., 2., etc.), starting from order attribute if present.
+ */
+class OrderedListNodeTranscriber(
+    private val mapper: ADFNodeMapper,
+) : ADFTranscriber<OrderedListNode> {
+    override fun transcribe(
+        input: OrderedListNode,
+        context: ADFTranscriberContext,
+    ): TranscribeResult<String> {
+        val content = input.content
+        if (content.isEmpty()) {
+            return TranscribeResult("")
+        }
+
+        val nodeTranscriber = ADFNodeTranscriber(mapper)
+        val startOrder = input.attrs?.order ?: 1
+        val results = content.map { item -> nodeTranscriber.transcribe(item, context) }
+        val indent = "    ".repeat(context.listLevel)
+        val markdown = results.mapIndexed { index, result ->
+            val itemNumber = startOrder + index
+            val lines = result.content.trimEnd('\n').lines()
+            lines.mapIndexed { lineIndex, line ->
+                if (lineIndex == 0) {
+                    // First line: add indentation and number marker
+                    "$indent$itemNumber. $line\n"
+                } else {
+                    // Continuation lines: already have proper indentation
+                    "$line\n"
+                }
+            }.joinToString("")
+        }.joinToString("")
+        val actions = results.flatMap { it.actions }
+        return TranscribeResult(markdown, actions)
+    }
+}
