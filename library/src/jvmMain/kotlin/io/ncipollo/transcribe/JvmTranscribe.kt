@@ -3,15 +3,16 @@ package io.ncipollo.transcribe
 import io.ncipollo.transcribe.api.atlassian.PageResponse
 import io.ncipollo.transcribe.api.atlassian.TemplateResponse
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json.Default.configuration
 
 /**
  * JVM-friendly wrapper for Transcribe that provides blocking versions of suspend functions.
  * Use this class when calling from Java or when blocking behavior is acceptable.
  */
-class JvmTranscribe(
+class JvmTranscribe @JvmOverloads constructor(
     configuration: TranscribeConfiguration = TranscribeConfiguration(),
-    private val transcribe: Transcribe = Transcribe(configuration),
 ) {
+    private val transcribe: Transcribe = Transcribe(configuration)
 
     /**
      * Fetches a Confluence page by URL and returns its content as Markdown.
@@ -19,6 +20,14 @@ class JvmTranscribe(
      */
     fun getPageMarkdown(url: String): PageMarkdownResult = runBlocking {
         transcribe.getPageMarkdown(url)
+    }
+
+    /**
+     * Fetches a Confluence page by page ID and returns its content as Markdown.
+     * Blocks the current thread until the operation completes.
+     */
+    fun getPageMarkdownByPageId(pageId: String): PageMarkdownResult = runBlocking {
+        transcribe.getPageMarkdownByPageId(pageId)
     }
 
     /**

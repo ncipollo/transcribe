@@ -17,10 +17,16 @@ import kotlin.test.assertEquals
 
 class JvmTranscribeTest {
     private val mockTranscribe = mockk<Transcribe>()
+    private val mockConfiguration = mockk<TranscribeConfiguration>()
 
     private val jvmTranscribe = JvmTranscribe(
-        transcribe = mockTranscribe,
-    )
+        configuration = mockConfiguration,
+    ).apply {
+        // Use reflection to inject the mock
+        val transcribeField = JvmTranscribe::class.java.getDeclaredField("transcribe")
+        transcribeField.isAccessible = true
+        transcribeField.set(this, mockTranscribe)
+    }
 
     @Test
     fun getPageMarkdown_delegatesToTranscribe() {
@@ -36,6 +42,22 @@ class JvmTranscribeTest {
 
         assertEquals(expectedResult, result)
         coVerify { mockTranscribe.getPageMarkdown(url) }
+    }
+
+    @Test
+    fun getPageMarkdownByPageId_delegatesToTranscribe() {
+        val pageId = "123"
+        val expectedResult = PageMarkdownResult(
+            markdown = "# Test",
+            commentResult = CommentResult(),
+        )
+
+        coEvery { mockTranscribe.getPageMarkdownByPageId(pageId) } returns expectedResult
+
+        val result = jvmTranscribe.getPageMarkdownByPageId(pageId)
+
+        assertEquals(expectedResult, result)
+        coVerify { mockTranscribe.getPageMarkdownByPageId(pageId) }
     }
 
     @Test
