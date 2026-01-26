@@ -8,7 +8,11 @@ data class ADFTranscriberContext(
     val attachmentContext: AttachmentContext = AttachmentContext(),
     val listLevel: Int = 0,
 ) {
+    val suggestedDocumentName: String by lazy {
+        pageContext.title.dropExtension().toSnakeCase()
+    }
+
     val suggestedImageFolder: String by lazy {
-        pageContext.title.dropExtension().toSnakeCase().takeUnless { it.isBlank() } ?: "images"
+        suggestedDocumentName.takeUnless { it.isBlank() } ?: "images"
     }
 }
