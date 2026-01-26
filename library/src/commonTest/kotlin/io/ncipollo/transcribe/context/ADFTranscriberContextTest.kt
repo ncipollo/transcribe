@@ -5,6 +5,39 @@ import kotlin.test.assertEquals
 
 class ADFTranscriberContextTest {
     @Test
+    fun suggestedDocumentName_titleCase() {
+        val context = ADFTranscriberContext(
+            pageContext = PageContext(title = "Title Case"),
+        )
+
+        val result = context.suggestedDocumentName
+
+        assertEquals("title_case", result)
+    }
+
+    @Test
+    fun suggestedDocumentName_emptyTitle() {
+        val context = ADFTranscriberContext(
+            pageContext = PageContext(title = ""),
+        )
+
+        val result = context.suggestedDocumentName
+
+        assertEquals("", result)
+    }
+
+    @Test
+    fun suggestedDocumentName_withExtension() {
+        val context = ADFTranscriberContext(
+            pageContext = PageContext(title = "This.txt"),
+        )
+
+        val result = context.suggestedDocumentName
+
+        assertEquals("this", result)
+    }
+
+    @Test
     fun suggestedImageFolder_emptyTitle() {
         val context = ADFTranscriberContext(
             pageContext = PageContext(title = ""),

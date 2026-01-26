@@ -80,6 +80,7 @@ class PageMarkdownFetchFeatureTest {
         assertEquals(emptyList(), result.attachmentResults)
         assertEquals("2024-01-01T00:00:00Z", result.metadata.createdAt)
         assertEquals(0, result.metadata.totalCommentCount)
+        assertEquals("test_page", result.metadata.suggestedDocumentName)
 
         coVerify { pageApiClient.getPage(pageId) }
         coVerify { attachmentApiClient.getPageAttachments(pageId) }

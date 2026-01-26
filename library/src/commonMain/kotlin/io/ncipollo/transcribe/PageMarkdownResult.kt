@@ -6,6 +6,7 @@ import io.ncipollo.transcribe.transcriber.comment.CommentResult
 data class PageMetadata(
     val createdAt: String? = null,
     val totalCommentCount: Int = 0,
+    val suggestedDocumentName: String = "",
 )
 
 data class PageMarkdownResult(

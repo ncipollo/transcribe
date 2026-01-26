@@ -84,6 +84,7 @@ class PageMarkdownFetchFeature(
             metadata = PageMetadata(
                 createdAt = page.createdAt,
                 totalCommentCount = commentResult.totalCommentCount(),
+                suggestedDocumentName = context.suggestedDocumentName.takeUnless { it.isBlank() } ?: "document",
             ),
         )
     }
