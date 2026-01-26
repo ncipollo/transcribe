@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json.Default.configuration
  * JVM-friendly wrapper for Transcribe that provides blocking versions of suspend functions.
  * Use this class when calling from Java or when blocking behavior is acceptable.
  */
-class JvmTranscribe @JvmOverloads constructor(
+open class JvmTranscribe @JvmOverloads constructor(
     configuration: TranscribeConfiguration = TranscribeConfiguration(),
 ) {
     private val transcribe: Transcribe = Transcribe(configuration)
@@ -18,7 +18,7 @@ class JvmTranscribe @JvmOverloads constructor(
      * Fetches a Confluence page by URL and returns its content as Markdown.
      * Blocks the current thread until the operation completes.
      */
-    fun getPageMarkdown(url: String): PageMarkdownResult = runBlocking {
+    open fun getPageMarkdown(url: String): PageMarkdownResult = runBlocking {
         transcribe.getPageMarkdown(url)
     }
 
@@ -26,7 +26,7 @@ class JvmTranscribe @JvmOverloads constructor(
      * Fetches a Confluence page by page ID and returns its content as Markdown.
      * Blocks the current thread until the operation completes.
      */
-    fun getPageMarkdownByPageId(pageId: String): PageMarkdownResult = runBlocking {
+    open fun getPageMarkdownByPageId(pageId: String): PageMarkdownResult = runBlocking {
         transcribe.getPageMarkdownByPageId(pageId)
     }
 
@@ -34,7 +34,7 @@ class JvmTranscribe @JvmOverloads constructor(
      * Updates a Confluence page with markdown content.
      * Blocks the current thread until the operation completes.
      */
-    fun updatePageMarkdown(
+    open fun updatePageMarkdown(
         url: String,
         markdown: String,
         message: String? = null,
@@ -46,7 +46,7 @@ class JvmTranscribe @JvmOverloads constructor(
      * Updates a Confluence page with markdown content by page ID.
      * Blocks the current thread until the operation completes.
      */
-    fun updatePageMarkdownByPageId(
+    open fun updatePageMarkdownByPageId(
         pageId: String,
         markdown: String,
         message: String? = null,
@@ -58,7 +58,7 @@ class JvmTranscribe @JvmOverloads constructor(
      * Updates a Confluence template with markdown content.
      * Blocks the current thread until the operation completes.
      */
-    fun updateTemplateMarkdown(
+    open fun updateTemplateMarkdown(
         templateId: String,
         markdown: String,
         name: String,
@@ -70,7 +70,7 @@ class JvmTranscribe @JvmOverloads constructor(
     /**
      * Closes the underlying HTTP clients and releases resources.
      */
-    fun close() {
+    open fun close() {
         transcribe.close()
     }
 }
