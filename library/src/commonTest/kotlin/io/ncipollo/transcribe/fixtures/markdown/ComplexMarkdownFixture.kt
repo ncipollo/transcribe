@@ -60,7 +60,7 @@ use(thing)
 - 🔴 Status 2 text after
 
 # Section 7
-![Untitled Diagram-1766526257160.drawio](images/untitled_diagram-1766526257160.drawio)
+![Untitled Diagram-1766526257160.drawio](images/untitled_diagram-1766526257160.drawio.png)
 
 # Section 8
 *This text has* `lots` *of* ***marks*** *applied to it.*
