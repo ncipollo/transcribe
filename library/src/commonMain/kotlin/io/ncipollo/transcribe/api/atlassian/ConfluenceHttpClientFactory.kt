@@ -4,9 +4,11 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.plugin
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
@@ -40,7 +42,6 @@ object ConfluenceHttpClientFactory {
         val clientConfig: HttpClientConfig<*>.() -> Unit = {
             install(DefaultRequest) {
                 url(baseUrl)
-                header(HttpHeaders.Authorization, authHeader)
             }
 
             install(ContentNegotiation) {
@@ -61,10 +62,22 @@ object ConfluenceHttpClientFactory {
             }
         }
 
-        return if (httpClientEngine != null) {
+        val client = if (httpClientEngine != null) {
             HttpClient(httpClientEngine, clientConfig)
         } else {
             HttpClient(clientConfig)
         }
+
+        // Configure HttpSend to preserve Authorization header on requests to our Atlassian domain
+        val allowedHost = "$siteName.atlassian.net"
+        client.plugin(HttpSend).intercept { request ->
+            val requestHost = request.url.host
+            if (requestHost == allowedHost) {
+                request.headers[HttpHeaders.Authorization] = authHeader
+            }
+            execute(request)
+        }
+
+        return client
     }
 }
