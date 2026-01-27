@@ -71,11 +71,11 @@ class DrawioExtensionTranscriberTest {
                 ),
             )
         val expected = TranscribeResult(
-            content = "![draw.io Diagram](test_page/diagram_name.drawio)\n",
+            content = "![draw.io Diagram](test_page/diagram_name.drawio.png)\n",
             actions = listOf(
                 AttachmentDownload(
                     downloadPath = "https://example.com/diagram.drawio",
-                    localRelativePath = "test_page/diagram_name.drawio",
+                    localRelativePath = "test_page/diagram_name.drawio.png",
                 ),
             ),
         )
@@ -129,11 +129,11 @@ class DrawioExtensionTranscriberTest {
                 ),
             )
         val expected = TranscribeResult(
-            content = "![](test_page/my_diagram.drawio)\n",
+            content = "![](test_page/my_diagram.drawio.png)\n",
             actions = listOf(
                 AttachmentDownload(
                     downloadPath = "https://example.com/my_diagram.drawio",
-                    localRelativePath = "test_page/my_diagram.drawio",
+                    localRelativePath = "test_page/my_diagram.drawio.png",
                 ),
             ),
         )

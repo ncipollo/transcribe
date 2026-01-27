@@ -61,7 +61,8 @@ class DrawioExtensionTranscriber : ADFTranscriber<ExtensionNode> {
 
     private fun imagePath(context: ADFTranscriberContext, diagramName: String): String {
         val folder = context.suggestedImageFolder
-        return "$folder/${diagramName.toSnakeCase()}"
+        val path = "$folder/${diagramName.toSnakeCase()}"
+        return if (path.endsWith(".png")) path else "$path.png"
     }
 
     private fun downloadAction(imagePath: String, downloadUrl: String): AttachmentDownload {
