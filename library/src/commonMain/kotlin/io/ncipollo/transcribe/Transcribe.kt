@@ -83,6 +83,7 @@ class Transcribe(
             commentTransformer = commentTransformer,
             actionHandler = actionHandler,
             toMarkdownTransformer = configuration.toMarkdownTransformer,
+            siteName = configuration.confluenceConfiguration.siteName,
         )
     }
 

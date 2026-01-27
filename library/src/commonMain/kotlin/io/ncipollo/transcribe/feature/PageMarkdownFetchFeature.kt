@@ -33,6 +33,7 @@ class PageMarkdownFetchFeature(
     private val commentTransformer: CommentTransformer,
     private val actionHandler: ActionHandler,
     private val toMarkdownTransformer: ADFTransformer<ADFTranscriberContext>,
+    private val siteName: String,
 ) {
     /**
      * Fetches a Confluence page by ID and returns its content as Markdown.
@@ -65,6 +66,7 @@ class PageMarkdownFetchFeature(
         val context = ADFTranscriberContext(
             pageContext = PageContext.fromPageResponse(page),
             attachmentContext = AttachmentContext.from(attachments),
+            baseWikiUrl = "https://$siteName.atlassian.net/wiki",
         )
         val transformedContent = toMarkdownTransformer.transform(adfBody.content, context)
         val transformedDocNode = adfBody.copy(content = transformedContent)

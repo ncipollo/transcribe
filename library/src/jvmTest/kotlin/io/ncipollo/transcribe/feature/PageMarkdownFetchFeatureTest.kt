@@ -39,6 +39,7 @@ class PageMarkdownFetchFeatureTest {
         commentTransformer = commentTransformer,
         actionHandler = actionHandler,
         toMarkdownTransformer = toMarkdownTransformer,
+        siteName = "test-site",
     )
 
     @Test

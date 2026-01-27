@@ -25,10 +25,15 @@ class MediaSingleNodeTranscriber : ADFTranscriber<MediaSingleNode> {
             ?: return TranscribeResult("")
 
         val downloadLink = attachment.downloadLink ?: return TranscribeResult("")
+        val fullDownloadLink = if (downloadLink.startsWith("/") && context.baseWikiUrl.isNotEmpty()) {
+            "${context.baseWikiUrl}$downloadLink"
+        } else {
+            downloadLink
+        }
 
         val altText = mediaNode.attrs.alt ?: ""
         val imagePath = imagePath(context, attachment)
-        val action = downloadAction(imagePath, downloadLink)
+        val action = downloadAction(imagePath, fullDownloadLink)
 
         return TranscribeResult("![$altText]($imagePath)\n", listOf(action))
     }
