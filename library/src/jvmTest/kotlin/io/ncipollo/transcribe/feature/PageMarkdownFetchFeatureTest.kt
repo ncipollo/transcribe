@@ -5,6 +5,7 @@ import io.ncipollo.transcribe.api.atlassian.AttachmentAPIClient
 import io.ncipollo.transcribe.api.atlassian.CommentAPIClient
 import io.ncipollo.transcribe.api.atlassian.PageAPIClient
 import io.ncipollo.transcribe.api.atlassian.PageBody
+import io.ncipollo.transcribe.api.atlassian.PageLinks
 import io.ncipollo.transcribe.api.atlassian.PageResponse
 import io.ncipollo.transcribe.api.atlassian.PageVersion
 import io.ncipollo.transcribe.context.ADFTranscriberContext
@@ -63,6 +64,7 @@ class PageMarkdownFetchFeatureTest {
             body = PageBody(
                 atlasDocFormat = AtlasDocFormat(value = adfJson),
             ),
+            links = PageLinks(webui = "/spaces/space-1/pages/page-123/Test+Page"),
         )
 
         val transcribeResult = TranscribeResult(content = "# Test", actions = emptyList())
@@ -82,11 +84,90 @@ class PageMarkdownFetchFeatureTest {
         assertEquals("2024-01-01T00:00:00Z", result.metadata.createdAt)
         assertEquals(0, result.metadata.totalCommentCount)
         assertEquals("test_page", result.metadata.suggestedDocumentName)
+        assertEquals("https://test-site.atlassian.net/wiki/spaces/space-1/pages/page-123/Test+Page", result.metadata.pageUrl)
 
         coVerify { pageApiClient.getPage(pageId) }
         coVerify { attachmentApiClient.getPageAttachments(pageId) }
         coVerify { commentApiClient.getPageFooterComments(pageId) }
         coVerify { commentApiClient.getPageInlineComments(pageId) }
+    }
+
+    @Test
+    fun fetch_withNullLinks_setsPageUrlToNull() = runBlocking {
+        val pageId = "page-123"
+        val adfJson = """{"type":"doc","version":1,"content":[]}"""
+
+        val page = PageResponse(
+            id = pageId,
+            status = "current",
+            title = "Test Page",
+            spaceId = "space-1",
+            authorId = "author-1",
+            createdAt = "2024-01-01T00:00:00Z",
+            version = PageVersion(
+                createdAt = "2024-01-01T00:00:00Z",
+                number = 1,
+                minorEdit = false,
+                authorId = "author-1",
+            ),
+            body = PageBody(
+                atlasDocFormat = AtlasDocFormat(value = adfJson),
+            ),
+            links = null,
+        )
+
+        val transcribeResult = TranscribeResult(content = "# Test", actions = emptyList())
+
+        coEvery { pageApiClient.getPage(pageId) } returns page
+        coEvery { attachmentApiClient.getPageAttachments(pageId) } returns emptyList()
+        coEvery { commentApiClient.getPageFooterComments(pageId) } returns emptyList()
+        coEvery { commentApiClient.getPageInlineComments(pageId) } returns emptyList()
+        every { toMarkdownTransformer.transform(any(), any()) } returns emptyList()
+        every { transcriber.transcribe(any<DocNode>(), any()) } returns transcribeResult
+        coEvery { actionHandler.handleActions(emptyList()) } returns emptyList()
+
+        val result = feature.fetch(pageId)
+
+        assertEquals(null, result.metadata.pageUrl)
+    }
+
+    @Test
+    fun fetch_withNullWebui_setsPageUrlToNull() = runBlocking {
+        val pageId = "page-123"
+        val adfJson = """{"type":"doc","version":1,"content":[]}"""
+
+        val page = PageResponse(
+            id = pageId,
+            status = "current",
+            title = "Test Page",
+            spaceId = "space-1",
+            authorId = "author-1",
+            createdAt = "2024-01-01T00:00:00Z",
+            version = PageVersion(
+                createdAt = "2024-01-01T00:00:00Z",
+                number = 1,
+                minorEdit = false,
+                authorId = "author-1",
+            ),
+            body = PageBody(
+                atlasDocFormat = AtlasDocFormat(value = adfJson),
+            ),
+            links = PageLinks(webui = null),
+        )
+
+        val transcribeResult = TranscribeResult(content = "# Test", actions = emptyList())
+
+        coEvery { pageApiClient.getPage(pageId) } returns page
+        coEvery { attachmentApiClient.getPageAttachments(pageId) } returns emptyList()
+        coEvery { commentApiClient.getPageFooterComments(pageId) } returns emptyList()
+        coEvery { commentApiClient.getPageInlineComments(pageId) } returns emptyList()
+        every { toMarkdownTransformer.transform(any(), any()) } returns emptyList()
+        every { transcriber.transcribe(any<DocNode>(), any()) } returns transcribeResult
+        coEvery { actionHandler.handleActions(emptyList()) } returns emptyList()
+
+        val result = feature.fetch(pageId)
+
+        assertEquals(null, result.metadata.pageUrl)
     }
 
     @Test
