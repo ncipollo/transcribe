@@ -7,6 +7,7 @@ data class PageMetadata(
     val createdAt: String? = null,
     val totalCommentCount: Int = 0,
     val suggestedDocumentName: String = "",
+    val pageUrl: String? = null,
 )
 
 data class PageMarkdownResult(
