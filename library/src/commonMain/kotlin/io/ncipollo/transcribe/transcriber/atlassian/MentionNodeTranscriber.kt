@@ -14,6 +14,6 @@ class MentionNodeTranscriber : ADFTranscriber<MentionNode> {
         context: ADFTranscriberContext,
     ): TranscribeResult<String> {
         val username = input.attrs.text ?: input.attrs.id
-        return TranscribeResult("@$username")
+        return TranscribeResult(username)
     }
 }
