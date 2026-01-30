@@ -56,8 +56,8 @@ use(thing)
 <summary>Collapse</summary>
 - Content which is kinda hidden.
 </details>
-- 🔵 Status 1
-- 🔴 Status 2 text after
+- 🔵 STATUS 1
+- 🔴 STATUS 2 text after
 
 # Section 7
 ![Untitled Diagram-1766526257160.drawio](images/untitled_diagram-1766526257160.drawio.png)

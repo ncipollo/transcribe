@@ -23,6 +23,6 @@ class StatusNodeTranscriber : ADFTranscriber<StatusNode> {
                 StatusColor.PURPLE -> "🟣"
                 StatusColor.NEUTRAL -> "⚪"
             }
-        return TranscribeResult("$emoji ${input.attrs.text}")
+        return TranscribeResult("$emoji ${input.attrs.text.uppercase()}")
     }
 }
