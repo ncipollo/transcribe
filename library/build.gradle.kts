@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.ncipollo.transcribe"
-version = if (System.getenv("TRANSCRIBE_SNAPSHOT") != null) "1.0.0-SNAPSHOT" else "0.3.8"
+version = if (System.getenv("TRANSCRIBE_SNAPSHOT") != null) "1.0.0-SNAPSHOT" else "0.3.9"
 
 kotlin {
     jvm {
