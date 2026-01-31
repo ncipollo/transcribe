@@ -23,7 +23,7 @@ class ExpandNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("<details>\n<summary>Collapse</summary>\nContent which is kinda hidden.\n</details>\n", result.content)
+        assertEquals("<details>\n<summary>Collapse</summary>\n\nContent which is kinda hidden.\n</details>\n", result.content)
     }
 
     @Test
@@ -37,7 +37,7 @@ class ExpandNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("<details>\n<summary>Click to expand</summary>\nHidden content\n</details>\n", result.content)
+        assertEquals("<details>\n<summary>Click to expand</summary>\n\nHidden content\n</details>\n", result.content)
     }
 
     @Test
@@ -48,7 +48,7 @@ class ExpandNodeTranscriberTest {
                 content = emptyList(),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("<details>\n<summary>Empty expand</summary>\n</details>\n", result.content)
+        assertEquals("<details>\n<summary>Empty expand</summary>\n\n</details>\n", result.content)
     }
 
     @Test
@@ -63,6 +63,6 @@ class ExpandNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("<details>\n<summary>Multiple items</summary>\nFirst paragraph\nSecond paragraph\n</details>\n", result.content)
+        assertEquals("<details>\n<summary>Multiple items</summary>\n\nFirst paragraph\nSecond paragraph\n</details>\n", result.content)
     }
 }

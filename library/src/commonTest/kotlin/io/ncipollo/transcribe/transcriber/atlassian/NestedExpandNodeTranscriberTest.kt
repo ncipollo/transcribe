@@ -23,7 +23,7 @@ class NestedExpandNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("<details>\n<summary>Nested Collapse</summary>\nNested content which is hidden.\n</details>\n", result.content)
+        assertEquals("<details>\n<summary>Nested Collapse</summary>\n\nNested content which is hidden.\n</details>\n", result.content)
     }
 
     @Test
@@ -37,7 +37,7 @@ class NestedExpandNodeTranscriberTest {
                 ),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("<details>\n<summary>Click to expand</summary>\nHidden nested content\n</details>\n", result.content)
+        assertEquals("<details>\n<summary>Click to expand</summary>\n\nHidden nested content\n</details>\n", result.content)
     }
 
     @Test
@@ -48,7 +48,7 @@ class NestedExpandNodeTranscriberTest {
                 content = emptyList(),
             )
         val result = transcriber.transcribe(node, context)
-        assertEquals("<details>\n<summary>Empty nested expand</summary>\n</details>\n", result.content)
+        assertEquals("<details>\n<summary>Empty nested expand</summary>\n\n</details>\n", result.content)
     }
 
     @Test
@@ -64,7 +64,7 @@ class NestedExpandNodeTranscriberTest {
             )
         val result = transcriber.transcribe(node, context)
         assertEquals(
-            "<details>\n<summary>Multiple nested items</summary>\nFirst nested paragraph\nSecond nested paragraph\n</details>\n",
+            "<details>\n<summary>Multiple nested items</summary>\n\nFirst nested paragraph\nSecond nested paragraph\n</details>\n",
             result.content,
         )
     }

@@ -54,6 +54,7 @@ use(thing)
 
 <details>
 <summary>Collapse</summary>
+
 - Content which is kinda hidden.
 </details>
 - 🔵 STATUS 1
