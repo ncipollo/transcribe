@@ -8,6 +8,7 @@ data class ADFTranscriberContext(
     val attachmentContext: AttachmentContext = AttachmentContext(),
     val listLevel: Int = 0,
     val baseWikiUrl: String = "",
+    val pageUrl: String = "",
 ) {
     val suggestedDocumentName: String by lazy {
         pageContext.title.dropExtension().toSnakeCase()
