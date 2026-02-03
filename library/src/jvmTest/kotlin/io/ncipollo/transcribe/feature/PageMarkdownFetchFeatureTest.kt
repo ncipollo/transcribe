@@ -14,6 +14,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.runBlocking
 import io.ncipollo.transcribe.transcriber.TranscribeResult
 import io.ncipollo.transcribe.transcriber.action.ActionHandler
@@ -68,12 +69,13 @@ class PageMarkdownFetchFeatureTest {
         )
 
         val transcribeResult = TranscribeResult(content = "# Test", actions = emptyList())
+        val contextSlot = slot<ADFTranscriberContext>()
 
         coEvery { pageApiClient.getPage(pageId) } returns page
         coEvery { attachmentApiClient.getPageAttachments(pageId) } returns emptyList()
         coEvery { commentApiClient.getPageFooterComments(pageId) } returns emptyList()
         coEvery { commentApiClient.getPageInlineComments(pageId) } returns emptyList()
-        every { toMarkdownTransformer.transform(any(), any()) } returns emptyList()
+        every { toMarkdownTransformer.transform(any(), capture(contextSlot)) } returns emptyList()
         every { transcriber.transcribe(any<DocNode>(), any()) } returns transcribeResult
         coEvery { actionHandler.handleActions(emptyList()) } returns emptyList()
 
@@ -85,6 +87,7 @@ class PageMarkdownFetchFeatureTest {
         assertEquals(0, result.metadata.totalCommentCount)
         assertEquals("test_page", result.metadata.suggestedDocumentName)
         assertEquals("https://test-site.atlassian.net/wiki/spaces/space-1/pages/page-123/Test+Page", result.metadata.pageUrl)
+        assertEquals("https://test-site.atlassian.net/wiki/spaces/space-1/pages/page-123/Test+Page", contextSlot.captured.pageUrl)
 
         coVerify { pageApiClient.getPage(pageId) }
         coVerify { attachmentApiClient.getPageAttachments(pageId) }
@@ -117,18 +120,20 @@ class PageMarkdownFetchFeatureTest {
         )
 
         val transcribeResult = TranscribeResult(content = "# Test", actions = emptyList())
+        val contextSlot = slot<ADFTranscriberContext>()
 
         coEvery { pageApiClient.getPage(pageId) } returns page
         coEvery { attachmentApiClient.getPageAttachments(pageId) } returns emptyList()
         coEvery { commentApiClient.getPageFooterComments(pageId) } returns emptyList()
         coEvery { commentApiClient.getPageInlineComments(pageId) } returns emptyList()
-        every { toMarkdownTransformer.transform(any(), any()) } returns emptyList()
+        every { toMarkdownTransformer.transform(any(), capture(contextSlot)) } returns emptyList()
         every { transcriber.transcribe(any<DocNode>(), any()) } returns transcribeResult
         coEvery { actionHandler.handleActions(emptyList()) } returns emptyList()
 
         val result = feature.fetch(pageId)
 
         assertEquals(null, result.metadata.pageUrl)
+        assertEquals("", contextSlot.captured.pageUrl)
     }
 
     @Test
@@ -156,18 +161,20 @@ class PageMarkdownFetchFeatureTest {
         )
 
         val transcribeResult = TranscribeResult(content = "# Test", actions = emptyList())
+        val contextSlot = slot<ADFTranscriberContext>()
 
         coEvery { pageApiClient.getPage(pageId) } returns page
         coEvery { attachmentApiClient.getPageAttachments(pageId) } returns emptyList()
         coEvery { commentApiClient.getPageFooterComments(pageId) } returns emptyList()
         coEvery { commentApiClient.getPageInlineComments(pageId) } returns emptyList()
-        every { toMarkdownTransformer.transform(any(), any()) } returns emptyList()
+        every { toMarkdownTransformer.transform(any(), capture(contextSlot)) } returns emptyList()
         every { transcriber.transcribe(any<DocNode>(), any()) } returns transcribeResult
         coEvery { actionHandler.handleActions(emptyList()) } returns emptyList()
 
         val result = feature.fetch(pageId)
 
         assertEquals(null, result.metadata.pageUrl)
+        assertEquals("", contextSlot.captured.pageUrl)
     }
 
     @Test

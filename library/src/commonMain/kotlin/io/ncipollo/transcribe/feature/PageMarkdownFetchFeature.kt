@@ -62,11 +62,15 @@ class PageMarkdownFetchFeature(
             page.body?.atlasDocFormat?.docNode
                 ?: throw IllegalStateException("Page $pageId does not contain ADF body content")
 
+        val baseWikiUrl = "https://$siteName.atlassian.net/wiki"
+        val pageUrl = page.links?.webui?.let { "$baseWikiUrl$it" }
+
         // Apply toMarkdown transformer before transcribing
         val context = ADFTranscriberContext(
             pageContext = PageContext.fromPageResponse(page),
             attachmentContext = AttachmentContext.from(attachments),
-            baseWikiUrl = "https://$siteName.atlassian.net/wiki",
+            baseWikiUrl = baseWikiUrl,
+            pageUrl = pageUrl ?: "",
         )
         val transformedContent = toMarkdownTransformer.transform(adfBody.content, context)
         val transformedDocNode = adfBody.copy(content = transformedContent)
@@ -87,7 +91,7 @@ class PageMarkdownFetchFeature(
                 createdAt = page.createdAt,
                 totalCommentCount = commentResult.totalCommentCount(),
                 suggestedDocumentName = context.suggestedDocumentName.takeUnless { it.isBlank() } ?: "document",
-                pageUrl = page.links?.webui?.let { "${context.baseWikiUrl}$it" },
+                pageUrl = pageUrl,
             ),
         )
     }

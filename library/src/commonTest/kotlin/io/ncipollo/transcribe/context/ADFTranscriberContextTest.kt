@@ -80,4 +80,24 @@ class ADFTranscriberContextTest {
 
         assertEquals("images", result)
     }
+
+    @Test
+    fun pageUrl_defaultIsEmpty() {
+        val context = ADFTranscriberContext()
+
+        val result = context.pageUrl
+
+        assertEquals("", result)
+    }
+
+    @Test
+    fun pageUrl_returnsProvidedValue() {
+        val context = ADFTranscriberContext(
+            pageUrl = "https://test.atlassian.net/wiki/spaces/TEST/pages/123",
+        )
+
+        val result = context.pageUrl
+
+        assertEquals("https://test.atlassian.net/wiki/spaces/TEST/pages/123", result)
+    }
 }
