@@ -82,4 +82,34 @@ class LinkTranscriberTest {
         val expected = TextNode(text = "https://example.com")
         assertEquals(expected, result.content)
     }
+
+    @Test
+    fun transcribe_inlineLink_textWithComma() {
+        val markdown = "[link, text](https://example.com)"
+        val linkNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.INLINE_LINK)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(linkNode, context)
+
+        val expected =
+            TextNode(
+                text = "link, text",
+                marks = listOf(LinkMark(LinkAttrs(href = "https://example.com"))),
+            )
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_inlineLink_textWithSpaces() {
+        val markdown = "[hello world](https://example.com)"
+        val linkNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.INLINE_LINK)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(linkNode, context)
+
+        val expected =
+            TextNode(
+                text = "hello world",
+                marks = listOf(LinkMark(LinkAttrs(href = "https://example.com"))),
+            )
+        assertEquals(expected, result.content)
+    }
 }

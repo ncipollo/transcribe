@@ -20,4 +20,26 @@ class StrikethroughTranscriberTest {
         val expected = TextNode(text = "strikethrough", marks = listOf(StrikeMark))
         assertEquals(expected, result.content)
     }
+
+    @Test
+    fun transcribe_strikethroughWithComma() {
+        val markdown = "~~strike, through~~"
+        val strikethroughNode = MarkdownTestHelper.findNestedNode(markdown, GFMElementTypes.STRIKETHROUGH)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(strikethroughNode, context)
+
+        val expected = TextNode(text = "strike, through", marks = listOf(StrikeMark))
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_strikethroughWithMultipleWords() {
+        val markdown = "~~hello world~~"
+        val strikethroughNode = MarkdownTestHelper.findNestedNode(markdown, GFMElementTypes.STRIKETHROUGH)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(strikethroughNode, context)
+
+        val expected = TextNode(text = "hello world", marks = listOf(StrikeMark))
+        assertEquals(expected, result.content)
+    }
 }

@@ -87,4 +87,65 @@ class ASTNodeExtensionsTest {
 
         assertEquals(2, imageNodes.size)
     }
+
+    @Test
+    fun getTextContentWithoutDelimiters_symmetricDelimiters() {
+        val text = "**bold text**"
+        val root = parseMarkdown(text)
+        val strongNode = root.findChildOfTypeInSubtree(MarkdownElementTypes.STRONG)
+
+        assertNotNull(strongNode)
+        val result = strongNode.getTextContentWithoutDelimiters(text, "**")
+
+        assertEquals("bold text", result)
+    }
+
+    @Test
+    fun getTextContentWithoutDelimiters_asymmetricDelimiters() {
+        val text = "[link text](url)"
+        val root = parseMarkdown(text)
+        val linkNode = root.findChildOfTypeInSubtree(MarkdownElementTypes.INLINE_LINK)
+        val linkTextNode = linkNode?.findChildOfTypeInSubtree(MarkdownElementTypes.LINK_TEXT)
+
+        assertNotNull(linkTextNode)
+        val result = linkTextNode.getTextContentWithoutDelimiters(text, "[", "]")
+
+        assertEquals("link text", result)
+    }
+
+    @Test
+    fun getTextContentWithoutDelimiters_withCommaAndSpaces() {
+        val text = "**bold, text with spaces**"
+        val root = parseMarkdown(text)
+        val strongNode = root.findChildOfTypeInSubtree(MarkdownElementTypes.STRONG)
+
+        assertNotNull(strongNode)
+        val result = strongNode.getTextContentWithoutDelimiters(text, "**")
+
+        assertEquals("bold, text with spaces", result)
+    }
+
+    @Test
+    fun getTextContentWithoutDelimiters_strikethrough() {
+        val text = "~~strikethrough~~"
+        val root = parseMarkdown(text)
+        val strikeNode = root.findChildOfTypeInSubtree(org.intellij.markdown.flavours.gfm.GFMElementTypes.STRIKETHROUGH)
+
+        assertNotNull(strikeNode)
+        val result = strikeNode.getTextContentWithoutDelimiters(text, "~~")
+
+        assertEquals("strikethrough", result)
+    }
+
+    @Test
+    fun getTextContentWithoutDelimiters_emphasis() {
+        val text = "*italic*"
+        val root = parseMarkdown(text)
+        val emphNode = root.findChildOfTypeInSubtree(MarkdownElementTypes.EMPH)
+
+        assertNotNull(emphNode)
+        val result = emphNode.getTextContentWithoutDelimiters(text, "*")
+
+        assertEquals("italic", result)
+    }
 }

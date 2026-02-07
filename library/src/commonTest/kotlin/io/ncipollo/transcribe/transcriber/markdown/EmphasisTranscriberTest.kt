@@ -20,4 +20,26 @@ class EmphasisTranscriberTest {
         val expected = TextNode(text = "italic", marks = listOf(EmMark))
         assertEquals(expected, result.content)
     }
+
+    @Test
+    fun transcribe_italicWithComma() {
+        val markdown = "*italic, text*"
+        val emphNode = MarkdownTestHelper.findNestedNode(markdown, MarkdownElementTypes.EMPH)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(emphNode, context)
+
+        val expected = TextNode(text = "italic, text", marks = listOf(EmMark))
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_italicWithMultipleWords() {
+        val markdown = "*hello world*"
+        val emphNode = MarkdownTestHelper.findNestedNode(markdown, MarkdownElementTypes.EMPH)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(emphNode, context)
+
+        val expected = TextNode(text = "hello world", marks = listOf(EmMark))
+        assertEquals(expected, result.content)
+    }
 }
