@@ -15,6 +15,8 @@ import io.ncipollo.transcribe.transcriber.TranscribeResult
 class HeadingTranscriber(
     private val mapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<HeadingNode> {
+    private val markAccumulator = InlineMarkAccumulator(mapper)
+
     override fun transcribe(
         input: ASTNode,
         context: MarkdownContext,
@@ -36,10 +38,10 @@ class HeadingTranscriber(
                             children
                         }
                     }
-                mapper.transcribeInlineChildren(childrenToProcess, context)
+                markAccumulator.transcribeWithMarks(childrenToProcess, context)
             } else {
                 // If no content node found, process all children that are inline
-                mapper.transcribeInlineChildren(input, context)
+                markAccumulator.transcribeWithMarks(input, context)
             }
 
         return TranscribeResult(
