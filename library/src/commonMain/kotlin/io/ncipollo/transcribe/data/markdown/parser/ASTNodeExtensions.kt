@@ -5,13 +5,22 @@ import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.ASTNode
 
-fun ASTNode.findTextContent(markdownText: String) =
-    findChildOfTypeInSubtree(MarkdownTokenTypes.TEXT)
-        ?.getTextContent(markdownText)
-        ?.toString() ?: ""
-
 fun ASTNode.getTextContent(markdownText: CharSequence): CharSequence {
     return markdownText.subSequence(startOffset, endOffset)
+}
+
+/**
+ * Extracts text content from a node and strips markdown delimiters.
+ * @param markdownText The full markdown text
+ * @param prefix The prefix delimiter to remove (e.g., "**", "*", "~~", "[")
+ * @param suffix The suffix delimiter to remove (defaults to prefix if not specified)
+ */
+fun ASTNode.getTextContentWithoutDelimiters(
+    markdownText: CharSequence,
+    prefix: String,
+    suffix: String = prefix
+): String {
+    return getTextContent(markdownText).toString().removePrefix(prefix).removeSuffix(suffix)
 }
 
 /**

@@ -96,4 +96,60 @@ class ImageTranscriberTest {
             )
         assertEquals(expected, result.content)
     }
+
+    @Test
+    fun transcribe_imageWithAltTextComma() {
+        val markdown = "![alt, text](https://example.com/image.png)"
+        val imageNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.IMAGE)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(imageNode, context)
+
+        val expected =
+            MediaSingleNode(
+                attrs = MediaSingleAttrs(layout = MediaSingleLayout.CENTER),
+                content =
+                listOf(
+                    MediaNode(
+                        attrs =
+                        MediaAttrs(
+                            type = MediaType.EXTERNAL,
+                            url = "https://example.com/image.png",
+                            alt = "alt, text",
+                        ),
+                    ),
+                    CaptionNode(
+                        content = listOf(TextNode(text = "alt, text")),
+                    ),
+                ),
+            )
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_imageWithAltTextSpaces() {
+        val markdown = "![hello world](https://example.com/image.png)"
+        val imageNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.IMAGE)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(imageNode, context)
+
+        val expected =
+            MediaSingleNode(
+                attrs = MediaSingleAttrs(layout = MediaSingleLayout.CENTER),
+                content =
+                listOf(
+                    MediaNode(
+                        attrs =
+                        MediaAttrs(
+                            type = MediaType.EXTERNAL,
+                            url = "https://example.com/image.png",
+                            alt = "hello world",
+                        ),
+                    ),
+                    CaptionNode(
+                        content = listOf(TextNode(text = "hello world")),
+                    ),
+                ),
+            )
+        assertEquals(expected, result.content)
+    }
 }

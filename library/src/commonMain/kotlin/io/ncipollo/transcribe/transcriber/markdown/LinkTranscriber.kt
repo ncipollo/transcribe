@@ -5,8 +5,8 @@ import io.ncipollo.transcribe.data.atlassian.adf.LinkAttrs
 import io.ncipollo.transcribe.data.atlassian.adf.LinkMark
 import io.ncipollo.transcribe.data.atlassian.adf.TextNode
 import io.ncipollo.transcribe.data.markdown.parser.findChildOfTypeInSubtree
-import io.ncipollo.transcribe.data.markdown.parser.findTextContent
 import io.ncipollo.transcribe.data.markdown.parser.getTextContent
+import io.ncipollo.transcribe.data.markdown.parser.getTextContentWithoutDelimiters
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes
@@ -24,10 +24,7 @@ class LinkTranscriber : MarkdownTranscriber<TextNode> {
         when (input.type) {
             MarkdownElementTypes.AUTOLINK -> {
                 // Autolink: extract URL directly from text
-                val url =
-                    input.getTextContent(context.markdownText).toString()
-                        .removePrefix("<")
-                        .removeSuffix(">")
+                val url = input.getTextContentWithoutDelimiters(context.markdownText, "<", ">")
                 val text = url
 
                 return TranscribeResult(
@@ -41,7 +38,7 @@ class LinkTranscriber : MarkdownTranscriber<TextNode> {
                 // Inline link: [text](url)
                 val text =
                     input.findChildOfTypeInSubtree(MarkdownElementTypes.LINK_TEXT)
-                        ?.findTextContent(context.markdownText) ?: ""
+                        ?.getTextContentWithoutDelimiters(context.markdownText, "[", "]") ?: ""
                 val url =
                     input.findChildOfTypeInSubtree(MarkdownElementTypes.LINK_DESTINATION)
                         ?.getTextContent(context.markdownText)

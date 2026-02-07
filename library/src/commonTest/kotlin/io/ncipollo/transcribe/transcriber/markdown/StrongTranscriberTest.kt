@@ -20,4 +20,37 @@ class StrongTranscriberTest {
         val expected = TextNode(text = "bold", marks = listOf(StrongMark))
         assertEquals(expected, result.content)
     }
+
+    @Test
+    fun transcribe_boldWithComma() {
+        val markdown = "**bold, text**"
+        val strongNode = MarkdownTestHelper.findNestedNode(markdown, MarkdownElementTypes.STRONG)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(strongNode, context)
+
+        val expected = TextNode(text = "bold, text", marks = listOf(StrongMark))
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_boldWithMultipleWords() {
+        val markdown = "**hello world**"
+        val strongNode = MarkdownTestHelper.findNestedNode(markdown, MarkdownElementTypes.STRONG)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(strongNode, context)
+
+        val expected = TextNode(text = "hello world", marks = listOf(StrongMark))
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribe_boldWithDash() {
+        val markdown = "**foo-bar**"
+        val strongNode = MarkdownTestHelper.findNestedNode(markdown, MarkdownElementTypes.STRONG)
+        val context = MarkdownContext(markdownText = markdown)
+        val result = transcriber.transcribe(strongNode, context)
+
+        val expected = TextNode(text = "foo-bar", marks = listOf(StrongMark))
+        assertEquals(expected, result.content)
+    }
 }

@@ -10,8 +10,8 @@ import io.ncipollo.transcribe.data.atlassian.adf.MediaSingleNode
 import io.ncipollo.transcribe.data.atlassian.adf.MediaType
 import io.ncipollo.transcribe.data.atlassian.adf.TextNode
 import io.ncipollo.transcribe.data.markdown.parser.findChildOfTypeInSubtree
-import io.ncipollo.transcribe.data.markdown.parser.findTextContent
 import io.ncipollo.transcribe.data.markdown.parser.getTextContent
+import io.ncipollo.transcribe.data.markdown.parser.getTextContentWithoutDelimiters
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.ast.ASTNode
 import io.ncipollo.transcribe.transcriber.TranscribeResult
@@ -26,7 +26,7 @@ class ImageTranscriber : MarkdownTranscriber<MediaSingleNode> {
     ): TranscribeResult<MediaSingleNode> {
         val altText =
             input.findChildOfTypeInSubtree(MarkdownElementTypes.LINK_TEXT)
-                ?.findTextContent(context.markdownText) ?: ""
+                ?.getTextContentWithoutDelimiters(context.markdownText, "[", "]") ?: ""
         val url =
             input.findChildOfTypeInSubtree(MarkdownElementTypes.LINK_DESTINATION)
                 ?.getTextContent(context.markdownText)
