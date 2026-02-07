@@ -11,11 +11,13 @@ import io.ncipollo.transcribe.transcriber.TranscribeResult
 class ParagraphTranscriber(
     private val mapper: MarkdownNodeMapper,
 ) : MarkdownTranscriber<ParagraphNode> {
+    private val markAccumulator = InlineMarkAccumulator(mapper)
+
     override fun transcribe(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<ParagraphNode> {
-        val inlineResult = mapper.transcribeInlineChildren(input, context)
+        val inlineResult = markAccumulator.transcribeWithMarks(input, context)
 
         return TranscribeResult(
             ParagraphNode(

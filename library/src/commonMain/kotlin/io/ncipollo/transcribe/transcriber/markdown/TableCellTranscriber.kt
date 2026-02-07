@@ -17,13 +17,15 @@ class TableCellTranscriber(
     private val nodeMapper: MarkdownNodeMapper,
     private val isHeader: Boolean = false,
 ) : MarkdownTranscriber<ADFBlockNode> {
+    private val markAccumulator = InlineMarkAccumulator(nodeMapper)
+
     override fun transcribe(
         input: ASTNode,
         context: MarkdownContext,
     ): TranscribeResult<ADFBlockNode> {
         // Table cells contain inline content (text, formatting, etc.)
         // Wrap in a paragraph
-        val inlineResult = nodeMapper.transcribeInlineChildren(input, context)
+        val inlineResult = markAccumulator.transcribeWithMarks(input, context)
 
         // Drop leading and trailing whitespace nodes
         val trimmedContent =
