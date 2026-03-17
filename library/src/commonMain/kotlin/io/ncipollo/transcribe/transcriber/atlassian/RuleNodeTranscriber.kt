@@ -13,6 +13,6 @@ class RuleNodeTranscriber : ADFTranscriber<RuleNode> {
         input: RuleNode,
         context: ADFTranscriberContext,
     ): TranscribeResult<String> {
-        return TranscribeResult("---\n\n")
+        return TranscribeResult("\n---\n\n")
     }
 }

@@ -13,6 +13,6 @@ class RuleNodeTranscriberTest {
     fun transcribe_basic() {
         val node = RuleNode()
         val result = transcriber.transcribe(node, context)
-        assertEquals("---\n\n", result.content)
+        assertEquals("\n---\n\n", result.content)
     }
 }
