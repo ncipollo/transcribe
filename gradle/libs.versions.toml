@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.1"
+agp = "9.2.0"
 json = "1.10.0"
 kotlin = "2.3.10"
 ktor = "3.4.0"
