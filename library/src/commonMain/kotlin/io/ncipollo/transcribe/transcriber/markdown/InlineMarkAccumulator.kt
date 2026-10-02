@@ -131,13 +131,32 @@ class InlineMarkAccumulator(
         markForNodeType(type) != null
 
     /**
-     * Checks if a node type is a leaf inline node (text, whitespace).
+     * Checks if a node type is a leaf inline node (text, whitespace, punctuation).
      * Note: EOL is NOT included here because it has its own transcriber (EolTranscriber)
      * that converts it to HardBreakNode.
      */
     private fun isLeafInlineNode(type: IElementType): Boolean =
-        type in setOf(
+        type in leafInlineTypes
+
+    private companion object {
+        /**
+         * Token types emitted as plain text. The markdown lexer splits punctuation out of TEXT into
+         * dedicated tokens, so these must be included or the characters are dropped.
+         */
+        val leafInlineTypes = setOf(
             MarkdownTokenTypes.TEXT,
-            MarkdownTokenTypes.WHITE_SPACE
+            MarkdownTokenTypes.WHITE_SPACE,
+            MarkdownTokenTypes.LPAREN,
+            MarkdownTokenTypes.RPAREN,
+            MarkdownTokenTypes.LBRACKET,
+            MarkdownTokenTypes.RBRACKET,
+            MarkdownTokenTypes.LT,
+            MarkdownTokenTypes.GT,
+            MarkdownTokenTypes.COLON,
+            MarkdownTokenTypes.EXCLAMATION_MARK,
+            MarkdownTokenTypes.SINGLE_QUOTE,
+            MarkdownTokenTypes.DOUBLE_QUOTE,
+            MarkdownTokenTypes.BACKTICK,
         )
+    }
 }

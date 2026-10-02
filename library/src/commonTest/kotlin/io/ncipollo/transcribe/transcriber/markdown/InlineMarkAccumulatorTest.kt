@@ -141,6 +141,50 @@ class InlineMarkAccumulatorTest {
     }
 
     @Test
+    fun transcribeWithMarks_punctuationTokens() {
+        val markdown = "Note: (see docs) wow!"
+        val paragraphNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.PARAGRAPH)
+        val context = MarkdownContext(markdownText = markdown)
+
+        val result = accumulator.transcribeWithMarks(paragraphNode, context)
+
+        val expected = listOf(
+            TextNode(text = "Note"),
+            TextNode(text = ":"),
+            TextNode(text = " "),
+            TextNode(text = "("),
+            TextNode(text = "see docs"),
+            TextNode(text = ")"),
+            TextNode(text = " "),
+            TextNode(text = "wow"),
+            TextNode(text = "!")
+        )
+        assertEquals(expected, result.content)
+    }
+
+    @Test
+    fun transcribeWithMarks_punctuationTokensInStrong() {
+        val markdown = "**Why? (e.g., > 3)**"
+        val paragraphNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.PARAGRAPH)
+        val context = MarkdownContext(markdownText = markdown)
+
+        val result = accumulator.transcribeWithMarks(paragraphNode, context)
+
+        val expected = listOf(
+            TextNode(text = "Why?", marks = listOf(StrongMark)),
+            TextNode(text = " ", marks = listOf(StrongMark)),
+            TextNode(text = "(", marks = listOf(StrongMark)),
+            TextNode(text = "e.g.,", marks = listOf(StrongMark)),
+            TextNode(text = " ", marks = listOf(StrongMark)),
+            TextNode(text = ">", marks = listOf(StrongMark)),
+            TextNode(text = " ", marks = listOf(StrongMark)),
+            TextNode(text = "3", marks = listOf(StrongMark)),
+            TextNode(text = ")", marks = listOf(StrongMark))
+        )
+        assertEquals(expected, result.content)
+    }
+
+    @Test
     fun transcribeWithMarks_codeSpanNestedInStrong() {
         val markdown = "**bold with `code` inside**"
         val paragraphNode = MarkdownTestHelper.findNode(markdown, MarkdownElementTypes.PARAGRAPH)
